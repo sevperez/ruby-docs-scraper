@@ -1,4 +1,8 @@
 ---
+:id: 74
+:name: Proc
+:link: http://ruby-doc.org/core-2.4.1/Proc.html
+:methods:
 - :id: 0
   :callseqs:
   - new {|...| block } → a_proc
@@ -160,7 +164,8 @@
   - See also Object#hash.
   :examples: ''
 - :id: 8
-  :callseqs: []
+  :callseqs:
+  - inspect()
   :description: []
   :examples: ''
 - :id: 9

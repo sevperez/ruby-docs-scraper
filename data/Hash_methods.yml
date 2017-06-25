@@ -1,4 +1,8 @@
 ---
+:id: 41
+:name: Hash
+:link: http://ruby-doc.org/core-2.4.1/Hash.html
+:methods:
 - :id: 0
   :callseqs:
   - Hash[ key, value, ... ]         → new_hash
@@ -799,11 +803,13 @@
   - Returns self.
   :examples: ''
 - :id: 60
-  :callseqs: []
+  :callseqs:
+  - to_proc()
   :description: []
   :examples: ''
 - :id: 61
-  :callseqs: []
+  :callseqs:
+  - to_s()
   :description: []
   :examples: ''
 - :id: 62

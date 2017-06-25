@@ -1,4 +1,8 @@
 ---
+:id: 35
+:name: File::Stat
+:link: http://ruby-doc.org/core-2.4.1/File/Stat.html
+:methods:
 - :id: 0
   :callseqs:
   - File::Stat.new(file_name)  → stat

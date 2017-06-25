@@ -1,4 +1,8 @@
 ---
+:id: 104
+:name: SystemCallError
+:link: http://ruby-doc.org/core-2.4.1/SystemCallError.html
+:methods:
 - :id: 0
   :callseqs:
   - system_call_error === other  → true or false

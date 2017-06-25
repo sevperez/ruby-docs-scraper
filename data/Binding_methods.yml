@@ -1,4 +1,8 @@
 ---
+:id: 4
+:name: Binding
+:link: http://ruby-doc.org/core-2.4.1/Binding.html
+:methods:
 - :id: 0
   :callseqs:
   - eval(string [, filename [,lineno]])  → obj
@@ -15,7 +19,8 @@
     b = get_binding("hello")
     b.eval("param")   #=> "hello"
 - :id: 1
-  :callseqs: []
+  :callseqs:
+  - irb()
   :description: []
   :examples: ''
 - :id: 2

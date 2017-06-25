@@ -1,4 +1,8 @@
 ---
+:id: 100
+:name: String
+:link: http://ruby-doc.org/core-2.4.1/String.html
+:methods:
 - :id: 0
   :callseqs:
   - new(str="")   → new_str
@@ -801,7 +805,8 @@
   - Changes the encoding to encoding and returns self.
   :examples: ''
 - :id: 51
-  :callseqs: []
+  :callseqs:
+  - freeze()
   :description: []
   :examples: ''
 - :id: 52

@@ -1,4 +1,8 @@
 ---
+:id: 26
+:name: Enumerator::Lazy
+:link: http://ruby-doc.org/core-2.4.1/Enumerator/Lazy.html
+:methods:
 - :id: 0
   :callseqs:
   - new(obj, size=nil) { |yielder, *values| ... }
@@ -28,15 +32,18 @@
     (1..Float::INFINITY).lazy.filter_map{|i| i*i if i.even?}.first(5)
         # => [4, 16, 36, 64, 100]
 - :id: 1
-  :callseqs: []
+  :callseqs:
+  - chunk(*args)
   :description: []
   :examples: ''
 - :id: 2
-  :callseqs: []
+  :callseqs:
+  - chunk_while(*args)
   :description: []
   :examples: ''
 - :id: 3
-  :callseqs: []
+  :callseqs:
+  - collect()
   :description: []
   :examples: ''
 - :id: 4
@@ -56,11 +63,13 @@
     [{a:1}, {b:2}].lazy.flat_map {|i| i}.force
     #=> [{:a=>1}, {:b=>2}]
 - :id: 5
-  :callseqs: []
+  :callseqs:
+  - drop(p1)
   :description: []
   :examples: ''
 - :id: 6
-  :callseqs: []
+  :callseqs:
+  - drop_while()
   :description: []
   :examples: ''
 - :id: 7
@@ -83,7 +92,8 @@
     r.lazy.repeat(2).class # => Enumerator::Lazy
     r.lazy.repeat(2).map{|n| n ** 2}.first(5) # => [1, 1, 4, 4, 9]
 - :id: 8
-  :callseqs: []
+  :callseqs:
+  - find_all()
   :description: []
   :examples: ''
 - :id: 9
@@ -103,47 +113,58 @@
     [{a:1}, {b:2}].lazy.flat_map {|i| i}.force
     #=> [{:a=>1}, {:b=>2}]
 - :id: 10
-  :callseqs: []
+  :callseqs:
+  - grep(p1)
   :description: []
   :examples: ''
 - :id: 11
-  :callseqs: []
+  :callseqs:
+  - grep_v(p1)
   :description: []
   :examples: ''
 - :id: 12
-  :callseqs: []
+  :callseqs:
+  - lazy()
   :description: []
   :examples: ''
 - :id: 13
-  :callseqs: []
+  :callseqs:
+  - map()
   :description: []
   :examples: ''
 - :id: 14
-  :callseqs: []
+  :callseqs:
+  - reject()
   :description: []
   :examples: ''
 - :id: 15
-  :callseqs: []
+  :callseqs:
+  - select()
   :description: []
   :examples: ''
 - :id: 16
-  :callseqs: []
+  :callseqs:
+  - slice_after(*args)
   :description: []
   :examples: ''
 - :id: 17
-  :callseqs: []
+  :callseqs:
+  - slice_before(*args)
   :description: []
   :examples: ''
 - :id: 18
-  :callseqs: []
+  :callseqs:
+  - slice_when(*args)
   :description: []
   :examples: ''
 - :id: 19
-  :callseqs: []
+  :callseqs:
+  - take(p1)
   :description: []
   :examples: ''
 - :id: 20
-  :callseqs: []
+  :callseqs:
+  - take_while()
   :description: []
   :examples: ''
 - :id: 21
@@ -166,10 +187,12 @@
     r.lazy.repeat(2).class # => Enumerator::Lazy
     r.lazy.repeat(2).map{|n| n ** 2}.first(5) # => [1, 1, 4, 4, 9]
 - :id: 22
-  :callseqs: []
+  :callseqs:
+  - uniq()
   :description: []
   :examples: ''
 - :id: 23
-  :callseqs: []
+  :callseqs:
+  - zip(*args)
   :description: []
   :examples: ''

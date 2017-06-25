@@ -1,4 +1,8 @@
 ---
+:id: 58
+:name: LocalJumpError
+:link: http://ruby-doc.org/core-2.4.1/LocalJumpError.html
+:methods:
 - :id: 0
   :callseqs:
   - exit_value  → obj

@@ -1,4 +1,8 @@
 ---
+:id: 91
+:name: RubyVM::InstructionSequence
+:link: http://ruby-doc.org/core-2.4.1/RubyVM/InstructionSequence.html
+:methods:
 - :id: 0
   :callseqs:
   - compile(source[, file[, path[, line[, options]]]]) → iseq
@@ -163,21 +167,24 @@
     RubyVM::InstructionSequence.compile("a = 1 + 2")
     #=> <RubyVM::InstructionSequence:<compiled>@<compiled>>
 - :id: 9
-  :callseqs: []
+  :callseqs:
+  - of(p1)
   :description:
   - Returns the instruction sequence containing the given proc or method.
   - 'For example, using irb:'
   - 'Using ::compile_file:'
   :examples: ''
 - :id: 10
-  :callseqs: []
+  :callseqs:
+  - absolute_path()
   :description:
   - Returns the absolute path of this instruction sequence.
   - nil if the iseq was evaluated from a string.
   - 'For example, using ::compile_file:'
   :examples: ''
 - :id: 11
-  :callseqs: []
+  :callseqs:
+  - base_label()
   :description:
   - Returns the base label of this instruction sequence.
   - 'For example, using irb:'
@@ -218,7 +225,8 @@
 
 '
 - :id: 15
-  :callseqs: []
+  :callseqs:
+  - first_lineno()
   :description:
   - |-
     Returns the number of the first source line where the instruction sequence
@@ -230,14 +238,16 @@
     iseq.first_lineno
     #=> 1
 - :id: 16
-  :callseqs: []
+  :callseqs:
+  - inspect()
   :description:
   - |-
     Returns a human-readable string representation of this instruction
     sequence, including the label and path.
   :examples: ''
 - :id: 17
-  :callseqs: []
+  :callseqs:
+  - label()
   :description:
   - Returns the label of this instruction sequence.
   - |-
@@ -251,7 +261,8 @@
     iseq.label
     #=> "<compiled>"
 - :id: 18
-  :callseqs: []
+  :callseqs:
+  - line_trace_all()
   :description:
   - |-
     Experimental MRI specific feature, only available as C level
@@ -259,7 +270,8 @@
   - Returns all specified_line events.
   :examples: ''
 - :id: 19
-  :callseqs: []
+  :callseqs:
+  - line_trace_specify(p1, p2)
   :description:
   - |-
     Experimental MRI specific feature, only available as C level
@@ -276,7 +288,8 @@
   - If pos is a negative integer a TypeError exception is raised.
   :examples: ''
 - :id: 20
-  :callseqs: []
+  :callseqs:
+  - path()
   :description:
   - Returns the path of this instruction sequence.
   - "<compiled> if the iseq was evaluated from a string."

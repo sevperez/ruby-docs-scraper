@@ -1,4 +1,8 @@
 ---
+:id: 68
+:name: NoMethodError
+:link: http://ruby-doc.org/core-2.4.1/NoMethodError.html
+:methods:
 - :id: 0
   :callseqs:
   - new([msg, *, name [, args]])  → no_method_error
@@ -16,6 +20,7 @@
   - Return the arguments passed in as the third parameter to the constructor.
   :examples: ''
 - :id: 2
-  :callseqs: []
+  :callseqs:
+  - private_call?()
   :description: []
   :examples: ''

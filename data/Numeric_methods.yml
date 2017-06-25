@@ -1,4 +1,8 @@
 ---
+:id: 70
+:name: Numeric
+:link: http://ruby-doc.org/core-2.4.1/Numeric.html
+:methods:
 - :id: 0
   :callseqs:
   - modulo(numeric)  →  real
@@ -334,7 +338,8 @@
     a Float and invoking Float#round.
   :examples: ''
 - :id: 41
-  :callseqs: []
+  :callseqs:
+  - singleton_method_added(p1)
   :description:
   - |-
     Trap attempts to add methods to Numeric objects.

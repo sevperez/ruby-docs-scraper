@@ -1,5 +1,10 @@
 ---
+:id: 119
+:name: Warning
+:link: http://ruby-doc.org/core-2.4.1/Warning.html
+:methods:
 - :id: 0
-  :callseqs: []
+  :callseqs:
+  - warn(p1)
   :description: []
   :examples: ''

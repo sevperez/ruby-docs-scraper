@@ -1,4 +1,8 @@
 ---
+:id: 36
+:name: FileTest
+:link: http://ruby-doc.org/core-2.4.1/FileTest.html
+:methods:
 - :id: 0
   :callseqs:
   - blockdev?(file_name)   →  true or false

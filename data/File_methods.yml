@@ -1,4 +1,8 @@
 ---
+:id: 33
+:name: File
+:link: http://ruby-doc.org/core-2.4.1/File.html
+:methods:
 - :id: 0
   :callseqs:
   - absolute_path(file_name [, dir_string] )  →  abs_file_name
@@ -484,7 +488,8 @@
     File.lstat("link2test").size            #=> 8
     File.stat("link2test").size             #=> 66
 - :id: 30
-  :callseqs: []
+  :callseqs:
+  - mkfifo(*args)
   :description: []
   :examples: ''
 - :id: 31

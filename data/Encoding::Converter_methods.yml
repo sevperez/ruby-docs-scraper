@@ -1,4 +1,8 @@
 ---
+:id: 18
+:name: Encoding::Converter
+:link: http://ruby-doc.org/core-2.4.1/Encoding/Converter.html
+:methods:
 - :id: 0
   :callseqs:
   - Encoding::Converter.asciicompat_encoding(string) → encoding or nil
@@ -383,7 +387,8 @@
     p src
     #=> ""
 - :id: 13
-  :callseqs: []
+  :callseqs:
+  - putback(p1 = v1)
   :description:
   - call-seq
   - Put back the bytes which will be converted.

@@ -1,4 +1,8 @@
 ---
+:id: 101
+:name: Struct
+:link: http://ruby-doc.org/core-2.4.1/Struct.html
+:methods:
 - :id: 0
   :callseqs:
   - new([class_name] [, member_name]+)                        → StructClass
@@ -228,7 +232,8 @@
     joe = Customer.new("Joe Smith", "123 Maple, Anytown NC", 12345)
     joe.to_h[:address]   #=> "123 Maple, Anytown NC"
 - :id: 16
-  :callseqs: []
+  :callseqs:
+  - to_s()
   :description: []
   :examples: ''
 - :id: 17

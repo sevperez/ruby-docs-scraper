@@ -1,4 +1,8 @@
 ---
+:id: 107
+:name: Thread
+:link: http://ruby-doc.org/core-2.4.1/Thread.html
+:methods:
 - :id: 0
   :callseqs:
   - DEBUG     → num
@@ -465,7 +469,8 @@
   - If this is the main thread, or the last thread, exits the process.
   :examples: ''
 - :id: 28
-  :callseqs: []
+  :callseqs:
+  - fetch(*args)
   :description: []
   :examples: ''
 - :id: 29

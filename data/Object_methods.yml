@@ -1,4 +1,8 @@
 ---
+:id: 71
+:name: Object
+:link: http://ruby-doc.org/core-2.4.1/Object.html
+:methods:
 - :id: 0
   :callseqs:
   - obj !~ other  → true or false

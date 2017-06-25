@@ -1,4 +1,8 @@
 ---
+:id: 75
+:name: Process
+:link: http://ruby-doc.org/core-2.4.1/Process.html
+:methods:
 - :id: 0
   :callseqs:
   - abort

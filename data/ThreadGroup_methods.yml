@@ -1,4 +1,8 @@
 ---
+:id: 112
+:name: ThreadGroup
+:link: http://ruby-doc.org/core-2.4.1/ThreadGroup.html
+:methods:
 - :id: 0
   :callseqs:
   - add(thread)   → thgrp

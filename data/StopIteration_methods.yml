@@ -1,4 +1,8 @@
 ---
+:id: 99
+:name: StopIteration
+:link: http://ruby-doc.org/core-2.4.1/StopIteration.html
+:methods:
 - :id: 0
   :callseqs:
   - result       → value

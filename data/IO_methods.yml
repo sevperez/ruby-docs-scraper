@@ -1,4 +1,8 @@
 ---
+:id: 42
+:name: IO
+:link: http://ruby-doc.org/core-2.4.1/IO.html
+:methods:
 - :id: 0
   :callseqs:
   - binread(name, [length [, offset]] )   → string
@@ -616,12 +620,14 @@
   - Returns true if ios is binmode.
   :examples: ''
 - :id: 21
-  :callseqs: []
+  :callseqs:
+  - bytes()
   :description:
   - This is a deprecated alias for each_byte.
   :examples: ''
 - :id: 22
-  :callseqs: []
+  :callseqs:
+  - chars()
   :description:
   - This is a deprecated alias for each_char.
   :examples: ''
@@ -713,7 +719,8 @@
     f.close_read    #=> nil
     f.closed?       #=> true
 - :id: 29
-  :callseqs: []
+  :callseqs:
+  - codepoints()
   :description:
   - This is a deprecated alias for each_codepoint.
   :examples: ''
@@ -1047,7 +1054,8 @@
     f.gets                     #=> "This is line two\n"
     $.                         #=> 1001      # lineno of last read
 - :id: 52
-  :callseqs: []
+  :callseqs:
+  - lines(*args)
   :description:
   - This is a deprecated alias for each_line.
   :examples: ''
@@ -1519,7 +1527,8 @@
     f.gets   #=> "This is line one\n"
     f.pos    #=> 17
 - :id: 78
-  :callseqs: []
+  :callseqs:
+  - to_i()
   :description: []
   :examples: ''
 - :id: 79

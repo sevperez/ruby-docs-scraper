@@ -1,4 +1,8 @@
 ---
+:id: 7
+:name: Comparable
+:link: http://ruby-doc.org/core-2.4.1/Comparable.html
+:methods:
 - :id: 0
   :callseqs:
   - obj < other    → true or false

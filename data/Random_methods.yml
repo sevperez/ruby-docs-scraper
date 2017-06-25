@@ -1,4 +1,8 @@
 ---
+:id: 82
+:name: Random
+:link: http://ruby-doc.org/core-2.4.1/Random.html
+:methods:
 - :id: 0
   :callseqs:
   - new(seed = Random.new_seed) → prng

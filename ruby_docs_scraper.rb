@@ -16,12 +16,12 @@ def scrape_links(parsed_page, core_path)
   links = []
   
   parsed_page.css('#class-index').css('.entries').css('a').each do |link|
-    link_hash = Hash.new
+    link_data = Hash.new
     
-    link_hash[:title] = link.text
-    link_hash[:path] = core_path + link.attributes['href'].value
+    link_data[:title] = link.text
+    link_data[:path] = core_path + link.attributes['href'].value
     
-    links << link_hash
+    links << link_data
   end
   
   links
@@ -39,6 +39,15 @@ def scrape_callseqs(method)
   
   method.css('.method-heading').css('.method-callseq').each do |callseq|
     callseqs << callseq.text
+  end
+  
+  if callseqs.empty?
+    method.css('.method-heading').each do |heading|
+      name = heading.css('.method-name').text
+      args = heading.css('.method-args').text
+      
+      callseqs << name + args
+    end
   end
   
   callseqs
@@ -78,19 +87,30 @@ def scrape_class_methods_page(path)
 end
 
 # Write method data into a YAML file
-def write_method_data_yaml(title, methods)
-  path = "data/#{title}_methods.yml"
+def write_method_data_yaml(link_data, methods, id)
+  Dir.mkdir('data') unless Dir.exist?('data')
   
-  File.open(path, 'w') { |file| file.write(methods.to_yaml) }
+  path = "data/#{link_data[:title]}_methods.yml"
+  
+  data = {
+    id: id,
+    name: link_data[:title],
+    link: link_data[:path],
+    methods: methods
+  }
+  
+  File.open(path, 'w') { |file| file.write(data.to_yaml) }
 end
 
 # Write all core method files
 def write_method_files(core_path)
   core_links = scrape_core_page_links(core_path)
+  id_counter = 0
   
   core_links.each do |link_data|
     methods = scrape_class_methods_page(link_data[:path])
-    write_method_data_yaml(link_data[:title], methods) unless methods.empty?
+    write_method_data_yaml(link_data, methods, id_counter) unless methods.empty?
+    id_counter += 1
   end
 end
 

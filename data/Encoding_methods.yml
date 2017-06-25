@@ -1,4 +1,8 @@
 ---
+:id: 16
+:name: Encoding
+:link: http://ruby-doc.org/core-2.4.1/Encoding.html
+:methods:
 - :id: 0
   :callseqs:
   - aliases → {"alias1" => "orig1", "alias2" => "orig2", ...}

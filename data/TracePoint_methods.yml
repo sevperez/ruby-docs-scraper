@@ -1,4 +1,8 @@
 ---
+:id: 114
+:name: TracePoint
+:link: http://ruby-doc.org/core-2.4.1/TracePoint.html
+:methods:
 - :id: 0
   :callseqs:
   - new(*events) { |obj| block }          → obj
@@ -63,17 +67,20 @@
 
     trace.enabled? #=> true
 - :id: 3
-  :callseqs: []
+  :callseqs:
+  - binding()
   :description:
   - Return the generated binding object from event
   :examples: ''
 - :id: 4
-  :callseqs: []
+  :callseqs:
+  - callee_id()
   :description:
   - Return the called name of the method being called
   :examples: ''
 - :id: 5
-  :callseqs: []
+  :callseqs:
+  - defined_class()
   :description:
   - Return class or module of the method being called.
   - If method is defined by a module, then that module is returned.
@@ -169,7 +176,8 @@
   - The current status of the trace
   :examples: ''
 - :id: 9
-  :callseqs: []
+  :callseqs:
+  - event()
   :description:
   - Type of event
   - |-
@@ -183,34 +191,40 @@
   - Return a string containing a human-readable TracePoint status.
   :examples: ''
 - :id: 11
-  :callseqs: []
+  :callseqs:
+  - lineno()
   :description:
   - Line number of the event
   :examples: ''
 - :id: 12
-  :callseqs: []
+  :callseqs:
+  - method_id()
   :description:
   - Return the name at the definition of the method being called
   :examples: ''
 - :id: 13
-  :callseqs: []
+  :callseqs:
+  - path()
   :description:
   - Path of the file being run
   :examples: ''
 - :id: 14
-  :callseqs: []
+  :callseqs:
+  - raised_exception()
   :description:
   - Value from exception raised on the :raise event
   :examples: ''
 - :id: 15
-  :callseqs: []
+  :callseqs:
+  - return_value()
   :description:
   - |-
     Return value from :return, c_return, and
     b_return event
   :examples: ''
 - :id: 16
-  :callseqs: []
+  :callseqs:
+  - self()
   :description:
   - Return the trace object during event
   - 'Same as #binding:'

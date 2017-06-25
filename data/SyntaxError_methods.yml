@@ -1,4 +1,8 @@
 ---
+:id: 103
+:name: SyntaxError
+:link: http://ruby-doc.org/core-2.4.1/SyntaxError.html
+:methods:
 - :id: 0
   :callseqs:
   - new([msg])  → syntax_error

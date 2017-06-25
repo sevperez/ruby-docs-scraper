@@ -1,6 +1,11 @@
 ---
+:id: 2
+:name: Array
+:link: http://ruby-doc.org/core-2.4.1/Array.html
+:methods:
 - :id: 0
-  :callseqs: []
+  :callseqs:
+  - "[](*args)"
   :description:
   - Returns a new array populated with the given objects.
   :examples: |
@@ -257,7 +262,8 @@
   - See also Enumerable#any?
   :examples: ''
 - :id: 13
-  :callseqs: []
+  :callseqs:
+  - append(*args)
   :description: []
   :examples: ''
 - :id: 14
@@ -1060,7 +1066,8 @@
     a.pop(2)  #=> ["b", "c"]
     a         #=> ["a"]
 - :id: 61
-  :callseqs: []
+  :callseqs:
+  - prepend(*args)
   :description: []
   :examples: ''
 - :id: 62
@@ -1395,7 +1402,8 @@
     a                         #=> [2, 3, 1]
     a.shuffle!(random: Random.new(1))  #=> [1, 3, 2]
 - :id: 82
-  :callseqs: []
+  :callseqs:
+  - size()
   :description: []
   :examples: ''
 - :id: 83
@@ -1597,7 +1605,8 @@
     [[:foo, :bar], [1, 2]].to_h
       # => {:foo => :bar, 1 => 2}
 - :id: 94
-  :callseqs: []
+  :callseqs:
+  - to_s()
   :description: []
   :examples: ''
 - :id: 95

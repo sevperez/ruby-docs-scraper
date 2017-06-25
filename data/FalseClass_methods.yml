@@ -1,4 +1,8 @@
 ---
+:id: 30
+:name: FalseClass
+:link: http://ruby-doc.org/core-2.4.1/FalseClass.html
+:methods:
 - :id: 0
   :callseqs:
   - false & obj   → false
@@ -28,7 +32,8 @@
     returns false; otherwise, returns true.
   :examples: ''
 - :id: 3
-  :callseqs: []
+  :callseqs:
+  - inspect()
   :description: []
   :examples: ''
 - :id: 4

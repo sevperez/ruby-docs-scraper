@@ -1,4 +1,8 @@
 ---
+:id: 55
+:name: Kernel
+:link: http://ruby-doc.org/core-2.4.1/Kernel.html
+:methods:
 - :id: 0
   :callseqs:
   - Array(arg)    → array
@@ -23,7 +27,8 @@
     Complex(nil)     #=> TypeError
     Complex(1, nil)  #=> TypeError
 - :id: 2
-  :callseqs: []
+  :callseqs:
+  - Float(p1)
   :description: []
   :examples: ''
 - :id: 3

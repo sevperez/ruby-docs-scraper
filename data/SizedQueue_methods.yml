@@ -1,4 +1,8 @@
 ---
+:id: 97
+:name: SizedQueue
+:link: http://ruby-doc.org/core-2.4.1/SizedQueue.html
+:methods:
 - :id: 0
   :callseqs:
   - new(max)
@@ -6,11 +10,13 @@
   - Creates a fixed-length queue with a maximum size of max.
   :examples: ''
 - :id: 1
-  :callseqs: []
+  :callseqs:
+  - "<<(*args)"
   :description: []
   :examples: ''
 - :id: 2
-  :callseqs: []
+  :callseqs:
+  - clear()
   :description:
   - Removes all objects from the queue.
   :examples: ''
@@ -25,15 +31,18 @@
     ClosedQueueError('queue closed').
   :examples: ''
 - :id: 4
-  :callseqs: []
+  :callseqs:
+  - deq(*args)
   :description: []
   :examples: ''
 - :id: 5
-  :callseqs: []
+  :callseqs:
+  - enq(*args)
   :description: []
   :examples: ''
 - :id: 6
-  :callseqs: []
+  :callseqs:
+  - max()
   :description:
   - Returns the maximum size of the queue.
   :examples: ''
@@ -44,7 +53,8 @@
   - Sets the maximum size of the queue to the given number.
   :examples: ''
 - :id: 8
-  :callseqs: []
+  :callseqs:
+  - num_waiting()
   :description:
   - Returns the number of threads waiting on the queue.
   :examples: ''
@@ -74,6 +84,7 @@
     ThreadError is raised.
   :examples: ''
 - :id: 11
-  :callseqs: []
+  :callseqs:
+  - shift(*args)
   :description: []
   :examples: ''

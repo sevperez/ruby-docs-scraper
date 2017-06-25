@@ -1,4 +1,8 @@
 ---
+:id: 20
+:name: Encoding::InvalidByteSequenceError
+:link: http://ruby-doc.org/core-2.4.1/Encoding/InvalidByteSequenceError.html
+:methods:
 - :id: 0
   :callseqs:
   - destination_encoding         → string

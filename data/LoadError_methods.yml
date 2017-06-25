@@ -1,6 +1,11 @@
 ---
+:id: 57
+:name: LoadError
+:link: http://ruby-doc.org/core-2.4.1/LoadError.html
+:methods:
 - :id: 0
-  :callseqs: []
+  :callseqs:
+  - rb_intern_const("path")
   :description:
   - the path failed to load
   :examples: ''

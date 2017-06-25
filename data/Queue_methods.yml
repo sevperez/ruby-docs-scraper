@@ -1,15 +1,22 @@
 ---
+:id: 81
+:name: Queue
+:link: http://ruby-doc.org/core-2.4.1/Queue.html
+:methods:
 - :id: 0
-  :callseqs: []
+  :callseqs:
+  - new()
   :description:
   - Creates a new queue instance.
   :examples: ''
 - :id: 1
-  :callseqs: []
+  :callseqs:
+  - "<<(p1)"
   :description: []
   :examples: ''
 - :id: 2
-  :callseqs: []
+  :callseqs:
+  - clear()
   :description:
   - Removes all objects from the queue.
   :examples: ''
@@ -36,7 +43,8 @@
   - Returns true if the queue is closed.
   :examples: ''
 - :id: 5
-  :callseqs: []
+  :callseqs:
+  - deq(*args)
   :description: []
   :examples: ''
 - :id: 6
@@ -46,7 +54,8 @@
   - Returns true if the queue is empty.
   :examples: ''
 - :id: 7
-  :callseqs: []
+  :callseqs:
+  - enq(p1)
   :description: []
   :examples: ''
 - :id: 8
@@ -57,7 +66,8 @@
   - Returns the length of the queue.
   :examples: ''
 - :id: 9
-  :callseqs: []
+  :callseqs:
+  - num_waiting()
   :description:
   - Returns the number of threads waiting on the queue.
   :examples: ''
@@ -82,10 +92,12 @@
   - Pushes the given object to the queue.
   :examples: ''
 - :id: 12
-  :callseqs: []
+  :callseqs:
+  - shift(*args)
   :description: []
   :examples: ''
 - :id: 13
-  :callseqs: []
+  :callseqs:
+  - size()
   :description: []
   :examples: ''

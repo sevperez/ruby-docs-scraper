@@ -1,16 +1,23 @@
 ---
+:id: 10
+:name: ConditionVariable
+:link: http://ruby-doc.org/core-2.4.1/ConditionVariable.html
+:methods:
 - :id: 0
-  :callseqs: []
+  :callseqs:
+  - new()
   :description:
   - Creates a new condition variable instance.
   :examples: ''
 - :id: 1
-  :callseqs: []
+  :callseqs:
+  - broadcast()
   :description:
   - Wakes up all threads waiting for this lock.
   :examples: ''
 - :id: 2
-  :callseqs: []
+  :callseqs:
+  - signal()
   :description:
   - Wakes up the first thread in line waiting for this lock.
   :examples: ''

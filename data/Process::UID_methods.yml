@@ -1,4 +1,8 @@
 ---
+:id: 79
+:name: Process::UID
+:link: http://ruby-doc.org/core-2.4.1/Process/UID.html
+:methods:
 - :id: 0
   :callseqs:
   - Process::UID.change_privilege(user)   → integer

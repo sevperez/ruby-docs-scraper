@@ -1,6 +1,11 @@
 ---
+:id: 3
+:name: BasicObject
+:link: http://ruby-doc.org/core-2.4.1/BasicObject.html
+:methods:
 - :id: 0
-  :callseqs: []
+  :callseqs:
+  - new()
   :description:
   - Not documented
   :examples: ''

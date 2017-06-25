@@ -1,4 +1,8 @@
 ---
+:id: 102
+:name: Symbol
+:link: http://ruby-doc.org/core-2.4.1/Symbol.html
+:methods:
 - :id: 0
   :callseqs:
   - all_symbols    => array

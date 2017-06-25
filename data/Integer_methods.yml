@@ -1,4 +1,8 @@
 ---
+:id: 53
+:name: Integer
+:link: http://ruby-doc.org/core-2.4.1/Integer.html
+:methods:
 - :id: 0
   :callseqs:
   - sqrt(n)  →  integer
@@ -143,7 +147,8 @@
     1 == 2      #=> false
     1 == 1.0    #=> true
 - :id: 14
-  :callseqs: []
+  :callseqs:
+  - "===(p1)"
   :description: []
   :examples: ''
 - :id: 15
@@ -390,7 +395,8 @@
     3.gcdlcm(-7)                   #=> [1, 21]
     ((1<<31)-1).gcdlcm((1<<61)-1)  #=> [1, 4951760154835678088235319297]
 - :id: 35
-  :callseqs: []
+  :callseqs:
+  - inspect(*args)
   :description: []
   :examples: ''
 - :id: 36

@@ -1,4 +1,8 @@
 ---
+:id: 113
+:name: Time
+:link: http://ruby-doc.org/core-2.4.1/Time.html
+:methods:
 - :id: 0
   :callseqs:
   - at(time) → time

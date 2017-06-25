@@ -1,6 +1,11 @@
 ---
+:id: 39
+:name: GC
+:link: http://ruby-doc.org/core-2.4.1/GC.html
+:methods:
 - :id: 0
-  :callseqs: []
+  :callseqs:
+  - add_stress_to_class(*args)
   :description: []
   :examples: ''
 - :id: 1
@@ -56,7 +61,8 @@
   - Only available if ruby was built with CALC_EXACT_MALLOC_SIZE.
   :examples: ''
 - :id: 7
-  :callseqs: []
+  :callseqs:
+  - remove_stress_to_class(*args)
   :description: []
   :examples: ''
 - :id: 8

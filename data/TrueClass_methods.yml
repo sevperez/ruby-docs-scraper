@@ -1,4 +1,8 @@
 ---
+:id: 115
+:name: TrueClass
+:link: http://ruby-doc.org/core-2.4.1/TrueClass.html
+:methods:
 - :id: 0
   :callseqs:
   - true & obj    → true or false
@@ -25,7 +29,8 @@
     or false, false otherwise.
   :examples: ''
 - :id: 3
-  :callseqs: []
+  :callseqs:
+  - inspect()
   :description: []
   :examples: ''
 - :id: 4

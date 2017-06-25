@@ -1,4 +1,8 @@
 ---
+:id: 117
+:name: UnboundMethod
+:link: http://ruby-doc.org/core-2.4.1/UnboundMethod.html
+:methods:
 - :id: 0
   :callseqs:
   - meth == other_meth  → true or false

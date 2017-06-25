@@ -1,9 +1,15 @@
 ---
+:id: 83
+:name: Random::Formatter
+:link: http://ruby-doc.org/core-2.4.1/Random/Formatter.html
+:methods:
 - :id: 0
-  :callseqs: []
+  :callseqs:
+  - rand(*args)
   :description: []
   :examples: ''
 - :id: 1
-  :callseqs: []
+  :callseqs:
+  - random_number(*args)
   :description: []
   :examples: ''

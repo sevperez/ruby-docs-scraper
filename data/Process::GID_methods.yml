@@ -1,4 +1,8 @@
 ---
+:id: 76
+:name: Process::GID
+:link: http://ruby-doc.org/core-2.4.1/Process/GID.html
+:methods:
 - :id: 0
   :callseqs:
   - Process::GID.change_privilege(group)   → integer

@@ -1,4 +1,8 @@
 ---
+:id: 0
+:name: ARGF
+:link: http://ruby-doc.org/core-2.4.1/ARGF.html
+:methods:
 - :id: 0
   :callseqs:
   - argv  → ARGV
@@ -33,12 +37,14 @@
     ARGF.binmode
     ARGF.binmode?  #=> true
 - :id: 3
-  :callseqs: []
+  :callseqs:
+  - bytes()
   :description:
   - This is a deprecated alias for each_byte.
   :examples: ''
 - :id: 4
-  :callseqs: []
+  :callseqs:
+  - chars()
   :description:
   - This is a deprecated alias for each_char.
   :examples: ''
@@ -61,7 +67,8 @@
     otherwise. Use ARGF.close to actually close the current file.
   :examples: ''
 - :id: 7
-  :callseqs: []
+  :callseqs:
+  - codepoints()
   :description:
   - This is a deprecated alias for each_codepoint.
   :examples: ''
@@ -299,7 +306,8 @@
     with “bar”, then the new line is written out to file.txt.bak.
   :examples: ''
 - :id: 24
-  :callseqs: []
+  :callseqs:
+  - inspect()
   :description: []
   :examples: ''
 - :id: 25
@@ -348,7 +356,8 @@
     ARGF.lineno = 0  #=> 0
     ARGF.lineno      #=> 0
 - :id: 28
-  :callseqs: []
+  :callseqs:
+  - lines(*args)
   :description:
   - This is a deprecated alias for each_line.
   :examples: ''

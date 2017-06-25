@@ -1,4 +1,8 @@
 ---
+:id: 29
+:name: Exception
+:link: http://ruby-doc.org/core-2.4.1/Exception.html
+:methods:
 - :id: 0
   :callseqs:
   - exception(string)  →  an_exception or exc

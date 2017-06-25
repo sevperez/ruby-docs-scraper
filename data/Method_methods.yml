@@ -1,4 +1,8 @@
 ---
+:id: 63
+:name: Method
+:link: http://ruby-doc.org/core-2.4.1/Method.html
+:methods:
 - :id: 0
   :callseqs:
   - meth == other_meth  → true or false

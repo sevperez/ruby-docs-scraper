@@ -1,6 +1,11 @@
 ---
+:id: 118
+:name: UncaughtThrowError
+:link: http://ruby-doc.org/core-2.4.1/UncaughtThrowError.html
+:methods:
 - :id: 0
-  :callseqs: []
+  :callseqs:
+  - new(*args)
   :description:
   - 'Document-class: UncaughtThrowError'
   - |-

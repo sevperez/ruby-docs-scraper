@@ -1,4 +1,8 @@
 ---
+:id: 13
+:name: Dir
+:link: http://ruby-doc.org/core-2.4.1/Dir.html
+:methods:
 - :id: 0
   :callseqs:
   - Dir[ string [, string ...] ] → array

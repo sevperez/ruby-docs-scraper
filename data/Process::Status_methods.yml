@@ -1,4 +1,8 @@
 ---
+:id: 77
+:name: Process::Status
+:link: http://ruby-doc.org/core-2.4.1/Process/Status.html
+:methods:
 - :id: 0
   :callseqs:
   - stat & num   → integer

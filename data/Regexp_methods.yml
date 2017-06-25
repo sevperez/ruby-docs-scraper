@@ -1,6 +1,11 @@
 ---
+:id: 88
+:name: Regexp
+:link: http://ruby-doc.org/core-2.4.1/Regexp.html
+:methods:
 - :id: 0
-  :callseqs: []
+  :callseqs:
+  - compile(*args)
   :description:
   - Alias for Regexp.new
   :examples: ''

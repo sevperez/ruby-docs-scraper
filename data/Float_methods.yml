@@ -1,4 +1,8 @@
 ---
+:id: 37
+:name: Float
+:link: http://ruby-doc.org/core-2.4.1/Float.html
+:methods:
 - :id: 0
   :callseqs:
   - float % other        →  float
@@ -295,7 +299,8 @@
     (-1.0/0.0).infinite?   #=> -1
     (+1.0/0.0).infinite?   #=> 1
 - :id: 27
-  :callseqs: []
+  :callseqs:
+  - inspect()
   :description: []
   :examples: ''
 - :id: 28

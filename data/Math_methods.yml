@@ -1,4 +1,8 @@
 ---
+:id: 61
+:name: Math
+:link: http://ruby-doc.org/core-2.4.1/Math.html
+:methods:
 - :id: 0
   :callseqs:
   - acos(x)    → Float

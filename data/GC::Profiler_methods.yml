@@ -1,4 +1,8 @@
 ---
+:id: 40
+:name: GC::Profiler
+:link: http://ruby-doc.org/core-2.4.1/GC/Profiler.html
+:methods:
 - :id: 0
   :callseqs:
   - GC::Profiler.clear          → nil
