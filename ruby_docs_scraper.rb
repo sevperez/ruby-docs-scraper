@@ -96,17 +96,3 @@ end
 
 core_2_4_1 = 'http://ruby-doc.org/core-2.4.1/'
 write_method_files(core_2_4_1)
-
-
-
-# integer_methods = scrape_class_methods_page('http://ruby-doc.org/core-2.4.1/Integer.html')
-# write_method_data_yaml_file('Integer', integer_methods)
-
-
-# File.open('array.html', 'w+') { |file| file.write parse_page }
-# File.open('array_methods.yml', 'w') { |file| file.write(methods.to_yaml) }
-
-# array_methods = scrape_page('http://ruby-doc.org/core-2.4.1/Array.html')
-
-# page = HTTParty.get('http://ruby-doc.org/core-2.4.1/Array.html')
-# parse_page = Nokogiri::HTML(page)
