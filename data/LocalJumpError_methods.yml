@@ -1,0 +1,15 @@
+---
+- :id: 0
+  :callseqs:
+  - exit_value  → obj
+  :description:
+  - Returns the exit value associated with this LocalJumpError.
+  :examples: ''
+- :id: 1
+  :callseqs:
+  - reason   → symbol
+  :description:
+  - |-
+    The reason this block was terminated: :break, :redo, :retry, :next,
+    :return, or :noreason.
+  :examples: ''

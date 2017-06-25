@@ -1,0 +1,71 @@
+---
+- :id: 0
+  :callseqs:
+  - obj < other    → true or false
+  :description:
+  - |-
+    Compares two objects based on the receiver’s <=> method,
+    returning true if it returns -1.
+  :examples: ''
+- :id: 1
+  :callseqs:
+  - obj <= other    → true or false
+  :description:
+  - |-
+    Compares two objects based on the receiver’s <=> method,
+    returning true if it returns -1 or 0.
+  :examples: ''
+- :id: 2
+  :callseqs:
+  - obj == other    → true or false
+  :description:
+  - |-
+    Compares two objects based on the receiver’s <=> method,
+    returning true if it returns 0. Also returns true if obj and
+    other are the same object.
+  :examples: ''
+- :id: 3
+  :callseqs:
+  - obj > other    → true or false
+  :description:
+  - |-
+    Compares two objects based on the receiver’s <=> method,
+    returning true if it returns 1.
+  :examples: ''
+- :id: 4
+  :callseqs:
+  - obj >= other    → true or false
+  :description:
+  - |-
+    Compares two objects based on the receiver’s <=> method,
+    returning true if it returns 0 or 1.
+  :examples: ''
+- :id: 5
+  :callseqs:
+  - between?(min, max)    → true or false
+  :description:
+  - |-
+    Returns false if obj <=>
+    min is less than zero or if anObject
+    <=> max is greater than zero, true
+    otherwise.
+  :examples: |
+    3.between?(1, 5)               #=> true
+    6.between?(1, 5)               #=> false
+    'cat'.between?('ant', 'dog')   #=> true
+    'gnu'.between?('ant', 'dog')   #=> false
+- :id: 6
+  :callseqs:
+  - clamp(min, max) →  obj
+  :description:
+  - |-
+    Returns min if obj <=> min is
+    less than zero, max if obj <=>
+    max is greater than zero and obj otherwise.
+  :examples: |
+    12.clamp(0, 100)         #=> 12
+    523.clamp(0, 100)        #=> 100
+    -3.123.clamp(0, 100)     #=> 0
+
+    'd'.clamp('a', 'f')      #=> 'd'
+    'z'.clamp('a', 'f')      #=> 'f'

@@ -1,0 +1,110 @@
+---
+- :id: 0
+  :callseqs:
+  - exception(string)  →  an_exception or exc
+  :description:
+  - |-
+    With no argument, or if the argument is the same as the receiver, return
+    the receiver. Otherwise, create a new exception object of the same class as
+    the receiver, but with a message equal to string.to_str.
+  :examples: ''
+- :id: 1
+  :callseqs:
+  - new(msg = nil)   →  exception
+  :description:
+  - |-
+    Construct a new Exception object, optionally
+    passing in a message.
+  :examples: ''
+- :id: 2
+  :callseqs:
+  - exc == obj   → true or false
+  :description:
+  - |-
+    Equality—If obj is not an Exception, returns
+    false. Otherwise, returns true if exc
+    and obj share same class, messages, and backtrace.
+  :examples: ''
+- :id: 3
+  :callseqs:
+  - backtrace    → array
+  :description:
+  - |-
+    Returns any backtrace associated with the exception. The backtrace is an
+    array of strings, each containing either “filename:lineNo: in `method”‘ or
+    “filename:lineNo.”
+  - 'produces:'
+  :examples: |
+    def a
+      raise "boom"
+    end
+
+    def b
+      a()
+    end
+
+    begin
+      b()
+    rescue => detail
+      print detail.backtrace.join("\n")
+    end
+- :id: 4
+  :callseqs:
+  - backtrace_locations    → array
+  :description:
+  - |-
+    Returns any backtrace associated with the exception. This method is similar
+    to #backtrace, but the
+    backtrace is an array of Thread::Backtrace::Location.
+  - 'Now, this method is not affected by #set_backtrace.'
+  :examples: ''
+- :id: 5
+  :callseqs:
+  - cause   → an_exception or nil
+  :description:
+  - |-
+    Returns the previous exception ($!) at the time this exception was raised.
+    This is useful for wrapping exceptions and retaining the original exception
+    information.
+  :examples: ''
+- :id: 6
+  :callseqs:
+  - exception(string)  →  an_exception or exc
+  :description:
+  - |-
+    With no argument, or if the argument is the same as the receiver, return
+    the receiver. Otherwise, create a new exception object of the same class as
+    the receiver, but with a message equal to string.to_str.
+  :examples: ''
+- :id: 7
+  :callseqs:
+  - inspect   → string
+  :description:
+  - Return this exception’s class name and message
+  :examples: ''
+- :id: 8
+  :callseqs:
+  - message   →  string
+  :description:
+  - |-
+    Returns the result of invoking exception.to_s. Normally this
+    returns the exception’s message or name.
+  :examples: ''
+- :id: 9
+  :callseqs:
+  - set_backtrace(backtrace)   →  array
+  :description:
+  - |-
+    Sets the backtrace information associated with exc. The
+    backtrace must be an array of String
+    objects or a single String in the format
+    described in #backtrace.
+  :examples: ''
+- :id: 10
+  :callseqs:
+  - to_s   →  string
+  :description:
+  - |-
+    Returns exception’s message (or the name of the exception if no message is
+    set).
+  :examples: ''

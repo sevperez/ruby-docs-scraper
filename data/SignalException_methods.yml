@@ -1,0 +1,14 @@
+---
+- :id: 0
+  :callseqs:
+  - new(sig_name)              →  signal_exception
+  - new(sig_number [, name])   →  signal_exception
+  :description:
+  - "Construct a new SignalException object. \nsig_name should be a known signal name."
+  :examples: ''
+- :id: 1
+  :callseqs:
+  - signo   →  num
+  :description:
+  - Returns a signal number.
+  :examples: ''

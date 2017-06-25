@@ -1,0 +1,387 @@
+---
+- :id: 0
+  :callseqs:
+  - Dir[ string [, string ...] ] → array
+  :description:
+  - Equivalent to calling Dir.glob([string,...],0).
+  :examples: ''
+- :id: 1
+  :callseqs:
+  - chdir( [ string] ) → 0
+  - chdir( [ string] ) {| path | block }  → anObject
+  :description:
+  - |-
+    Changes the current working directory of the process to the given string.
+    When called without an argument, changes the directory to the value of the
+    environment variable HOME, or LOGDIR.
+    SystemCallError (probably Errno::ENOENT) if the
+    target directory does not exist.
+  - |-
+    If a block is given, it is passed the name of the new current directory,
+    and the block is executed with that as the current directory. The original
+    working directory is restored when the block exits. The return value of
+    chdir is the value of the block. chdir blocks can
+    be nested, but in a multi-threaded program an error will be raised if a
+    thread attempts to open a chdir block while another thread has
+    one open.
+  - 'produces:'
+  :examples: |
+    Dir.chdir("/var/spool/mail")
+    puts Dir.pwd
+    Dir.chdir("/tmp") do
+      puts Dir.pwd
+      Dir.chdir("/usr") do
+        puts Dir.pwd
+      end
+      puts Dir.pwd
+    end
+    puts Dir.pwd
+- :id: 2
+  :callseqs:
+  - chroot( string ) → 0
+  :description:
+  - |-
+    Changes this process’s idea of the file system root. Only a privileged
+    process may make this call. Not available on all platforms. On Unix
+    systems, see chroot(2) for more information.
+  :examples: ''
+- :id: 3
+  :callseqs:
+  - delete( string ) → 0
+  :description:
+  - |-
+    Deletes the named directory. Raises a subclass of
+    SystemCallError if the directory isn’t empty.
+  :examples: ''
+- :id: 4
+  :callseqs:
+  - empty?(path_name)  →  true or false
+  :description:
+  - |-
+    Returns true if the named file is an empty directory,
+    false if it is not a directory or non-empty.
+  :examples: ''
+- :id: 5
+  :callseqs:
+  - entries( dirname )                → array
+  - 'entries( dirname, encoding: enc ) → array'
+  :description:
+  - |-
+    Returns an array containing all of the filenames in the given directory.
+    Will raise a SystemCallError if the named directory doesn’t
+    exist.
+  - |-
+    The optional enc argument specifies the encoding of the directory.
+    If not specified, the filesystem encoding is used.
+  :examples: 'Dir.entries("testdir")   #=> [".", "..", "config.h", "main.rb"]
+
+'
+- :id: 6
+  :callseqs:
+  - exist?(file_name)   →  true or false
+  :description:
+  - |-
+    Returns true if the named file is a directory,
+    false otherwise.
+  :examples: ''
+- :id: 7
+  :callseqs:
+  - exists?(file_name)  →  true or false
+  :description:
+  - Deprecated method. Don’t use.
+  :examples: ''
+- :id: 8
+  :callseqs:
+  - foreach( dirname ) {| filename | block }                 → nil
+  - 'foreach( dirname, encoding: enc ) {| filename | block }  → nil'
+  - foreach( dirname )                                       → an_enumerator
+  - 'foreach( dirname, encoding: enc )                        → an_enumerator'
+  :description:
+  - |-
+    Calls the block once for each entry in the named directory, passing the
+    filename of each entry as a parameter to the block.
+  - If no block is given, an enumerator is returned instead.
+  - 'produces:'
+  :examples: 'Dir.foreach("testdir") {|x| puts "Got #{x}" }
+
+'
+- :id: 9
+  :callseqs:
+  - getwd → string
+  :description:
+  - |-
+    Returns the path to the current working directory of this process as a
+    string.
+  :examples: |
+    Dir.chdir("/tmp")   #=> 0
+    Dir.getwd           #=> "/tmp"
+    Dir.pwd             #=> "/tmp"
+- :id: 10
+  :callseqs:
+  - glob( pattern, [flags] ) → matches
+  - glob( pattern, [flags] ) { |filename| block }  → nil
+  :description:
+  - |-
+    Expands pattern, which is an Array of
+    patterns or a pattern String, and returns the
+    results as matches or as arguments given to the block.
+  - |-
+    Note that this pattern is not a regexp, it’s closer to a shell glob.  See
+    File.fnmatch for the meaning of
+    the flags parameter.  Note that case sensitivity depends on
+    your system (so File::FNM_CASEFOLD is ignored), as does the order in which
+    the results are returned.
+  - |-
+    Matches any file. Can be restricted by other values in the glob. Equivalent
+    to / .* /x in regexp.
+  - Matches all files
+  - Matches all files beginning with c
+  - Matches all files ending with c
+  - |-
+    Match all files that have c in them (including at the
+    beginning or end).
+  - |-
+    Note, this will not match Unix-like hidden files (dotfiles).  In order to
+    include those in the match results, you must use the File::FNM_DOTMATCH
+    flag or something like "{*,.*}".
+  - Matches directories recursively.
+  - Matches any one character. Equivalent to /.{1}/ in regexp.
+  - |-
+    Matches any one character in set.  Behaves exactly like
+    character sets in Regexp, including set negation
+    ([^a-z]).
+  - |-
+    Matches either literal p or literal q. Equivalent
+    to pattern alternation in regexp.
+  - |-
+    Matching literals may be more than one character in length.  More than two
+    literals may be specified.
+  - Escapes the next metacharacter.
+  - |-
+    Note that this means you cannot use backslash on windows as part of a glob,
+    i.e.  Dir["c:\foo*"] will not work, use
+    Dir["c:/foo*"] instead.
+  - 'Examples:'
+  :examples: |
+    Dir["config.?"]                     #=> ["config.h"]
+    Dir.glob("config.?")                #=> ["config.h"]
+    Dir.glob("*.[a-z][a-z]")            #=> ["main.rb"]
+    Dir.glob("*.[^r]*")                 #=> ["config.h"]
+    Dir.glob("*.{rb,h}")                #=> ["main.rb", "config.h"]
+    Dir.glob("*")                       #=> ["config.h", "main.rb"]
+    Dir.glob("*", File::FNM_DOTMATCH)   #=> [".", "..", "config.h", "main.rb"]
+
+    rbfiles = File.join("**", "*.rb")
+    Dir.glob(rbfiles)                   #=> ["main.rb",
+                                        #    "lib/song.rb",
+                                        #    "lib/song/karaoke.rb"]
+    libdirs = File.join("**", "lib")
+    Dir.glob(libdirs)                   #=> ["lib"]
+
+    librbfiles = File.join("**", "lib", "**", "*.rb")
+    Dir.glob(librbfiles)                #=> ["lib/song.rb",
+                                        #    "lib/song/karaoke.rb"]
+
+    librbfiles = File.join("**", "lib", "*.rb")
+    Dir.glob(librbfiles)                #=> ["lib/song.rb"]
+- :id: 11
+  :callseqs:
+  - home()       → "/home/me"
+  - home("root") → "/root"
+  :description:
+  - Returns the home directory of the current user or the named user if given.
+  :examples: ''
+- :id: 12
+  :callseqs:
+  - mkdir( string [, integer] ) → 0
+  :description:
+  - |-
+    Makes a new directory named by string, with permissions specified
+    by the optional parameter anInteger. The permissions may be
+    modified by the value of File::umask, and are ignored on NT.
+    Raises a SystemCallError if the directory cannot be created.
+    See also the discussion of permissions in the class documentation for
+    File.
+  :examples: 'Dir.mkdir(File.join(Dir.home, ".foo"), 0700) #=> 0
+
+'
+- :id: 13
+  :callseqs:
+  - new( string ) → aDir
+  - 'new( string, encoding: enc ) → aDir'
+  :description:
+  - Returns a new directory object for the named directory.
+  - |-
+    The optional enc argument specifies the encoding of the directory.
+    If not specified, the filesystem encoding is used.
+  :examples: ''
+- :id: 14
+  :callseqs:
+  - open( string ) → aDir
+  - 'open( string, encoding: enc ) → aDir'
+  - open( string ) {| aDir | block } → anObject
+  - 'open( string, encoding: enc ) {| aDir | block } → anObject'
+  :description:
+  - |-
+    The optional enc argument specifies the encoding of the directory.
+    If not specified, the filesystem encoding is used.
+  - |-
+    With no block, open is a synonym for Dir::new. If
+    a block is present, it is passed aDir as a parameter. The
+    directory is closed at the end of the block, and Dir::open
+    returns the value of the block.
+  :examples: ''
+- :id: 15
+  :callseqs:
+  - pwd → string
+  :description:
+  - |-
+    Returns the path to the current working directory of this process as a
+    string.
+  :examples: |
+    Dir.chdir("/tmp")   #=> 0
+    Dir.getwd           #=> "/tmp"
+    Dir.pwd             #=> "/tmp"
+- :id: 16
+  :callseqs:
+  - rmdir( string ) → 0
+  :description:
+  - |-
+    Deletes the named directory. Raises a subclass of
+    SystemCallError if the directory isn’t empty.
+  :examples: ''
+- :id: 17
+  :callseqs:
+  - unlink( string ) → 0
+  :description:
+  - |-
+    Deletes the named directory. Raises a subclass of
+    SystemCallError if the directory isn’t empty.
+  :examples: ''
+- :id: 18
+  :callseqs:
+  - close → nil
+  :description:
+  - Closes the directory stream. Calling this method on closed Dir object is ignored
+    since Ruby 2.3.
+  :examples: |
+    d = Dir.new("testdir")
+    d.close   #=> nil
+- :id: 19
+  :callseqs:
+  - each { |filename| block }  → dir
+  - each                       → an_enumerator
+  :description:
+  - |-
+    Calls the block once for each entry in this directory, passing the filename
+    of each entry as a parameter to the block.
+  - If no block is given, an enumerator is returned instead.
+  - 'produces:'
+  :examples: |
+    d = Dir.new("testdir")
+    d.each  {|x| puts "Got #{x}" }
+- :id: 20
+  :callseqs:
+  - fileno → integer
+  :description:
+  - Returns the file descriptor used in dir.
+  - |-
+    This method uses dirfd() function defined by POSIX 2008. NotImplementedError is raised on other
+    platforms, such as Windows, which doesn’t provide the function.
+  :examples: |
+    d = Dir.new("..")
+    d.fileno   #=> 8
+- :id: 21
+  :callseqs:
+  - inspect → string
+  :description:
+  - Return a string describing this Dir object.
+  :examples: ''
+- :id: 22
+  :callseqs:
+  - path → string or nil
+  :description:
+  - Returns the path parameter passed to dir’s constructor.
+  :examples: |
+    d = Dir.new("..")
+    d.path   #=> ".."
+- :id: 23
+  :callseqs:
+  - pos → integer
+  :description:
+  - |-
+    Returns the current position in dir. See also
+    Dir#seek.
+  :examples: |
+    d = Dir.new("testdir")
+    d.tell   #=> 0
+    d.read   #=> "."
+    d.tell   #=> 12
+- :id: 24
+  :callseqs:
+  - pos = integer  → integer
+  :description:
+  - Synonym for Dir#seek, but returns the position parameter.
+  :examples: |
+    d = Dir.new("testdir")   #=> #<Dir:0x401b3c40>
+    d.read                   #=> "."
+    i = d.pos                #=> 12
+    d.read                   #=> ".."
+    d.pos = i                #=> 12
+    d.read                   #=> ".."
+- :id: 25
+  :callseqs:
+  - read → string or nil
+  :description:
+  - |-
+    Reads the next entry from dir and returns it as a string. Returns
+    nil at the end of the stream.
+  :examples: |
+    d = Dir.new("testdir")
+    d.read   #=> "."
+    d.read   #=> ".."
+    d.read   #=> "config.h"
+- :id: 26
+  :callseqs:
+  - rewind → dir
+  :description:
+  - Repositions dir to the first entry.
+  :examples: |
+    d = Dir.new("testdir")
+    d.read     #=> "."
+    d.rewind   #=> #<Dir:0x401b3fb0>
+    d.read     #=> "."
+- :id: 27
+  :callseqs:
+  - seek( integer ) → dir
+  :description:
+  - |-
+    Seeks to a particular location in dir. integer must be a
+    value returned by Dir#tell.
+  :examples: |
+    d = Dir.new("testdir")   #=> #<Dir:0x401b3c40>
+    d.read                   #=> "."
+    i = d.tell               #=> 12
+    d.read                   #=> ".."
+    d.seek(i)                #=> #<Dir:0x401b3c40>
+    d.read                   #=> ".."
+- :id: 28
+  :callseqs:
+  - tell → integer
+  :description:
+  - |-
+    Returns the current position in dir. See also
+    Dir#seek.
+  :examples: |
+    d = Dir.new("testdir")
+    d.tell   #=> 0
+    d.read   #=> "."
+    d.tell   #=> 12
+- :id: 29
+  :callseqs:
+  - to_path → string or nil
+  :description:
+  - Returns the path parameter passed to dir’s constructor.
+  :examples: |
+    d = Dir.new("..")
+    d.path   #=> ".."

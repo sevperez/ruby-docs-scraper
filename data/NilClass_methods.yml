@@ -1,0 +1,108 @@
+---
+- :id: 0
+  :callseqs:
+  - false & obj   → false
+  - nil & obj     → false
+  :description:
+  - |-
+    And—Returns false. obj is always evaluated as it is
+    the argument to a method call—there is no short-circuit evaluation in this
+    case.
+  :examples: ''
+- :id: 1
+  :callseqs:
+  - obj === other   → true or false
+  :description:
+  - |-
+    Case Equality – For class Object, effectively the
+    same as calling #==, but typically overridden by descendants
+    to provide meaningful semantics in case statements.
+  :examples: ''
+- :id: 2
+  :callseqs:
+  - false ^ obj    → true or false
+  - nil   ^ obj    → true or false
+  :description:
+  - |-
+    Exclusive Or—If obj is nil or false,
+    returns false; otherwise, returns true.
+  :examples: ''
+- :id: 3
+  :callseqs:
+  - inspect  → "nil"
+  :description:
+  - Always returns the string “nil”.
+  :examples: ''
+- :id: 4
+  :callseqs:
+  - nil?               → true
+  :description:
+  - |-
+    Only the object nil responds true to
+    nil?.
+  :examples: ''
+- :id: 5
+  :callseqs:
+  - rationalize([eps])  →  (0/1)
+  :description:
+  - Returns zero as a rational.  The optional argument eps is always ignored.
+  :examples: ''
+- :id: 6
+  :callseqs:
+  - to_a    → []
+  :description:
+  - Always returns an empty array.
+  :examples: 'nil.to_a   #=> []
+
+'
+- :id: 7
+  :callseqs:
+  - to_c  →  (0+0i)
+  :description:
+  - Returns zero as a complex.
+  :examples: ''
+- :id: 8
+  :callseqs:
+  - to_f    → 0.0
+  :description:
+  - Always returns zero.
+  :examples: 'nil.to_f   #=> 0.0
+
+'
+- :id: 9
+  :callseqs:
+  - to_h    → {}
+  :description:
+  - Always returns an empty hash.
+  :examples: 'nil.to_h   #=> {}
+
+'
+- :id: 10
+  :callseqs:
+  - to_i → 0
+  :description:
+  - Always returns zero.
+  :examples: 'nil.to_i   #=> 0
+
+'
+- :id: 11
+  :callseqs:
+  - to_r  →  (0/1)
+  :description:
+  - Returns zero as a rational.
+  :examples: ''
+- :id: 12
+  :callseqs:
+  - to_s    → ""
+  :description:
+  - Always returns the empty string.
+  :examples: ''
+- :id: 13
+  :callseqs:
+  - false | obj   →   true or false
+  - nil   | obj   →   true or false
+  :description:
+  - |-
+    Or—Returns false if obj is nil or
+    false; true otherwise.
+  :examples: ''

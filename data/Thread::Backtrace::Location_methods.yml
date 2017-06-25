@@ -1,0 +1,67 @@
+---
+- :id: 0
+  :callseqs: []
+  :description:
+  - Returns the full file path of this frame.
+  - |-
+    Same as path, but includes the
+    absolute path.
+  :examples: ''
+- :id: 1
+  :callseqs: []
+  :description:
+  - Returns the base label of this frame.
+  - |-
+    Usually same as label, without
+    decoration.
+  :examples: ''
+- :id: 2
+  :callseqs: []
+  :description:
+  - |-
+    Returns the same as calling inspect on the string
+    representation of to_str
+  :examples: ''
+- :id: 3
+  :callseqs: []
+  :description:
+  - Returns the label of this frame.
+  - Usually consists of method, class, module, etc names with decoration.
+  - 'Consider the following example:'
+  - 'The result of calling foo is this:'
+  :examples: |
+    def foo
+      puts caller_locations(0).first.label
+
+      1.times do
+        puts caller_locations(0).first.label
+
+        1.times do
+          puts caller_locations(0).first.label
+        end
+
+      end
+    end
+- :id: 4
+  :callseqs: []
+  :description:
+  - Returns the line number of this frame.
+  - For example, using caller_locations.rb from Thread::Backtrace::Location
+  :examples: |
+    loc = c(0..1).first
+    loc.lineno #=> 2
+- :id: 5
+  :callseqs: []
+  :description:
+  - Returns the file name of this frame.
+  - For example, using caller_locations.rb from Thread::Backtrace::Location
+  :examples: |
+    loc = c(0..1).first
+    loc.path #=> caller_locations.rb
+- :id: 6
+  :callseqs: []
+  :description:
+  - |-
+    Returns a Kernel#caller
+    style string representing this frame.
+  :examples: ''

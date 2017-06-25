@@ -1,0 +1,21 @@
+---
+- :id: 0
+  :callseqs:
+  - new([msg, *, name [, args]])  → no_method_error
+  :description:
+  - |-
+    Construct a NoMethodError exception for a
+    method of the given name called with the given arguments. The name may be
+    accessed using the #name method on the resulting object, and
+    the arguments using the #args method.
+  :examples: ''
+- :id: 1
+  :callseqs:
+  - args  → obj
+  :description:
+  - Return the arguments passed in as the third parameter to the constructor.
+  :examples: ''
+- :id: 2
+  :callseqs: []
+  :description: []
+  :examples: ''

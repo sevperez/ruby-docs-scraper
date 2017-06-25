@@ -1,0 +1,349 @@
+---
+- :id: 0
+  :callseqs:
+  - ENV[name] → value
+  :description:
+  - |-
+    Retrieves the value for environment variable name
+    as a String.  Returns nil if the
+    named variable does not exist.
+  :examples: ''
+- :id: 1
+  :callseqs:
+  - ENV[name] = value
+  :description:
+  - |-
+    Sets the environment variable name to value.  If
+    the value given is nil the environment variable is deleted.
+    name must be a string.
+  :examples: ''
+- :id: 2
+  :callseqs:
+  - assoc(name) → Array or nil
+  :description:
+  - |-
+    Returns an Array of the name and value of the
+    environment variable with name or nil if the name
+    cannot be found.
+  :examples: ''
+- :id: 3
+  :callseqs:
+  - clear
+  :description:
+  - Removes every environment variable.
+  :examples: ''
+- :id: 4
+  :callseqs:
+  - delete(name)            → value
+  - delete(name) { |name| } → value
+  :description:
+  - |-
+    Deletes the environment variable with name and returns the
+    value of the variable.  If a block is given it will be called when the
+    named environment does not exist.
+  :examples: ''
+- :id: 5
+  :callseqs:
+  - delete_if { |name, value| } → Hash
+  - delete_if                   → Enumerator
+  :description:
+  - |-
+    Deletes every environment variable for which the block evaluates to
+    true.
+  - If no block is given an enumerator is returned instead.
+  :examples: ''
+- :id: 6
+  :callseqs:
+  - each      { |name, value| } → Hash
+  - each                        → Enumerator
+  - each_pair { |name, value| } → Hash
+  - each_pair                   → Enumerator
+  :description:
+  - Yields each environment variable name and value.
+  - |-
+    If no block is given an Enumerator is
+    returned.
+  :examples: ''
+- :id: 7
+  :callseqs:
+  - each_key { |name| } → Hash
+  - each_key            → Enumerator
+  :description:
+  - Yields each environment variable name.
+  - |-
+    An Enumerator is returned if no block is
+    given.
+  :examples: ''
+- :id: 8
+  :callseqs:
+  - each_pair { |name, value| } → Hash
+  - each_pair                   → Enumerator
+  :description:
+  - Yields each environment variable name and value.
+  - |-
+    If no block is given an Enumerator is
+    returned.
+  :examples: ''
+- :id: 9
+  :callseqs:
+  - each_value { |value| } → Hash
+  - each_value             → Enumerator
+  :description:
+  - Yields each environment variable value.
+  - |-
+    An Enumerator is returned if no block was
+    given.
+  :examples: ''
+- :id: 10
+  :callseqs:
+  - empty? → true or false
+  :description:
+  - Returns true when there are no environment variables
+  :examples: ''
+- :id: 11
+  :callseqs:
+  - fetch(name)                        → value
+  - fetch(name, default)               → value
+  - fetch(name) { |missing_name| ... } → value
+  :description:
+  - Retrieves the environment variable name.
+  - |-
+    If the given name does not exist and neither default nor a
+    block a provided an KeyError is raised.  If a
+    block is given it is called with the missing name to provide a value.  If a
+    default value is given it will be returned when no block is given.
+  :examples: ''
+- :id: 12
+  :callseqs:
+  - has_key?(name) → true or false
+  :description:
+  - |-
+    Returns true if there is an environment variable with the
+    given name.
+  :examples: ''
+- :id: 13
+  :callseqs:
+  - has_value?(value) → true or false
+  :description:
+  - |-
+    Returns true if there is an environment variable with the
+    given value.
+  :examples: ''
+- :id: 14
+  :callseqs:
+  - include?(name) → true or false
+  :description:
+  - |-
+    Returns true if there is an environment variable with the
+    given name.
+  :examples: ''
+- :id: 15
+  :callseqs:
+  - index(value) → key
+  :description:
+  - Deprecated method that is equivalent to ::key
+  :examples: ''
+- :id: 16
+  :callseqs:
+  - inspect → string
+  :description:
+  - Returns the contents of the environment as a String.
+  :examples: ''
+- :id: 17
+  :callseqs:
+  - invert → Hash
+  :description:
+  - |-
+    Returns a new hash created by using environment variable names as values
+    and values as names.
+  :examples: ''
+- :id: 18
+  :callseqs:
+  - keep_if { |name, value| } → Hash
+  - keep_if                   → Enumerator
+  :description:
+  - |-
+    Deletes every environment variable where the block evaluates to
+    false.
+  - Returns an enumerator if no block was given.
+  :examples: ''
+- :id: 19
+  :callseqs:
+  - key(value) → name
+  :description:
+  - |-
+    Returns the name of the environment variable with value.  If
+    the value is not found nil is returned.
+  :examples: ''
+- :id: 20
+  :callseqs:
+  - key?(name)     → true or false
+  :description:
+  - |-
+    Returns true if there is an environment variable with the
+    given name.
+  :examples: ''
+- :id: 21
+  :callseqs:
+  - keys → Array
+  :description:
+  - Returns every environment variable name in an Array
+  :examples: ''
+- :id: 22
+  :callseqs:
+  - length
+  :description:
+  - Returns the number of environment variables.
+  :examples: ''
+- :id: 23
+  :callseqs:
+  - member?(name)  → true or false
+  :description:
+  - |-
+    Returns true if there is an environment variable with the
+    given name.
+  :examples: ''
+- :id: 24
+  :callseqs:
+  - rassoc(value)
+  :description:
+  - |-
+    Returns an Array of the name and value of the
+    environment variable with value or nil if the
+    value cannot be found.
+  :examples: ''
+- :id: 25
+  :callseqs:
+  - rehash
+  :description:
+  - |-
+    Re-hashing the environment variables does nothing.  It is provided for
+    compatibility with Hash.
+  :examples: ''
+- :id: 26
+  :callseqs:
+  - reject { |name, value| } → Hash
+  - reject                   → Enumerator
+  :description:
+  - |-
+    Same as ENV#delete_if, but works on (and returns) a copy of the
+    environment.
+  :examples: ''
+- :id: 27
+  :callseqs:
+  - reject! { |name, value| } → ENV or nil
+  - reject!                   → Enumerator
+  :description:
+  - |-
+    Equivalent to ENV#delete_if but returns nil if no changes were
+    made.
+  - Returns an Enumerator if no block was given.
+  :examples: ''
+- :id: 28
+  :callseqs:
+  - replace(hash) → env
+  :description:
+  - |-
+    Replaces the contents of the environment variables with the contents of
+    hash.
+  :examples: ''
+- :id: 29
+  :callseqs:
+  - select { |name, value| } → Hash
+  - select                   → Enumerator
+  :description:
+  - Returns a copy of the environment for entries where the block returns true.
+  - Returns an Enumerator if no block was given.
+  :examples: ''
+- :id: 30
+  :callseqs:
+  - select! { |name, value| } → ENV or nil
+  - select!                   → Enumerator
+  :description:
+  - |-
+    Equivalent to ENV#keep_if but returns nil if no changes were
+    made.
+  :examples: ''
+- :id: 31
+  :callseqs:
+  - shift → Array or nil
+  :description:
+  - |-
+    Removes an environment variable name-value pair from ENV and returns it as an Array.  Returns nil if when the
+    environment is empty.
+  :examples: ''
+- :id: 32
+  :callseqs:
+  - size
+  :description:
+  - Returns the number of environment variables.
+  :examples: ''
+- :id: 33
+  :callseqs:
+  - store(name, value) → value
+  :description:
+  - |-
+    Sets the environment variable name to value.  If
+    the value given is nil the environment variable is deleted.
+    name must be a string.
+  :examples: ''
+- :id: 34
+  :callseqs:
+  - to_a → Array
+  :description:
+  - Converts the environment variables into an array of names and value arrays.
+  :examples: 'ENV.to_a # => [["TERM", "xterm-color"], ["SHELL", "/bin/bash"], ...]
+
+'
+- :id: 35
+  :callseqs:
+  - to_hash → hash
+  - to_h    → hash
+  :description:
+  - Creates a hash with a copy of the environment variables.
+  :examples: ''
+- :id: 36
+  :callseqs:
+  - to_hash → hash
+  :description:
+  - Creates a hash with a copy of the environment variables.
+  :examples: ''
+- :id: 37
+  :callseqs:
+  - to_s → "ENV"
+  :description:
+  - Returns “ENV”
+  :examples: ''
+- :id: 38
+  :callseqs:
+  - update(hash)                                  → Hash
+  - update(hash) { |name, old_value, new_value| } → Hash
+  :description:
+  - |-
+    Adds the contents of hash to the environment variables.  If no
+    block is specified entries with duplicate keys are overwritten, otherwise
+    the value of each duplicate name is determined by calling the block with
+    the key, its value from the environment and its value from the hash.
+  :examples: ''
+- :id: 39
+  :callseqs:
+  - value?(value) → true or false
+  :description:
+  - |-
+    Returns true if there is an environment variable with the
+    given value.
+  :examples: ''
+- :id: 40
+  :callseqs:
+  - values → Array
+  :description:
+  - Returns every environment variable value as an Array
+  :examples: ''
+- :id: 41
+  :callseqs:
+  - values_at(name, ...) → Array
+  :description:
+  - |-
+    Returns an array containing the environment variable values associated with
+    the given names.  See also ::select.
+  :examples: ''

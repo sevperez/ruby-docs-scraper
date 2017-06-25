@@ -1,0 +1,80 @@
+---
+- :id: 0
+  :callseqs:
+  - GC::Profiler.clear          → nil
+  :description:
+  - Clears the GC profiler data.
+  :examples: ''
+- :id: 1
+  :callseqs:
+  - GC::Profiler.disable      → nil
+  :description:
+  - Stops the GC profiler.
+  :examples: ''
+- :id: 2
+  :callseqs:
+  - GC::Profiler.enable       → nil
+  :description:
+  - Starts the GC profiler.
+  :examples: ''
+- :id: 3
+  :callseqs:
+  - GC::Profiler.enabled?     → true or false
+  :description:
+  - The current status of GC profile mode.
+  :examples: ''
+- :id: 4
+  :callseqs:
+  - GC::Profiler.raw_data    → [Hash, ...]
+  :description:
+  - |-
+    Returns an Array of individual raw profile data
+    Hashes ordered from earliest to latest by :GC_INVOKE_TIME.
+  - 'For example:'
+  - 'The keys mean:'
+  - Time elapsed in seconds for this GC run
+  - |-
+    Time elapsed in seconds from startup to when the
+    GC was invoked
+  - Total bytes of heap used
+  - Total size of heap in bytes
+  - Total number of objects
+  - |-
+    Returns true if the GC is in mark
+    phase
+  - |-
+    If ruby was built with GC_PROFILE_MORE_DETAIL, you will also
+    have access to the following hash keys:
+  :examples: |
+    [
+      {
+         :GC_TIME=>1.3000000000000858e-05,
+         :GC_INVOKE_TIME=>0.010634999999999999,
+         :HEAP_USE_SIZE=>289640,
+         :HEAP_TOTAL_SIZE=>588960,
+         :HEAP_TOTAL_OBJECTS=>14724,
+         :GC_IS_MARKED=>false
+      },
+      # ...
+    ]
+- :id: 5
+  :callseqs:
+  - GC::Profiler.report
+  - GC::Profiler.report(io)
+  :description:
+  - |-
+    Writes the ::result to
+    $stdout or the given IO object.
+  :examples: ''
+- :id: 6
+  :callseqs:
+  - GC::Profiler.result  → String
+  :description:
+  - 'Returns a profile data report such as:'
+  :examples: ''
+- :id: 7
+  :callseqs:
+  - GC::Profiler.total_time  → float
+  :description:
+  - The total time used for garbage collection in seconds
+  :examples: ''

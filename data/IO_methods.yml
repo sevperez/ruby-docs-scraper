@@ -1,0 +1,1640 @@
+---
+- :id: 0
+  :callseqs:
+  - binread(name, [length [, offset]] )   → string
+  :description:
+  - |-
+    Opens the file, optionally seeks to the given offset, then returns
+    length bytes (defaulting to the rest of the file).
+    binread ensures the file is closed before returning. The open
+    mode would be “rb:ASCII-8BIT”.
+  :examples: |
+    IO.binread("testfile")           #=> "This is line one\nThis is line two\nThis is line three\nAnd so on...\n"
+    IO.binread("testfile", 20)       #=> "This is line one\nThi"
+    IO.binread("testfile", 20, 10)   #=> "ne one\nThis is line "
+- :id: 1
+  :callseqs:
+  - binwrite(name, string, [offset] )             → integer
+  - binwrite(name, string, [offset], open_args )  → integer
+  :description:
+  - |-
+    Same as IO.write except opening the file in binary mode and
+    ASCII-8BIT encoding (“wb:ASCII-8BIT”).
+  :examples: ''
+- :id: 2
+  :callseqs:
+  - copy_stream(src, dst)
+  - copy_stream(src, dst, copy_length)
+  - copy_stream(src, dst, copy_length, src_offset)
+  :description:
+  - |-
+    ::copy_stream copies
+    src to dst. src and dst is either a
+    filename or an IO.
+  - This method returns the number of bytes copied.
+  - |-
+    If optional arguments are not given, the start position of the copy is the
+    beginning of the filename or the current file offset of the IO. The end position of the copy is the end of file.
+  - |-
+    If copy_length is given, No more than copy_length bytes
+    are copied.
+  - |-
+    If src_offset is given, it specifies the start position of the
+    copy.
+  - |-
+    When src_offset is specified and src is an IO, ::copy_stream doesn’t move the
+    current file offset.
+  :examples: ''
+- :id: 3
+  :callseqs:
+  - for_fd(fd, mode [, opt])    → io
+  :description:
+  - Synonym for IO.new.
+  :examples: ''
+- :id: 4
+  :callseqs:
+  - foreach(name, sep=$/ [, open_args]) {|line| block }     → nil
+  - foreach(name, limit [, open_args]) {|line| block }      → nil
+  - foreach(name, sep, limit [, open_args]) {|line| block } → nil
+  - foreach(...)                                            → an_enumerator
+  :description:
+  - |-
+    Executes the block for every line in the named I/O port, where lines are
+    separated by sep.
+  - If no block is given, an enumerator is returned instead.
+  - 'produces:'
+  - |-
+    If the last argument is a hash, it’s the keyword argument to open. See
+    IO.read for detail.
+  :examples: 'IO.foreach("testfile") {|x| print "GOT ", x }
+
+'
+- :id: 5
+  :callseqs:
+  - new(fd [, mode] [, opt])   → io
+  :description:
+  - "Returns a new IO object (a stream) for the given\ninteger file descriptor fd
+    and mode string. \nopt may be used to specify parts of mode in a\nmore readable
+    fashion.  See also ::sysopen and ::for_fd."
+  - |-
+    ::new is called by various File and IO opening methods such
+    as ::open, Kernel#open, and File.open.
+  - |-
+    When mode is an integer it must be combination of the modes
+    defined in File::Constants
+    (File::RDONLY, File::WRONLY|File::CREAT). See the
+    open(2) man page for more information.
+  - |-
+    When mode is a string it must be in one of the following
+    forms:
+  - |-
+    fmode is an IO open mode string,
+    ext_enc is the external encoding for the IO and int_enc is the internal encoding.
+  - 'Ruby allows the following open modes:'
+  - |-
+    The following modes must be used separately, and along with one or more of
+    the modes seen above.
+  - |-
+    When the open mode of original IO is read only, the
+    mode cannot be changed to be writable.  Similarly, the open mode cannot be
+    changed from write only to readable.
+  - |-
+    When such a change is attempted the error is raised in different locations
+    according to the platform.
+  - |-
+    When ext_enc is specified, strings read will be tagged by the
+    encoding when reading, and strings output will be converted to the
+    specified encoding when writing.
+  - |-
+    When ext_enc and int_enc are specified read
+    strings will be converted from ext_enc to int_enc
+    upon input, and written strings will be converted from int_enc
+    to ext_enc upon output.  See Encoding for further details of transcoding on
+    input and output.
+  - "If “BOM|UTF-8”, “BOM|UTF-16LE” or “BOM|UTF16-BE” are used, Ruby checks for\na
+    Unicode BOM in the input document to help determine the encoding.  For\nUTF-16
+    encodings the file open mode must be binary.  When present, the BOM\nis stripped
+    and the external encoding from the BOM is used.  When the BOM\nis missing the
+    given Unicode encoding is used as ext_enc. \n(The BOM-set encoding option is case
+    insensitive, so “bom|utf-8” is also\nvalid.)"
+  - |-
+    opt can be used instead of mode for improved
+    readability.  The following keys are supported:
+  - Same as mode parameter
+  - |-
+    Specifies file open flags as integer. If mode parameter is
+    given, this parameter will be bitwise-ORed.
+  - |-
+    External encoding for the IO.  “-” is a synonym for
+    the default external encoding.
+  - |-
+    Internal encoding for the IO.  “-” is a synonym for
+    the default internal encoding.
+  - If the value is nil no conversion occurs.
+  - Specifies external and internal encodings as “extern:intern”.
+  - If the value is truth value, same as “t” in argument mode.
+  - If the value is truth value, same as “b” in argument mode.
+  - |-
+    If the value is false, the fd will be kept open
+    after this IO instance gets finalized.
+  - |-
+    Also, opt can have same keys in String#encode for controlling
+    conversion between the external encoding and the internal encoding.
+  - 'Produces:'
+  - |-
+    Both of above print “Hello, World!” in UTF-16LE to standard error output
+    with converting EOL generated by puts to CR.
+  :examples: |
+    fd = IO.sysopen("/dev/tty", "w")
+    a = IO.new(fd,"w")
+    $stderr.puts "Hello"
+    a.puts "World"
+    Hello
+    World
+    require 'fcntl'
+
+    fd = STDERR.fcntl(Fcntl::F_DUPFD)
+    io = IO.new(fd, mode: 'w:UTF-16LE', cr_newline: true)
+    io.puts "Hello, World!"
+
+    fd = STDERR.fcntl(Fcntl::F_DUPFD)
+    io = IO.new(fd, mode: 'w', cr_newline: true,
+                external_encoding: Encoding::UTF_16LE)
+    io.puts "Hello, World!"
+- :id: 6
+  :callseqs:
+  - open(fd, mode="r" [, opt])                → io
+  - open(fd, mode="r" [, opt]) {|io| block }  → obj
+  :description:
+  - |-
+    With no associated block, IO.open is a synonym for ::new.  If the optional code block is
+    given, it will be passed io as an argument, and the IO object will automatically be closed when the block
+    terminates. In this instance, ::open
+    returns the value of the block.
+  - |-
+    See ::new for a description of the
+    fd, mode and opt parameters.
+  :examples: ''
+- :id: 7
+  :callseqs:
+  - pipe                             →  [read_io, write_io]
+  - pipe(ext_enc)                    →  [read_io, write_io]
+  - pipe("ext_enc:int_enc" [, opt])  →  [read_io, write_io]
+  - pipe(ext_enc, int_enc [, opt])   →  [read_io, write_io]
+  - pipe(...) {|read_io, write_io| ... }
+  :description:
+  - |-
+    Creates a pair of pipe endpoints (connected to each other) and returns them
+    as a two-element array of IO objects: [
+    read_io, write_io ].
+  - |-
+    If a block is given, the block is called and returns the value of the
+    block. read_io and write_io are sent to the block as
+    arguments. If read_io and write_io are not closed when the block exits,
+    they are closed. i.e. closing read_io and/or write_io doesn’t cause an
+    error.
+  - Not available on all platforms.
+  - |-
+    If an encoding (encoding name or encoding object) is specified as an
+    optional argument, read string from pipe is tagged with the encoding
+    specified. If the argument is a colon separated two encoding names “A:B”,
+    the read string is converted from encoding A (external encoding) to
+    encoding B (internal encoding), then tagged with B. If two optional
+    arguments are specified, those must be encoding objects or encoding names,
+    and the first one is the external encoding, and the second one is the
+    internal encoding. If the external encoding and the internal encoding is
+    specified, optional hash argument specify the conversion option.
+  - |-
+    In the example below, the two processes close the ends of the pipe that
+    they are not using. This is not just a cosmetic nicety. The read end of a
+    pipe will not generate an end of file condition if there are any writers
+    with the pipe still open. In the case of the parent process, the
+    rd.read will never return if it does not first issue a
+    wr.close.
+  - 'produces:'
+  :examples: |
+    rd, wr = IO.pipe
+
+    if fork
+      wr.close
+      puts "Parent got: <#{rd.read}>"
+      rd.close
+      Process.wait
+    else
+      rd.close
+      puts "Sending message to parent"
+      wr.write "Hi Dad"
+      wr.close
+    end
+- :id: 8
+  :callseqs:
+  - popen([env,] cmd, mode="r" [, opt])               → io
+  - popen([env,] cmd, mode="r" [, opt]) {|io| block } → obj
+  :description:
+  - |-
+    Runs the specified command as a subprocess; the subprocess’s standard input
+    and output will be connected to the returned IO object.
+  - 'The PID of the started process can be obtained by #pid method.'
+  - cmd is a string or an array as follows.
+  - |-
+    If cmd is a String “-”, then a new
+    instance of Ruby is started as the subprocess.
+  - |-
+    If cmd is an Array of String, then it
+    will be used as the subprocess’s argv bypassing a shell. The
+    array can contains a hash at first for environments and a hash at last for
+    options similar to spawn.
+  - |-
+    The default mode for the new file object is “r”, but mode may be
+    set to any of the modes listed in the description for class IO. The last argument opt qualifies
+    mode.
+  - |-
+    Raises exceptions which IO.pipe and Kernel.spawn
+    raise.
+  - |-
+    If a block is given, Ruby will run the command as a child connected to Ruby
+    with a pipe. Ruby’s end of the pipe will be passed as a parameter to the
+    block. At the end of block, Ruby closes the pipe and sets $?.
+    In this case IO.popen returns the value of the block.
+  - |-
+    If a block is given with a cmd of “-”, the block will
+    be run in two separate processes: once in the parent, and once in a child.
+    The parent process will be passed the pipe object as a parameter to the
+    block, the child version of the block will be passed nil, and
+    the child’s standard in and standard out will be connected to the parent
+    through the pipe. Not available on all platforms.
+  - 'produces:'
+  :examples: |
+    # set IO encoding
+    IO.popen("nkf -e filename", :external_encoding=>"EUC-JP") {|nkf_io|
+      euc_jp_string = nkf_io.read
+    }
+
+    # merge standard output and standard error using
+    # spawn option.  See the document of Kernel.spawn.
+    IO.popen(["ls", "/", :err=>[:child, :out]]) {|ls_io|
+      ls_result_with_error = ls_io.read
+    }
+
+    # spawn options can be mixed with IO options
+    IO.popen(["ls", "/"], :err=>[:child, :out]) {|ls_io|
+      ls_result_with_error = ls_io.read
+    }
+    f = IO.popen("uname")
+    p f.readlines
+    f.close
+    puts "Parent is #{Process.pid}"
+    IO.popen("date") {|f| puts f.gets }
+    IO.popen("-") {|f| $stderr.puts "#{Process.pid} is here, f is #{f.inspect}"}
+    p $?
+    IO.popen(%w"sed -e s|^|<foo>| -e s&$&;zot;&", "r+") {|f|
+      f.puts "bar"; f.close_write; puts f.gets
+    }
+- :id: 9
+  :callseqs:
+  - read(name, [length [, offset]] [, opt] )   → string
+  :description:
+  - "Opens the file, optionally seeks to the given offset, then\nreturns length bytes
+    (defaulting to the rest of the file). \nread ensures the file is closed before
+    returning."
+  - |-
+    If name starts with a pipe character
+    ("|"), a subprocess is created in the same way as Kernel#open, and its output is
+    returned.
+  - 'The options hash accepts the following keys:'
+  - string or encoding
+  - |-
+    Specifies the encoding of the read string.  :encoding will be
+    ignored if length is specified.  See Encoding.aliases for possible
+    encodings.
+  - string or integer
+  - |-
+    Specifies the mode argument for open().  It must start with an
+    “r”, otherwise it will cause an error. See ::new for the list of possible modes.
+  - array
+  - |-
+    Specifies arguments for open() as an array.  This key can not be used in
+    combination with either :encoding or :mode.
+  - 'Examples:'
+  :examples: |
+    IO.read("testfile")              #=> "This is line one\nThis is line two\nThis is line three\nAnd so on...\n"
+    IO.read("testfile", 20)          #=> "This is line one\nThi"
+    IO.read("testfile", 20, 10)      #=> "ne one\nThis is line "
+    IO.read("binfile", mode: "rb")   #=> "\xF7\x00\x00\x0E\x12"
+- :id: 10
+  :callseqs:
+  - readlines(name, sep=$/ [, open_args])     → array
+  - readlines(name, limit [, open_args])      → array
+  - readlines(name, sep, limit [, open_args]) → array
+  :description:
+  - |-
+    Reads the entire file specified by name as individual lines, and
+    returns those lines in an array. Lines are separated by sep.
+  - |-
+    If the last argument is a hash, it’s the keyword argument to open. See
+    IO.read for detail.
+  :examples: |
+    a = IO.readlines("testfile")
+    a[0]   #=> "This is line one\n"
+- :id: 11
+  :callseqs:
+  - select(read_array [, write_array [, error_array [, timeout]]]) → array or nil
+  :description:
+  - |-
+    Calls select(2) system call. It monitors given arrays of IO
+    objects, waits until one or more of IO objects are ready for
+    reading, are ready for writing, and have pending exceptions respectively,
+    and returns an array that contains arrays of those IO
+    objects.  It will return nil if optional timeout
+    value is given and no IO object is ready in timeout
+    seconds.
+  - |-
+    IO.select peeks the buffer of IO objects for
+    testing readability. If the IO buffer is not empty,
+    IO.select immediately notifies readability. This "peek" only
+    happens for IO objects. It does not happen for IO-like objects
+    such as OpenSSL::SSL::SSLSocket.
+  - |-
+    The best way to use IO.select is invoking it after nonblocking
+    methods such as read_nonblock, write_nonblock,
+    etc. The methods raise an exception which is extended by
+    IO::WaitReadable or IO::WaitWritable. The modules
+    notify how the caller should wait with IO.select. If
+    IO::WaitReadable is raised, the caller should wait for
+    reading. If IO::WaitWritable is raised, the caller should wait
+    for writing.
+  - |-
+    So, blocking read (readpartial) can be emulated using
+    read_nonblock and IO.select as follows:
+  - |-
+    Especially, the combination of nonblocking methods and
+    IO.select is preferred for IO like objects such
+    as OpenSSL::SSL::SSLSocket. It has to_io method
+    to return underlying IO object. IO.select calls
+    to_io to obtain the file descriptor to wait.
+  - |-
+    This means that readability notified by IO.select doesn’t mean
+    readability from OpenSSL::SSL::SSLSocket object.
+  - |-
+    The most likely situation is that OpenSSL::SSL::SSLSocket
+    buffers some data. IO.select doesn’t see the buffer. So
+    IO.select can block when
+    OpenSSL::SSL::SSLSocket#readpartial doesn’t block.
+  - However, several more complicated situations exist.
+  - |-
+    SSL is a protocol which is sequence of records. The record consists of
+    multiple bytes. So, the remote side of SSL sends a partial record,
+    IO.select notifies readability but
+    OpenSSL::SSL::SSLSocket cannot decrypt a byte and
+    OpenSSL::SSL::SSLSocket#readpartial will blocks.
+  - |-
+    Also, the remote side can request SSL renegotiation which forces the local
+    SSL engine to write some data. This means
+    OpenSSL::SSL::SSLSocket#readpartial may invoke
+    write system call and it can block. In such a situation,
+    OpenSSL::SSL::SSLSocket#read_nonblock raises IO::WaitWritable instead of blocking. So,
+    the caller should wait for ready for writability as above example.
+  - |-
+    The combination of nonblocking methods and IO.select is also
+    useful for streams such as tty, pipe socket socket when multiple processes
+    read from a stream.
+  - |-
+    Finally, Linux kernel developers don’t guarantee that readability of
+    select(2) means readability of following read(2) even for a single process.
+    See select(2) manual on GNU/Linux system.
+  - |-
+    Invoking IO.select before IO#readpartial works
+    well as usual. However it is not the best way to use
+    IO.select.
+  - |-
+    The writability notified by select(2) doesn’t show how many bytes writable.
+    IO#write method blocks until given whole string is written.
+    So, IO#write(two or more bytes) can block after writability is
+    notified by IO.select. IO#write_nonblock is
+    required to avoid the blocking.
+  - |-
+    Blocking write (write) can be emulated using
+    write_nonblock and IO.select as follows: IO::WaitReadable should also be rescued for
+    SSL renegotiation in OpenSSL::SSL::SSLSocket.
+  - an array of IO objects that wait until ready for read
+  - an array of IO objects that wait until ready for write
+  - an array of IO objects that wait for exceptions
+  - a numeric value in second
+  - 'produces:'
+  :examples: |
+    begin
+      result = io_like.read_nonblock(maxlen)
+    rescue IO::WaitReadable
+      IO.select([io_like])
+      retry
+    rescue IO::WaitWritable
+      IO.select(nil, [io_like])
+      retry
+    end
+    while 0 < string.bytesize
+      begin
+        written = io_like.write_nonblock(string)
+      rescue IO::WaitReadable
+        IO.select([io_like])
+        retry
+      rescue IO::WaitWritable
+        IO.select(nil, [io_like])
+        retry
+      end
+      string = string.byteslice(written..-1)
+    end
+    rp, wp = IO.pipe
+    mesg = "ping "
+    100.times {
+      # IO.select follows IO#read.  Not the best way to use IO.select.
+      rs, ws, = IO.select([rp], [wp])
+      if r = rs[0]
+        ret = r.read(5)
+        print ret
+        case ret
+        when /ping/
+          mesg = "pong\n"
+        when /pong/
+          mesg = "ping "
+        end
+      end
+      if w = ws[0]
+        w.write(mesg)
+      end
+    }
+    ping pong
+    ping pong
+    ping pong
+    (snipped)
+    ping
+- :id: 12
+  :callseqs:
+  - sysopen(path, [mode, [perm]])  → integer
+  :description:
+  - |-
+    Opens the given path, returning the underlying file descriptor as a
+    Integer.
+  :examples: 'IO.sysopen("testfile")   #=> 3
+
+'
+- :id: 13
+  :callseqs:
+  - try_convert(obj)  → io or nil
+  :description:
+  - |-
+    Try to convert obj into an IO, using #to_io method. Returns converted IO or nil if obj cannot be
+    converted for any reason.
+  :examples: |
+    IO.try_convert(STDOUT)     #=> STDOUT
+    IO.try_convert("STDOUT")   #=> nil
+
+    require 'zlib'
+    f = open("/tmp/zz.gz")       #=> #<File:/tmp/zz.gz>
+    z = Zlib::GzipReader.open(f) #=> #<Zlib::GzipReader:0x81d8744>
+    IO.try_convert(z)            #=> #<File:/tmp/zz.gz>
+- :id: 14
+  :callseqs:
+  - write(name, string [, offset])           → integer
+  - write(name, string [, offset] [, opt])   → integer
+  :description:
+  - |-
+    Opens the file, optionally seeks to the given offset, writes
+    string, then returns the length written. write
+    ensures the file is closed before returning. If offset is not
+    given, the file is truncated.  Otherwise, it is not truncated.
+  - |-
+    If the last argument is a hash, it specifies options for the internal
+    open().  It accepts the following keys:
+  - string or encoding
+  - |-
+    Specifies the encoding of the read string. See Encoding.aliases for possible
+    encodings.
+  - string or integer
+  - |-
+    Specifies the mode argument for open().  It must start with “w”,
+    “a”, or “r+”, otherwise it will cause an error. See ::new for the list of possible modes.
+  - integer
+  - Specifies the perm argument for open().
+  - array
+  - |-
+    Specifies arguments for open() as an array. This key can not be used in
+    combination with other keys.
+  :examples: |
+    IO.write("testfile", "0123456789", 20)  #=> 10
+    # File could contain:  "This is line one\nThi0123456789two\nThis is line three\nAnd so on...\n"
+    IO.write("testfile", "0123456789")      #=> 10
+    # File would now read: "0123456789"
+- :id: 15
+  :callseqs:
+  - ios << obj     → ios
+  :description:
+  - |-
+    String Output---Writes obj to
+    ios. obj will be converted to a string using
+    to_s.
+  - 'produces:'
+  :examples: |
+    $stdout << "Hello " << "world!\n"
+    Hello world!
+- :id: 16
+  :callseqs:
+  - advise(advice, offset=0, len=0) → nil
+  :description:
+  - |-
+    Announce an intention to access data from the current file in a specific
+    pattern. On platforms that do not support the posix_fadvise(2)
+    system call, this method is a no-op.
+  - 'advice is one of the following symbols:'
+  - No advice to give; the default assumption for an open file.
+  - |-
+    The data will be accessed sequentially with lower offsets read before
+    higher ones.
+  - The data will be accessed in random order.
+  - The data will be accessed in the near future.
+  - The data will not be accessed in the near future.
+  - The data will only be accessed once.
+  - |-
+    The semantics of a piece of advice are platform-dependent. See man 2
+    posix_fadvise for details.
+  - |-
+    “data” means the region of the current file that begins at offset
+    and extends for len bytes. If len is 0, the region ends
+    at the last byte of the file. By default, both offset and
+    len are 0, meaning that the advice applies to the entire file.
+  - 'If an error occurs, one of the following exceptions will be raised:'
+  - The IO stream is closed.
+  - The file descriptor of the current file is invalid.
+  - An invalid value for advice was given.
+  - |-
+    The file descriptor of the current file refers to a FIFO or pipe. (Linux
+    raises Errno::EINVAL in this case).
+  - |-
+    Either advice was not a Symbol, or one
+    of the other arguments was not an Integer.
+  - One of the arguments given was too big/small.
+  - exceptions are also possible.
+  :examples: ''
+- :id: 17
+  :callseqs:
+  - autoclose = bool    → true or false
+  :description:
+  - Sets auto-close flag.
+  :examples: |
+    f = open("/dev/null")
+    IO.for_fd(f.fileno)
+    # ...
+    f.gets # may cause IOError
+
+    f = open("/dev/null")
+    IO.for_fd(f.fileno).autoclose = true
+    # ...
+    f.gets # won't cause IOError
+- :id: 18
+  :callseqs:
+  - autoclose?   → true or false
+  :description:
+  - |-
+    Returns true if the underlying file descriptor of ios
+    will be closed automatically at its finalization, otherwise
+    false.
+  :examples: ''
+- :id: 19
+  :callseqs:
+  - binmode    → ios
+  :description:
+  - |-
+    Puts ios into binary mode. Once a stream is in binary mode, it
+    cannot be reset to nonbinary mode.
+  - newline conversion disabled
+  - encoding conversion disabled
+  - content is treated as ASCII-8BIT
+  :examples: ''
+- :id: 20
+  :callseqs:
+  - binmode?    → true or false
+  :description:
+  - Returns true if ios is binmode.
+  :examples: ''
+- :id: 21
+  :callseqs: []
+  :description:
+  - This is a deprecated alias for each_byte.
+  :examples: ''
+- :id: 22
+  :callseqs: []
+  :description:
+  - This is a deprecated alias for each_char.
+  :examples: ''
+- :id: 23
+  :callseqs:
+  - close   → nil
+  :description:
+  - |-
+    Closes ios and flushes any pending writes to the operating system.
+    The stream is unavailable for any further data operations; an
+    IOError is raised if such an attempt is made. I/O streams are
+    automatically closed when they are claimed by the garbage collector.
+  - |-
+    If ios is opened by IO.popen, close sets
+    $?.
+  - |-
+    Calling this method on closed IO object is just
+    ignored since Ruby 2.3.
+  :examples: ''
+- :id: 24
+  :callseqs:
+  - close_on_exec = bool    → true or false
+  :description:
+  - Sets a close-on-exec flag.
+  - |-
+    Ruby sets close-on-exec flags of all file descriptors by default since Ruby
+    2.0.0. So you don’t need to set by yourself. Also, unsetting a
+    close-on-exec flag can cause file descriptor leak if another thread use
+    fork() and exec() (via system() method for example). If you really needs
+    file descriptor inheritance to child process, use spawn()‘s argument such
+    as fd=>fd.
+  :examples: |
+    f = open("/dev/null")
+    f.close_on_exec = true
+    system("cat", "/proc/self/fd/#{f.fileno}") # cat: /proc/self/fd/3: No such file or directory
+    f.closed?                #=> false
+- :id: 25
+  :callseqs:
+  - close_on_exec?   → true or false
+  :description:
+  - Returns true if ios will be closed on exec.
+  :examples: |
+    f = open("/dev/null")
+    f.close_on_exec?                 #=> false
+    f.close_on_exec = true
+    f.close_on_exec?                 #=> true
+    f.close_on_exec = false
+    f.close_on_exec?                 #=> false
+- :id: 26
+  :callseqs:
+  - close_read    → nil
+  :description:
+  - |-
+    Closes the read end of a duplex I/O stream (i.e., one that contains both a
+    read and a write stream, such as a pipe). Will raise an
+    IOError if the stream is not duplexed.
+  - 'produces:'
+  :examples: |
+    f = IO.popen("/bin/sh","r+")
+    f.close_read
+    f.readlines
+- :id: 27
+  :callseqs:
+  - close_write   → nil
+  :description:
+  - |-
+    Closes the write end of a duplex I/O stream (i.e., one that contains both a
+    read and a write stream, such as a pipe). Will raise an
+    IOError if the stream is not duplexed.
+  - 'produces:'
+  :examples: |
+    f = IO.popen("/bin/sh","r+")
+    f.close_write
+    f.print "nowhere"
+- :id: 28
+  :callseqs:
+  - closed?    → true or false
+  :description:
+  - |-
+    Returns true if ios is completely closed (for duplex
+    streams, both reader and writer), false otherwise.
+  :examples: |
+    f = File.new("testfile")
+    f.close         #=> nil
+    f.closed?       #=> true
+    f = IO.popen("/bin/sh","r+")
+    f.close_write   #=> nil
+    f.closed?       #=> false
+    f.close_read    #=> nil
+    f.closed?       #=> true
+- :id: 29
+  :callseqs: []
+  :description:
+  - This is a deprecated alias for each_codepoint.
+  :examples: ''
+- :id: 30
+  :callseqs:
+  - each(sep=$/)          {|line| block } → ios
+  - each(limit)           {|line| block } → ios
+  - each(sep, limit)      {|line| block } → ios
+  - each(...)                             → an_enumerator
+  - each_line(sep=$/)     {|line| block } → ios
+  - each_line(limit)      {|line| block } → ios
+  - each_line(sep, limit) {|line| block } → ios
+  - each_line(...)                        → an_enumerator
+  :description:
+  - |-
+    Executes the block for every line in ios, where lines are
+    separated by sep. ios must be opened for reading or an
+    IOError will be raised.
+  - If no block is given, an enumerator is returned instead.
+  - 'produces:'
+  :examples: |
+    f = File.new("testfile")
+    f.each {|line| puts "#{f.lineno}: #{line}" }
+- :id: 31
+  :callseqs:
+  - each_byte {|byte| block }  → ios
+  - each_byte                  → an_enumerator
+  :description:
+  - |-
+    Calls the given block once for each byte (0..255) in ios, passing
+    the byte as an argument. The stream must be opened for reading or an
+    IOError will be raised.
+  - If no block is given, an enumerator is returned instead.
+  :examples: |
+    f = File.new("testfile")
+    checksum = 0
+    f.each_byte {|x| checksum ^= x }   #=> #<File:testfile>
+    checksum                           #=> 12
+- :id: 32
+  :callseqs:
+  - each_char {|c| block }  → ios
+  - each_char               → an_enumerator
+  :description:
+  - |-
+    Calls the given block once for each character in ios, passing the
+    character as an argument. The stream must be opened for reading or an
+    IOError will be raised.
+  - If no block is given, an enumerator is returned instead.
+  :examples: |
+    f = File.new("testfile")
+    f.each_char {|c| print c, ' ' }   #=> #<File:testfile>
+- :id: 33
+  :callseqs:
+  - each_codepoint {|c| block }  → ios
+  - codepoints     {|c| block }  → ios
+  - each_codepoint               → an_enumerator
+  - codepoints                   → an_enumerator
+  :description:
+  - |-
+    Passes the Integer ordinal of each character in ios,
+    passing the codepoint as an argument. The stream must be opened for reading
+    or an IOError will be raised.
+  - If no block is given, an enumerator is returned instead.
+  :examples: ''
+- :id: 34
+  :callseqs:
+  - each_line(sep=$/)     {|line| block } → ios
+  - each_line(limit)      {|line| block } → ios
+  - each_line(sep, limit) {|line| block } → ios
+  - each_line(...)                        → an_enumerator
+  :description:
+  - |-
+    Executes the block for every line in ios, where lines are
+    separated by sep. ios must be opened for reading or an
+    IOError will be raised.
+  - If no block is given, an enumerator is returned instead.
+  - 'produces:'
+  :examples: |
+    f = File.new("testfile")
+    f.each {|line| puts "#{f.lineno}: #{line}" }
+- :id: 35
+  :callseqs:
+  - eof     → true or false
+  - eof?    → true or false
+  :description:
+  - |-
+    Returns true if ios is at end of file that means there are no more
+    data to read. The stream must be opened for reading or an
+    IOError will be raised.
+  - |-
+    If ios is a stream such as pipe or socket, IO#eof?
+    blocks until the other end sends some data or closes it.
+  - |-
+    Note that IO#eof? reads data to the input byte buffer. So
+    IO#sysread may not behave as you intend with
+    IO#eof?, unless you call IO#rewind first (which
+    is not available for some streams).
+  :examples: |
+    f = File.new("testfile")
+    dummy = f.readlines
+    f.eof   #=> true
+    r, w = IO.pipe
+    Thread.new { sleep 1; w.close }
+    r.eof?  #=> true after 1 second blocking
+
+    r, w = IO.pipe
+    Thread.new { sleep 1; w.puts "a" }
+    r.eof?  #=> false after 1 second blocking
+
+    r, w = IO.pipe
+    r.eof?  # blocks forever
+- :id: 36
+  :callseqs:
+  - eof?    → true or false
+  :description:
+  - |-
+    Returns true if ios is at end of file that means there are no more
+    data to read. The stream must be opened for reading or an
+    IOError will be raised.
+  - |-
+    If ios is a stream such as pipe or socket, IO#eof?
+    blocks until the other end sends some data or closes it.
+  - |-
+    Note that IO#eof? reads data to the input byte buffer. So
+    IO#sysread may not behave as you intend with
+    IO#eof?, unless you call IO#rewind first (which
+    is not available for some streams).
+  :examples: |
+    f = File.new("testfile")
+    dummy = f.readlines
+    f.eof   #=> true
+    r, w = IO.pipe
+    Thread.new { sleep 1; w.close }
+    r.eof?  #=> true after 1 second blocking
+
+    r, w = IO.pipe
+    Thread.new { sleep 1; w.puts "a" }
+    r.eof?  #=> false after 1 second blocking
+
+    r, w = IO.pipe
+    r.eof?  # blocks forever
+- :id: 37
+  :callseqs:
+  - external_encoding   → encoding
+  :description:
+  - |-
+    Returns the Encoding object that represents the
+    encoding of the file. If io is in write mode and no encoding is
+    specified, returns nil.
+  :examples: ''
+- :id: 38
+  :callseqs:
+  - fcntl(integer_cmd, arg)    → integer
+  :description:
+  - |-
+    Provides a mechanism for issuing low-level commands to control or query
+    file-oriented I/O streams. Arguments and results are platform dependent. If
+    arg is a number, its value is passed directly. If it is a string,
+    it is interpreted as a binary sequence of bytes (Array#pack
+    might be a useful way to build this string). On Unix platforms, see
+    fcntl(2) for details. Not implemented on all platforms.
+  :examples: ''
+- :id: 39
+  :callseqs:
+  - fdatasync   → 0 or nil
+  :description:
+  - Immediately writes all buffered data in ios to disk.
+  - |-
+    If the underlying operating system does not support fdatasync(2),
+    IO#fsync is called instead (which might raise a
+    NotImplementedError).
+  :examples: ''
+- :id: 40
+  :callseqs:
+  - fileno    → integer
+  - to_i      → integer
+  :description:
+  - |-
+    Returns an integer representing the numeric file descriptor for
+    ios.
+  :examples: |
+    $stdin.fileno    #=> 0
+    $stdout.fileno   #=> 1
+- :id: 41
+  :callseqs:
+  - flush    → ios
+  :description:
+  - |-
+    Flushes any buffered data within ios to the underlying operating
+    system (note that this is Ruby internal buffering only; the OS may buffer
+    the data as well).
+  - 'produces:'
+  :examples: |
+    $stdout.print "no newline"
+    $stdout.flush
+    no newline
+- :id: 42
+  :callseqs:
+  - fsync   → 0 or nil
+  :description:
+  - |-
+    Immediately writes all buffered data in ios to disk. Note that
+    fsync differs from using IO#sync=. The latter
+    ensures that data is flushed from Ruby’s buffers, but does not guarantee
+    that the underlying operating system actually writes it to disk.
+  - |-
+    NotImplementedError is raised if the underlying operating
+    system does not support fsync(2).
+  :examples: ''
+- :id: 43
+  :callseqs:
+  - getbyte   → integer or nil
+  :description:
+  - |-
+    Gets the next 8-bit byte (0..255) from ios. Returns
+    nil if called at end of file.
+  :examples: |
+    f = File.new("testfile")
+    f.getbyte   #=> 84
+    f.getbyte   #=> 104
+- :id: 44
+  :callseqs:
+  - getc   → string or nil
+  :description:
+  - |-
+    Reads a one-character string from ios. Returns nil if
+    called at end of file.
+  :examples: |
+    f = File.new("testfile")
+    f.getc   #=> "h"
+    f.getc   #=> "e"
+- :id: 45
+  :callseqs:
+  - gets(sep=$/)     → string or nil
+  - gets(limit)      → string or nil
+  - gets(sep, limit) → string or nil
+  :description:
+  - |-
+    Reads the next “line” from the I/O stream; lines are separated by
+    sep. A separator of nil reads the entire contents,
+    and a zero-length separator reads the input a paragraph at a time (two
+    successive newlines in the input separate paragraphs). The stream must be
+    opened for reading or an IOError will be raised. The line read
+    in will be returned and also assigned to $_. Returns
+    nil if called at end of file.  If the first argument is an
+    integer, or optional second argument is given, the returning string would
+    not be longer than the given value in bytes.
+  - |-
+    If IO contains multibyte characters byte then
+    gets(1) returns character entirely:
+  :examples: |
+    File.new("testfile").gets   #=> "This is line one\n"
+    $_                          #=> "This is line one\n"
+
+    File.new("testfile").gets(4)#=> "This"
+    # Russian characters take 2 bytes
+    File.write("testfile", "\u{442 435 441 442}")
+    File.open("testfile") {|f|f.gets(1)} #=> "\u0442"
+    File.open("testfile") {|f|f.gets(2)} #=> "\u0442"
+    File.open("testfile") {|f|f.gets(3)} #=> "\u0442\u0435"
+    File.open("testfile") {|f|f.gets(4)} #=> "\u0442\u0435"
+- :id: 46
+  :callseqs:
+  - inspect   → string
+  :description:
+  - Return a string describing this IO object.
+  :examples: ''
+- :id: 47
+  :callseqs:
+  - internal_encoding   → encoding
+  :description:
+  - |-
+    Returns the Encoding of the internal string if
+    conversion is specified.  Otherwise returns nil.
+  :examples: ''
+- :id: 48
+  :callseqs:
+  - ioctl(integer_cmd, arg)    → integer
+  :description:
+  - |-
+    Provides a mechanism for issuing low-level commands to control or query I/O
+    devices. Arguments and results are platform dependent. If arg is a
+    number, its value is passed directly. If it is a string, it is interpreted
+    as a binary sequence of bytes. On Unix platforms, see ioctl(2)
+    for details. Not implemented on all platforms.
+  :examples: ''
+- :id: 49
+  :callseqs:
+  - isatty   → true or false
+  :description:
+  - |-
+    Returns true if ios is associated with a terminal
+    device (tty), false otherwise.
+  :examples: |
+    File.new("testfile").isatty   #=> false
+    File.new("/dev/tty").isatty   #=> true
+- :id: 50
+  :callseqs:
+  - lineno    → integer
+  :description:
+  - |-
+    Returns the current line number in ios.  The stream must be opened
+    for reading. lineno counts the number of times gets is called rather than the number of
+    newlines encountered.  The two values will differ if gets is called with a separator other than
+    newline.
+  - |-
+    Methods that use $/ like each, lines and readline will also increment
+    lineno.
+  - See also the $. variable.
+  :examples: |
+    f = File.new("testfile")
+    f.lineno   #=> 0
+    f.gets     #=> "This is line one\n"
+    f.lineno   #=> 1
+    f.gets     #=> "This is line two\n"
+    f.lineno   #=> 2
+- :id: 51
+  :callseqs:
+  - lineno = integer    → integer
+  :description:
+  - |-
+    Manually sets the current line number to the given value. $.
+    is updated only on the next read.
+  :examples: |
+    f = File.new("testfile")
+    f.gets                     #=> "This is line one\n"
+    $.                         #=> 1
+    f.lineno = 1000
+    f.lineno                   #=> 1000
+    $.                         #=> 1         # lineno of last read
+    f.gets                     #=> "This is line two\n"
+    $.                         #=> 1001      # lineno of last read
+- :id: 52
+  :callseqs: []
+  :description:
+  - This is a deprecated alias for each_line.
+  :examples: ''
+- :id: 53
+  :callseqs:
+  - pid    → integer
+  :description:
+  - |-
+    Returns the process ID of a child process associated with ios.
+    This will be set by IO.popen.
+  - 'produces:'
+  :examples: |
+    pipe = IO.popen("-")
+    if pipe
+      $stderr.puts "In parent, child pid is #{pipe.pid}"
+    else
+      $stderr.puts "In child, pid is #{$$}"
+    end
+- :id: 54
+  :callseqs:
+  - pos     → integer
+  :description:
+  - Returns the current offset (in bytes) of ios.
+  :examples: |
+    f = File.new("testfile")
+    f.pos    #=> 0
+    f.gets   #=> "This is line one\n"
+    f.pos    #=> 17
+- :id: 55
+  :callseqs:
+  - pos = integer    → integer
+  :description:
+  - |-
+    Seeks to the given position (in bytes) in ios. It is not
+    guaranteed that seeking to the right position when ios is
+    textmode.
+  :examples: |
+    f = File.new("testfile")
+    f.pos = 17
+    f.gets   #=> "This is line two\n"
+- :id: 56
+  :callseqs:
+  - print               → nil
+  - print(obj, ...)     → nil
+  :description:
+  - Writes the given object(s) to ios. Returns nil.
+  - |-
+    The stream must be opened for writing. Each given object that isn’t a
+    string will be converted by calling its to_s method. When
+    called without arguments, prints the contents of $_.
+  - |-
+    If the output field separator ($,) is not nil, it
+    is inserted between objects. If the output record separator
+    ($\) is not nil, it is appended to the output.
+  - 'produces:'
+  :examples: '$stdout.print("This is ", 100, " percent.\n")
+
+'
+- :id: 57
+  :callseqs:
+  - printf(format_string [, obj, ...])   → nil
+  :description:
+  - |-
+    Formats and writes to ios, converting parameters under control of
+    the format string. See Kernel#sprintf for details.
+  :examples: ''
+- :id: 58
+  :callseqs:
+  - putc(obj)    → obj
+  :description:
+  - |-
+    If obj is Numeric, write the character whose code is
+    the least-significant byte of obj, otherwise write the first byte
+    of the string representation of obj to ios. Note: This
+    method is not safe for use with multi-byte characters as it will truncate
+    them.
+  - 'produces:'
+  :examples: |
+    $stdout.putc "A"
+    $stdout.putc 65
+    AA
+- :id: 59
+  :callseqs:
+  - puts(obj, ...)    → nil
+  :description:
+  - |-
+    Writes the given object(s) to ios. Writes a newline after any that
+    do not already end with a newline sequence. Returns nil.
+  - |-
+    The stream must be opened for writing. If called with an array argument,
+    writes each element on a new line. Each given object that isn’t a string or
+    array will be converted by calling its to_s method. If called
+    without arguments, outputs a single newline.
+  - 'produces:'
+  - |-
+    Note that puts always uses newlines and is not affected by the
+    output record separator ($\).
+  :examples: |
+    $stdout.puts("this", "is", ["a", "test"])
+    this
+    is
+    a
+    test
+- :id: 60
+  :callseqs:
+  - read([length [, outbuf]])    → string, outbuf, or nil
+  :description:
+  - Reads length bytes from the I/O stream.
+  - length must be a non-negative integer or nil.
+  - |-
+    If length is a positive integer, read tries to read
+    length bytes without any conversion (binary mode). It returns
+    nil if an EOF is encountered before anything can be read.
+    Fewer than length bytes are returned if an EOF is encountered
+    during the read. In the case of an integer length, the resulting
+    string is always in ASCII-8BIT encoding.
+  - |-
+    If length is omitted or is nil, it reads until EOF
+    and the encoding conversion is applied, if applicable. A string is returned
+    even if EOF is encountered before any data is read.
+  - |-
+    If length is zero, it returns an empty string
+    ("").
+  - |-
+    If the optional outbuf argument is present, it must reference a String, which will receive the data. The
+    outbuf will contain only the received data after the method call
+    even if it is not empty at the beginning.
+  - |-
+    When this method is called at end of file, it returns nil or
+    "", depending on length: read,
+    read(nil), and read(0) return
+    "", read(positive_integer)
+    returns nil.
+  - |-
+    Note that this method behaves like the fread() function in C. This means it
+    retries to invoke read(2) system calls to read data with the specified
+    length (or until EOF). This behavior is preserved even if ios is
+    in non-blocking mode. (This method is non-blocking flag insensitive as
+    other methods.) If you need the behavior like a single read(2) system call,
+    consider readpartial, read_nonblock, and sysread.
+  :examples: |
+    f = File.new("testfile")
+    f.read(16)   #=> "This is line one"
+
+    # read whole file
+    open("file") do |f|
+      data = f.read   # This returns a string even if the file is empty.
+      # ...
+    end
+
+    # iterate over fixed length records
+    open("fixed-record-file") do |f|
+      while record = f.read(256)
+        # ...
+      end
+    end
+
+    # iterate over variable length records,
+    # each record is prefixed by its 32-bit length
+    open("variable-record-file") do |f|
+      while len = f.read(4)
+        len = len.unpack("N")[0]   # 32-bit length
+        record = f.read(len)       # This returns a string even if len is 0.
+      end
+    end
+- :id: 61
+  :callseqs:
+  - read_nonblock(maxlen [, options])              → string
+  - read_nonblock(maxlen, outbuf [, options])      → outbuf
+  :description:
+  - |-
+    Reads at most maxlen bytes from ios using the read(2)
+    system call after O_NONBLOCK is set for the underlying file descriptor.
+  - |-
+    If the optional outbuf argument is present, it must reference a String, which will receive the data. The
+    outbuf will contain only the received data after the method call
+    even if it is not empty at the beginning.
+  - |-
+    #read_nonblock just calls the
+    read(2) system call. It causes all errors the read(2) system call causes:
+    Errno::EWOULDBLOCK, Errno::EINTR, etc. The caller should care such errors.
+  - |-
+    If the exception is Errno::EWOULDBLOCK or Errno::EAGAIN, it is extended by
+    IO::WaitReadable. So IO::WaitReadable can be used to rescue the
+    exceptions for retrying read_nonblock.
+  - "#read_nonblock causes EOFError on EOF."
+  - |-
+    If the read byte buffer is not empty, #read_nonblock reads from the
+    buffer like readpartial. In this case, the read(2) system call is not
+    called.
+  - |-
+    When #read_nonblock raises an
+    exception kind of IO::WaitReadable, #read_nonblock should not be
+    called until io is readable for avoiding busy loop. This can be done as
+    follows.
+  - |-
+    Although #read_nonblock
+    doesn’t raise IO::WaitWritable.
+    OpenSSL::Buffering#read_nonblock can raise IO::WaitWritable. If IO and SSL should be used polymorphically, IO::WaitWritable should be rescued too. See
+    the document of OpenSSL::Buffering#read_nonblock for sample code.
+  - |-
+    Note that this method is identical to readpartial except the non-blocking
+    flag is set.
+  - |-
+    By specifying a keyword argument exception to false,
+    you can indicate that #read_nonblock should not raise
+    an IO::WaitReadable exception, but
+    return the symbol :wait_readable instead. At EOF, it will
+    return nil instead of raising EOFError.
+  :examples: |
+    # emulates blocking read (readpartial).
+    begin
+      result = io.read_nonblock(maxlen)
+    rescue IO::WaitReadable
+      IO.select([io])
+      retry
+    end
+- :id: 62
+  :callseqs:
+  - readbyte   → integer
+  :description:
+  - |-
+    Reads a byte as with IO#getbyte, but raises an
+    EOFError on end of file.
+  :examples: ''
+- :id: 63
+  :callseqs:
+  - readchar   → string
+  :description:
+  - |-
+    Reads a one-character string from ios. Raises an
+    EOFError on end of file.
+  :examples: |
+    f = File.new("testfile")
+    f.readchar   #=> "h"
+    f.readchar   #=> "e"
+- :id: 64
+  :callseqs:
+  - readline(sep=$/)     → string
+  - readline(limit)      → string
+  - readline(sep, limit) → string
+  :description:
+  - |-
+    Reads a line as with IO#gets, but raises an
+    EOFError on end of file.
+  :examples: ''
+- :id: 65
+  :callseqs:
+  - readlines(sep=$/)     → array
+  - readlines(limit)      → array
+  - readlines(sep, limit) → array
+  :description:
+  - |-
+    Reads all of the lines in ios, and returns them in
+    anArray. Lines are separated by the optional sep. If
+    sep is nil, the rest of the stream is returned as a
+    single record.  If the first argument is an integer, or optional second
+    argument is given, the returning string would not be longer than the given
+    value in bytes. The stream must be opened for reading or an
+    IOError will be raised.
+  :examples: |
+    f = File.new("testfile")
+    f.readlines[0]   #=> "This is line one\n"
+- :id: 66
+  :callseqs:
+  - readpartial(maxlen)              → string
+  - readpartial(maxlen, outbuf)      → outbuf
+  :description:
+  - |-
+    Reads at most maxlen bytes from the I/O stream. It blocks only if
+    ios has no data immediately available. It doesn’t block if some
+    data available.
+  - |-
+    If the optional outbuf argument is present, it must reference a String, which will receive the data. The
+    outbuf will contain only the received data after the method call
+    even if it is not empty at the beginning.
+  - It raises EOFError on end of file.
+  - |-
+    readpartial is designed for streams such as pipe, socket, tty, etc. It
+    blocks only when no data immediately available. This means that it blocks
+    only when following all conditions hold.
+  - the byte buffer in the IO object is empty.
+  - the content of the stream is empty.
+  - the stream is not reached to EOF.
+  - |-
+    When readpartial blocks, it waits data or EOF on the stream. If some data
+    is reached, readpartial returns with the data. If EOF is reached,
+    readpartial raises EOFError.
+  - |-
+    When readpartial doesn’t blocks, it returns or raises immediately. If the
+    byte buffer is not empty, it returns the data in the buffer. Otherwise if
+    the stream has some content, it returns the data in the stream. Otherwise
+    if the stream is reached to EOF, it raises EOFError.
+  - 'Note that readpartial behaves similar to sysread. The differences are:'
+  - |-
+    If the byte buffer is not empty, read from the byte buffer instead of
+    “sysread for buffered IO (IOError)”.
+  - |-
+    It doesn’t cause Errno::EWOULDBLOCK and Errno::EINTR.  When readpartial
+    meets EWOULDBLOCK and EINTR by read system call, readpartial retry the
+    system call.
+  - |-
+    The latter means that readpartial is nonblocking-flag insensitive. It
+    blocks on the situation #sysread
+    causes Errno::EWOULDBLOCK as if the fd is blocking mode.
+  :examples: |
+    r, w = IO.pipe           #               buffer          pipe content
+    w << "abc"               #               ""              "abc".
+    r.readpartial(4096)      #=> "abc"       ""              ""
+    r.readpartial(4096)      # blocks because buffer and pipe is empty.
+
+    r, w = IO.pipe           #               buffer          pipe content
+    w << "abc"               #               ""              "abc"
+    w.close                  #               ""              "abc" EOF
+    r.readpartial(4096)      #=> "abc"       ""              EOF
+    r.readpartial(4096)      # raises EOFError
+
+    r, w = IO.pipe           #               buffer          pipe content
+    w << "abc\ndef\n"        #               ""              "abc\ndef\n"
+    r.gets                   #=> "abc\n"     "def\n"         ""
+    w << "ghi\n"             #               "def\n"         "ghi\n"
+    r.readpartial(4096)      #=> "def\n"     ""              "ghi\n"
+    r.readpartial(4096)      #=> "ghi\n"     ""              ""
+- :id: 67
+  :callseqs:
+  - reopen(other_IO)         → ios
+  - reopen(path, mode_str)   → ios
+  :description:
+  - |-
+    Reassociates ios with the I/O stream given in other_IO or
+    to a new stream opened on path. This may dynamically change the
+    actual class of this stream.
+  :examples: |
+    f1 = File.new("testfile")
+    f2 = File.new("testfile")
+    f2.readlines[0]   #=> "This is line one\n"
+    f2.reopen(f1)     #=> #<File:testfile>
+    f2.readlines[0]   #=> "This is line one\n"
+- :id: 68
+  :callseqs:
+  - rewind    → 0
+  :description:
+  - |-
+    Positions ios to the beginning of input, resetting
+    lineno to zero.
+  - Note that it cannot be used with streams such as pipes, ttys, and sockets.
+  :examples: |
+    f = File.new("testfile")
+    f.readline   #=> "This is line one\n"
+    f.rewind     #=> 0
+    f.lineno     #=> 0
+    f.readline   #=> "This is line one\n"
+- :id: 69
+  :callseqs:
+  - seek(amount, whence=IO::SEEK_SET)  → 0
+  :description:
+  - |-
+    Seeks to a given offset anInteger in the stream according to the
+    value of whence:
+  - 'Example:'
+  :examples: |
+    f = File.new("testfile")
+    f.seek(-13, IO::SEEK_END)   #=> 0
+    f.readline                  #=> "And so on...\n"
+- :id: 70
+  :callseqs:
+  - set_encoding(ext_enc)                → io
+  - set_encoding("ext_enc:int_enc")      → io
+  - set_encoding(ext_enc, int_enc)       → io
+  - set_encoding("ext_enc:int_enc", opt) → io
+  - set_encoding(ext_enc, int_enc, opt)  → io
+  :description:
+  - |-
+    If single argument is specified, read string from io is tagged with the
+    encoding specified.  If encoding is a colon separated two encoding names
+    “A:B”, the read string is converted from encoding A (external encoding) to
+    encoding B (internal encoding), then tagged with B.  If two arguments are
+    specified, those must be encoding objects or encoding names, and the first
+    one is the external encoding, and the second one is the internal encoding.
+    If the external encoding and the internal encoding is specified, optional
+    hash argument specify the conversion option.
+  :examples: ''
+- :id: 71
+  :callseqs:
+  - stat    → stat
+  :description:
+  - |-
+    Returns status information for ios as an object of type
+    File::Stat.
+  :examples: |
+    f = File.new("testfile")
+    s = f.stat
+    "%o" % s.mode   #=> "100644"
+    s.blksize       #=> 4096
+    s.atime         #=> Wed Apr 09 08:53:54 CDT 2003
+- :id: 72
+  :callseqs:
+  - sync    → true or false
+  :description:
+  - |-
+    Returns the current “sync mode” of ios. When sync mode is true,
+    all output is immediately flushed to the underlying operating system and is
+    not buffered by Ruby internally. See also IO#fsync.
+  :examples: |
+    f = File.new("testfile")
+    f.sync   #=> false
+- :id: 73
+  :callseqs:
+  - sync = boolean   → boolean
+  :description:
+  - |-
+    Sets the “sync mode” to true or false. When sync
+    mode is true, all output is immediately flushed to the underlying operating
+    system and is not buffered internally. Returns the new state. See also
+    IO#fsync.
+  :examples: |
+    f = File.new("testfile")
+    f.sync = true
+- :id: 74
+  :callseqs:
+  - sysread(maxlen[, outbuf])    → string
+  :description:
+  - |-
+    Reads maxlen bytes from ios using a low-level read and
+    returns them as a string.  Do not mix with other methods that read from
+    ios or you may get unpredictable results.
+  - |-
+    If the optional outbuf argument is present, it must reference a String, which will receive the data. The
+    outbuf will contain only the received data after the method call
+    even if it is not empty at the beginning.
+  - |-
+    Raises SystemCallError on error and EOFError at
+    end of file.
+  :examples: |
+    f = File.new("testfile")
+    f.sysread(16)   #=> "This is line one"
+- :id: 75
+  :callseqs:
+  - sysseek(offset, whence=IO::SEEK_SET)   → integer
+  :description:
+  - |-
+    Seeks to a given offset in the stream according to the value of
+    whence (see IO#seek for values of whence).
+    Returns the new offset into the file.
+  :examples: |
+    f = File.new("testfile")
+    f.sysseek(-13, IO::SEEK_END)   #=> 53
+    f.sysread(10)                  #=> "And so on."
+- :id: 76
+  :callseqs:
+  - syswrite(string)   → integer
+  :description:
+  - |-
+    Writes the given string to ios using a low-level write. Returns
+    the number of bytes written. Do not mix with other methods that write to
+    ios or you may get unpredictable results. Raises
+    SystemCallError on error.
+  :examples: |
+    f = File.new("out", "w")
+    f.syswrite("ABCDEF")   #=> 6
+- :id: 77
+  :callseqs:
+  - tell    → integer
+  :description:
+  - Returns the current offset (in bytes) of ios.
+  :examples: |
+    f = File.new("testfile")
+    f.pos    #=> 0
+    f.gets   #=> "This is line one\n"
+    f.pos    #=> 17
+- :id: 78
+  :callseqs: []
+  :description: []
+  :examples: ''
+- :id: 79
+  :callseqs:
+  - to_io  → ios
+  :description:
+  - Returns ios.
+  :examples: ''
+- :id: 80
+  :callseqs:
+  - tty?     → true or false
+  :description:
+  - |-
+    Returns true if ios is associated with a terminal
+    device (tty), false otherwise.
+  :examples: |
+    File.new("testfile").isatty   #=> false
+    File.new("/dev/tty").isatty   #=> true
+- :id: 81
+  :callseqs:
+  - ungetbyte(string)   → nil
+  - ungetbyte(integer)  → nil
+  :description:
+  - |-
+    Pushes back bytes (passed as a parameter) onto ios, such that a
+    subsequent buffered read will return it. Only one byte may be pushed back
+    before a subsequent read operation (that is, you will be able to read only
+    the last of several bytes that have been pushed back). Has no effect with
+    unbuffered reads (such as IO#sysread).
+  :examples: |
+    f = File.new("testfile")   #=> #<File:testfile>
+    b = f.getbyte              #=> 0x38
+    f.ungetbyte(b)             #=> nil
+    f.getbyte                  #=> 0x38
+- :id: 82
+  :callseqs:
+  - ungetc(string)   → nil
+  :description:
+  - |-
+    Pushes back one character (passed as a parameter) onto ios, such
+    that a subsequent buffered character read will return it. Only one
+    character may be pushed back before a subsequent read operation (that is,
+    you will be able to read only the last of several characters that have been
+    pushed back). Has no effect with unbuffered reads (such as
+    IO#sysread).
+  :examples: |
+    f = File.new("testfile")   #=> #<File:testfile>
+    c = f.getc                 #=> "8"
+    f.ungetc(c)                #=> nil
+    f.getc                     #=> "8"
+- :id: 83
+  :callseqs:
+  - write(string)    → integer
+  :description:
+  - |-
+    Writes the given string to ios. The stream must be opened for
+    writing. If the argument is not a string, it will be converted to a string
+    using to_s. Returns the number of bytes written.
+  - 'produces:'
+  :examples: |
+    count = $stdout.write("This is a test\n")
+    puts "That was #{count} bytes of data"
+- :id: 84
+  :callseqs:
+  - write_nonblock(string)   → integer
+  - write_nonblock(string [, options])   → integer
+  :description:
+  - |-
+    Writes the given string to ios using the write(2) system call
+    after O_NONBLOCK is set for the underlying file descriptor.
+  - It returns the number of bytes written.
+  - |-
+    #write_nonblock just calls
+    the write(2) system call. It causes all errors the write(2) system call
+    causes: Errno::EWOULDBLOCK, Errno::EINTR, etc. The result may also be
+    smaller than string.length (partial write). The caller should care such
+    errors and partial write.
+  - |-
+    If the exception is Errno::EWOULDBLOCK or Errno::EAGAIN, it is extended by
+    IO::WaitWritable. So IO::WaitWritable can be used to rescue the
+    exceptions for retrying write_nonblock.
+  - If the write buffer is not empty, it is flushed at first.
+  - |-
+    When #write_nonblock raises
+    an exception kind of IO::WaitWritable,
+    #write_nonblock should not be
+    called until io is writable for avoiding busy loop. This can be done as
+    follows.
+  - |-
+    Note that this doesn’t guarantee to write all data in string. The length
+    written is reported as result and it should be checked later.
+  - |-
+    On some platforms such as Windows, #write_nonblock is not supported
+    according to the kind of the IO object. In such
+    cases, #write_nonblock raises
+    Errno::EBADF.
+  - |-
+    By specifying a keyword argument exception to false,
+    you can indicate that #write_nonblock should not raise
+    an IO::WaitWritable exception, but
+    return the symbol :wait_writable instead.
+  :examples: |
+    # Creates a pipe.
+    r, w = IO.pipe
+
+    # write_nonblock writes only 65536 bytes and return 65536.
+    # (The pipe size is 65536 bytes on this environment.)
+    s = "a" * 100000
+    p w.write_nonblock(s)     #=> 65536
+
+    # write_nonblock cannot write a byte and raise EWOULDBLOCK (EAGAIN).
+    p w.write_nonblock("b")   # Resource temporarily unavailable (Errno::EAGAIN)
+    begin
+      result = io.write_nonblock(string)
+    rescue IO::WaitWritable, Errno::EINTR
+      IO.select(nil, [io])
+      retry
+    end

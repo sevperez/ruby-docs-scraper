@@ -1,0 +1,360 @@
+---
+- :id: 0
+  :callseqs:
+  - compile(source[, file[, path[, line[, options]]]]) → iseq
+  :description:
+  - |-
+    Takes source, a String of Ruby
+    code and compiles it to an InstructionSequence.
+  - |-
+    Optionally takes file, path, and
+    line which describe the filename, absolute path and first line
+    number of the ruby code in source which are metadata attached
+    to the returned iseq.
+  - |-
+    options, which can be true, false or
+    a Hash, is used to modify the default behavior of the Ruby
+    iseq compiler.
+  - For details regarding valid compile options see ::compile_option=.
+  :examples: |
+    RubyVM::InstructionSequence.compile("a = 1 + 2")
+    #=> <RubyVM::InstructionSequence:<compiled>@<compiled>>
+- :id: 1
+  :callseqs:
+  - compile_file(file[, options]) → iseq
+  :description:
+  - |-
+    Takes file, a String with the
+    location of a Ruby source file, reads, parses and compiles the file, and
+    returns iseq, the compiled InstructionSequence with source
+    location metadata set.
+  - |-
+    Optionally takes options, which can be true,
+    false or a Hash, to modify the default behavior
+    of the Ruby iseq compiler.
+  - For details regarding valid compile options see ::compile_option=.
+  :examples: |
+    # /tmp/hello.rb
+    puts "Hello, world!"
+
+    # elsewhere
+    RubyVM::InstructionSequence.compile_file("/tmp/hello.rb")
+    #=> <RubyVM::InstructionSequence:<main>@/tmp/hello.rb>
+- :id: 2
+  :callseqs:
+  - compile_option → options
+  :description:
+  - Returns a hash of default options used by the Ruby iseq compiler.
+  - For details, see ::compile_option=.
+  :examples: ''
+- :id: 3
+  :callseqs:
+  - compile_option = options
+  :description:
+  - |-
+    Sets the default values for various optimizations in the Ruby iseq
+    compiler.
+  - |-
+    Possible values for options include true, which
+    enables all options, false which disables all options, and
+    nil which leaves all options unchanged.
+  - |-
+    You can also pass a Hash of options that you want
+    to change, any options not present in the hash will be left unchanged.
+  - |-
+    Possible option names (which are keys in options) which can be
+    set to true or false include:
+  - ":inline_const_cache"
+  - ":instructions_unification"
+  - ":operands_unification"
+  - ":peephole_optimization"
+  - ":specialized_instruction"
+  - ":stack_caching"
+  - ":tailcall_optimization"
+  - ":trace_instruction"
+  - Additionally, :debug_level can be set to an integer.
+  - |-
+    These default options can be overwritten for a single run of the iseq
+    compiler by passing any of the above values as the options
+    parameter to ::new, ::compile and ::compile_file.
+  :examples: ''
+- :id: 4
+  :callseqs:
+  - disasm(body) → str
+  - disassemble(body) → str
+  :description:
+  - |-
+    Takes body, a Method or Proc object, and returns a String with the human readable instructions for
+    body.
+  - 'For a Method object:'
+  - 'Produces:'
+  - 'For a Proc:'
+  - 'Produces:'
+  :examples: |
+    # /tmp/method.rb
+    def hello
+      puts "hello, world"
+    end
+
+    puts RubyVM::InstructionSequence.disasm(method(:hello))
+    # /tmp/proc.rb
+    p = proc { num = 1 + 2 }
+    puts RubyVM::InstructionSequence.disasm(p)
+- :id: 5
+  :callseqs:
+  - disasm(body) → str
+  - disassemble(body) → str
+  :description:
+  - |-
+    Takes body, a Method or Proc object, and returns a String with the human readable instructions for
+    body.
+  - 'For a Method object:'
+  - 'Produces:'
+  - 'For a Proc:'
+  - 'Produces:'
+  :examples: |
+    # /tmp/method.rb
+    def hello
+      puts "hello, world"
+    end
+
+    puts RubyVM::InstructionSequence.disasm(method(:hello))
+    # /tmp/proc.rb
+    p = proc { num = 1 + 2 }
+    puts RubyVM::InstructionSequence.disasm(p)
+- :id: 6
+  :callseqs:
+  - RubyVM::InstructionSequence.load_from_binary(binary) → iseq
+  :description:
+  - |-
+    Load an iseq object from binary format String
+    object created by #to_binary.
+  - |-
+    This loader does not have a verifier, so that loading broken/modified
+    binary causes critical problem.
+  - |-
+    You should not load binary data provided by others. You should use binary
+    data translated by yourself.
+  :examples: ''
+- :id: 7
+  :callseqs:
+  - RubyVM::InstructionSequence.load_from_binary_extra_data(binary) → str
+  :description:
+  - Load extra data embed into binary format String object.
+  :examples: ''
+- :id: 8
+  :callseqs:
+  - new(source[, file[, path[, line[, options]]]]) → iseq
+  :description:
+  - |-
+    Takes source, a String of Ruby
+    code and compiles it to an InstructionSequence.
+  - |-
+    Optionally takes file, path, and
+    line which describe the filename, absolute path and first line
+    number of the ruby code in source which are metadata attached
+    to the returned iseq.
+  - |-
+    options, which can be true, false or
+    a Hash, is used to modify the default behavior of the Ruby
+    iseq compiler.
+  - For details regarding valid compile options see ::compile_option=.
+  :examples: |
+    RubyVM::InstructionSequence.compile("a = 1 + 2")
+    #=> <RubyVM::InstructionSequence:<compiled>@<compiled>>
+- :id: 9
+  :callseqs: []
+  :description:
+  - Returns the instruction sequence containing the given proc or method.
+  - 'For example, using irb:'
+  - 'Using ::compile_file:'
+  :examples: ''
+- :id: 10
+  :callseqs: []
+  :description:
+  - Returns the absolute path of this instruction sequence.
+  - nil if the iseq was evaluated from a string.
+  - 'For example, using ::compile_file:'
+  :examples: ''
+- :id: 11
+  :callseqs: []
+  :description:
+  - Returns the base label of this instruction sequence.
+  - 'For example, using irb:'
+  - 'Using ::compile_file:'
+  :examples: |
+    iseq = RubyVM::InstructionSequence.compile('num = 1 + 2')
+    #=> <RubyVM::InstructionSequence:<compiled>@<compiled>>
+    iseq.base_label
+    #=> "<compiled>"
+- :id: 12
+  :callseqs:
+  - disasm → str
+  :description:
+  - |-
+    Returns the instruction sequence as a String in human readable
+    form.
+  - 'Produces:'
+  :examples: 'puts RubyVM::InstructionSequence.compile(''1 + 2'').disasm
+
+'
+- :id: 13
+  :callseqs:
+  - disassemble → str
+  :description:
+  - |-
+    Returns the instruction sequence as a String in human readable
+    form.
+  - 'Produces:'
+  :examples: 'puts RubyVM::InstructionSequence.compile(''1 + 2'').disasm
+
+'
+- :id: 14
+  :callseqs:
+  - eval → obj
+  :description:
+  - Evaluates the instruction sequence and returns the result.
+  :examples: 'RubyVM::InstructionSequence.compile("1 + 2").eval #=> 3
+
+'
+- :id: 15
+  :callseqs: []
+  :description:
+  - |-
+    Returns the number of the first source line where the instruction sequence
+    was loaded from.
+  - 'For example, using irb:'
+  :examples: |
+    iseq = RubyVM::InstructionSequence.compile('num = 1 + 2')
+    #=> <RubyVM::InstructionSequence:<compiled>@<compiled>>
+    iseq.first_lineno
+    #=> 1
+- :id: 16
+  :callseqs: []
+  :description:
+  - |-
+    Returns a human-readable string representation of this instruction
+    sequence, including the label and path.
+  :examples: ''
+- :id: 17
+  :callseqs: []
+  :description:
+  - Returns the label of this instruction sequence.
+  - |-
+    <main> if it's at the top level,
+    <compiled> if it was evaluated from a string.
+  - 'For example, using irb:'
+  - 'Using ::compile_file:'
+  :examples: |
+    iseq = RubyVM::InstructionSequence.compile('num = 1 + 2')
+    #=> <RubyVM::InstructionSequence:<compiled>@<compiled>>
+    iseq.label
+    #=> "<compiled>"
+- :id: 18
+  :callseqs: []
+  :description:
+  - |-
+    Experimental MRI specific feature, only available as C level
+    api.
+  - Returns all specified_line events.
+  :examples: ''
+- :id: 19
+  :callseqs: []
+  :description:
+  - |-
+    Experimental MRI specific feature, only available as C level
+    api.
+  - |-
+    Set a specified_line event at the given line position, if the
+    set parameter is true.
+  - |-
+    This method is useful for building a debugger breakpoint at a specific
+    line.
+  - |-
+    A TypeError is raised if set
+    is not boolean.
+  - If pos is a negative integer a TypeError exception is raised.
+  :examples: ''
+- :id: 20
+  :callseqs: []
+  :description:
+  - Returns the path of this instruction sequence.
+  - "<compiled> if the iseq was evaluated from a string."
+  - 'For example, using irb:'
+  - 'Using ::compile_file:'
+  :examples: |
+    iseq = RubyVM::InstructionSequence.compile('num = 1 + 2')
+    #=> <RubyVM::InstructionSequence:<compiled>@<compiled>>
+    iseq.path
+    #=> "<compiled>"
+- :id: 21
+  :callseqs:
+  - to_a → ary
+  :description:
+  - |-
+    Returns an Array with 14 elements representing
+    the instruction sequence with the following data:
+  - |-
+    A string identifying the data format. Always
+    YARVInstructionSequence/SimpleDataFormat.
+  - The major version of the instruction sequence.
+  - The minor version of the instruction sequence.
+  - A number identifying the data format. Always 1.
+  - 'A hash containing:'
+  - |-
+    the total number of arguments taken by the method or the block (0 if
+    iseq doesn’t represent a method or block)
+  - the number of local variables + 1
+  - used in calculating the stack depth at which a SystemStackError is thrown.
+  - |-
+    The name of the context (block, method, class, module, etc.) that this
+    instruction sequence belongs to.
+  - |-
+    <main> if it's at the top level,
+    <compiled> if it was evaluated from a string.
+  - |-
+    The relative path to the Ruby file where the instruction sequence was
+    loaded from.
+  - "<compiled> if the iseq was evaluated from a string."
+  - |-
+    The absolute path to the Ruby file where the instruction sequence was
+    loaded from.
+  - nil if the iseq was evaluated from a string.
+  - |-
+    The number of the first source line where the instruction sequence was
+    loaded from.
+  - The type of the instruction sequence.
+  - |-
+    Valid values are :top, :method,
+    :block, :class, :rescue,
+    :ensure, :eval, :main, and
+    :defined_guard.
+  - |-
+    An array containing the names of all arguments and local variables as
+    symbols.
+  - An Hash object containing parameter information.
+  - More info about these values can be found in vm_core.h.
+  - |-
+    A list of exceptions and control flow operators (rescue, next, redo, break,
+    etc.).
+  - |-
+    An array of arrays containing the instruction names and operands that make
+    up the body of the instruction sequence.
+  - Note that this format is MRI specific and version dependent.
+  :examples: ''
+- :id: 22
+  :callseqs:
+  - to_binary(extra_data = nil) → binary str
+  :description:
+  - |-
+    Returns serialized iseq binary format data as a String object. A corresponding iseq object is
+    created by ::load_from_binary
+    method.
+  - |-
+    String extra_data will be saved with binary
+    data. You can access this data with ::load_from_binary_extra_data.
+  - |-
+    Note that the translated binary data is not portable. You can not move this
+    binary data to another machine. You can not use the binary data which is
+    created by another version/another architecture of Ruby.
+  :examples: ''

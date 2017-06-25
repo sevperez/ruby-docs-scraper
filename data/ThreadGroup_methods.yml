@@ -1,0 +1,54 @@
+---
+- :id: 0
+  :callseqs:
+  - add(thread)   → thgrp
+  :description:
+  - |-
+    Adds the given thread to this group, removing it from any
+    other group to which it may have previously been a member.
+  - 'This will produce:'
+  :examples: |
+    puts "Initial group is #{ThreadGroup::Default.list}"
+    tg = ThreadGroup.new
+    t1 = Thread.new { sleep }
+    t2 = Thread.new { sleep }
+    puts "t1 is #{t1}"
+    puts "t2 is #{t2}"
+    tg.add(t1)
+    puts "Initial group now #{ThreadGroup::Default.list}"
+    puts "tg group now #{tg.list}"
+    Initial group is #<Thread:0x401bdf4c>
+    t1 is #<Thread:0x401b3c90>
+    t2 is #<Thread:0x401b3c18>
+    Initial group now #<Thread:0x401b3c18>#<Thread:0x401bdf4c>
+    tg group now #<Thread:0x401b3c90>
+- :id: 1
+  :callseqs:
+  - enclose   → thgrp
+  :description:
+  - Prevents threads from being added to or removed from the receiving ThreadGroup.
+  - New threads can still be started in an enclosed ThreadGroup.
+  :examples: |
+    ThreadGroup::Default.enclose        #=> #<ThreadGroup:0x4029d914>
+    thr = Thread::new { Thread.stop }   #=> #<Thread:0x402a7210 sleep>
+    tg = ThreadGroup::new               #=> #<ThreadGroup:0x402752d4>
+    tg.add thr
+    #=> ThreadError: can't move from the enclosed thread group
+- :id: 2
+  :callseqs:
+  - enclosed?   → true or false
+  :description:
+  - |-
+    Returns true if the thgrp is enclosed. See also
+    #enclose.
+  :examples: ''
+- :id: 3
+  :callseqs:
+  - list   → array
+  :description:
+  - |-
+    Returns an array of all existing Thread objects
+    that belong to this group.
+  :examples: 'ThreadGroup::Default.list   #=> [#<Thread:0x401bdf4c run>]
+
+'

@@ -1,0 +1,141 @@
+---
+- :id: 0
+  :callseqs:
+  - stat & num   → integer
+  :description:
+  - Logical AND of the bits in stat with num.
+  :examples: |
+    fork { exit 0x37 }
+    Process.wait
+    sprintf('%04x', $?.to_i)       #=> "3700"
+    sprintf('%04x', $? & 0x1e00)   #=> "1600"
+- :id: 1
+  :callseqs:
+  - stat == other   → true or false
+  :description:
+  - |-
+    Returns true if the integer value of stat equals
+    other.
+  :examples: ''
+- :id: 2
+  :callseqs:
+  - stat >> num   → integer
+  :description:
+  - Shift the bits in stat right num places.
+  :examples: |
+    fork { exit 99 }   #=> 26563
+    Process.wait       #=> 26563
+    $?.to_i            #=> 25344
+    $? >> 8            #=> 99
+- :id: 3
+  :callseqs:
+  - coredump?   → true or false
+  :description:
+  - |-
+    Returns true if stat generated a coredump when it
+    terminated. Not available on all platforms.
+  :examples: ''
+- :id: 4
+  :callseqs:
+  - exited?   → true or false
+  :description:
+  - |-
+    Returns true if stat exited normally (for example
+    using an exit() call or finishing the program).
+  :examples: ''
+- :id: 5
+  :callseqs:
+  - exitstatus   → integer or nil
+  :description:
+  - |-
+    Returns the least significant eight bits of the return code of
+    stat. Only available if exited? is true.
+  :examples: |
+    fork { }           #=> 26572
+    Process.wait       #=> 26572
+    $?.exited?         #=> true
+    $?.exitstatus      #=> 0
+
+    fork { exit 99 }   #=> 26573
+    Process.wait       #=> 26573
+    $?.exited?         #=> true
+    $?.exitstatus      #=> 99
+- :id: 6
+  :callseqs:
+  - inspect   → string
+  :description:
+  - Override the inspection method.
+  :examples: |
+    system("false")
+    p $?.inspect #=> "#<Process::Status: pid 12861 exit 1>"
+- :id: 7
+  :callseqs:
+  - pid   → integer
+  :description:
+  - Returns the process ID that this status object represents.
+  :examples: |
+    fork { exit }   #=> 26569
+    Process.wait    #=> 26569
+    $?.pid          #=> 26569
+- :id: 8
+  :callseqs:
+  - signaled?   → true or false
+  :description:
+  - |-
+    Returns true if stat terminated because of an
+    uncaught signal.
+  :examples: ''
+- :id: 9
+  :callseqs:
+  - stopped?   → true or false
+  :description:
+  - |-
+    Returns true if this process is stopped. This is only returned
+    if the corresponding wait call had the WUNTRACED
+    flag set.
+  :examples: ''
+- :id: 10
+  :callseqs:
+  - stopsig   → integer or nil
+  :description:
+  - |-
+    Returns the number of the signal that caused stat to stop (or
+    nil if self is not stopped).
+  :examples: ''
+- :id: 11
+  :callseqs:
+  - success?   → true, false or nil
+  :description:
+  - |-
+    Returns true if stat is successful,
+    false if not. Returns nil if exited?
+    is not true.
+  :examples: ''
+- :id: 12
+  :callseqs:
+  - termsig   → integer or nil
+  :description:
+  - |-
+    Returns the number of the signal that caused stat to terminate (or
+    nil if self was not terminated by an uncaught signal).
+  :examples: ''
+- :id: 13
+  :callseqs:
+  - to_i     → integer
+  - to_int   → integer
+  :description:
+  - |-
+    Returns the bits in stat as a Integer. Poking around
+    in these bits is platform dependent.
+  :examples: |
+    fork { exit 0xab }         #=> 26566
+    Process.wait               #=> 26566
+    sprintf('%04x', $?.to_i)   #=> "ab00"
+- :id: 14
+  :callseqs:
+  - to_s   → string
+  :description:
+  - Show pid and exit status as a string.
+  :examples: |
+    system("false")
+    p $?.to_s         #=> "pid 12766 exit 1"

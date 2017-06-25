@@ -1,0 +1,30 @@
+---
+- :id: 0
+  :callseqs: []
+  :description:
+  - 'Document-class: UncaughtThrowError'
+  - |-
+    Raised when throw is called with a tag which does not
+    have corresponding catch block.
+  - 'raises the exception:'
+  :examples: 'throw "foo", "bar"
+
+'
+- :id: 1
+  :callseqs:
+  - tag   → obj
+  :description:
+  - Return the tag object which was called for.
+  :examples: ''
+- :id: 2
+  :callseqs:
+  - to_s   →  string
+  :description:
+  - Returns formatted message with the inspected tag.
+  :examples: ''
+- :id: 3
+  :callseqs:
+  - value   → obj
+  :description:
+  - Return the return value which was called for.
+  :examples: ''

@@ -1,0 +1,79 @@
+---
+- :id: 0
+  :callseqs:
+  - new(max)
+  :description:
+  - Creates a fixed-length queue with a maximum size of max.
+  :examples: ''
+- :id: 1
+  :callseqs: []
+  :description: []
+  :examples: ''
+- :id: 2
+  :callseqs: []
+  :description:
+  - Removes all objects from the queue.
+  :examples: ''
+- :id: 3
+  :callseqs:
+  - close
+  :description:
+  - Similar to Queue#close.
+  - The difference is behavior with waiting enqueuing threads.
+  - |-
+    If there are waiting enqueuing threads, they are interrupted by raising
+    ClosedQueueError('queue closed').
+  :examples: ''
+- :id: 4
+  :callseqs: []
+  :description: []
+  :examples: ''
+- :id: 5
+  :callseqs: []
+  :description: []
+  :examples: ''
+- :id: 6
+  :callseqs: []
+  :description:
+  - Returns the maximum size of the queue.
+  :examples: ''
+- :id: 7
+  :callseqs:
+  - max=(number)
+  :description:
+  - Sets the maximum size of the queue to the given number.
+  :examples: ''
+- :id: 8
+  :callseqs: []
+  :description:
+  - Returns the number of threads waiting on the queue.
+  :examples: ''
+- :id: 9
+  :callseqs:
+  - pop(non_block=false)
+  - deq(non_block=false)
+  - shift(non_block=false)
+  :description:
+  - Retrieves data from the queue.
+  - |-
+    If the queue is empty, the calling thread is suspended until data is pushed
+    onto the queue. If non_block is true, the thread isn't
+    suspended, and ThreadError is raised.
+  :examples: ''
+- :id: 10
+  :callseqs:
+  - push(object, non_block=false)
+  - enq(object, non_block=false)
+  - "<\n            \n          "
+  :description:
+  - Pushes object to the queue.
+  - |-
+    If there is no space left in the queue, waits until space becomes
+    available, unless non_block is true.  If
+    non_block is true, the thread isn't suspended, and
+    ThreadError is raised.
+  :examples: ''
+- :id: 11
+  :callseqs: []
+  :description: []
+  :examples: ''

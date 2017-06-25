@@ -1,0 +1,175 @@
+---
+- :id: 0
+  :callseqs:
+  - new(obj, size=nil) { |yielder, *values| ... }
+  :description:
+  - |-
+    Creates a new Lazy enumerator. When the enumerator
+    is actually enumerated (e.g. by calling force), obj will be
+    enumerated and each value passed to the given block. The block can yield
+    values back using yielder. For example, to create a method
+    filter_map in both lazy and non-lazy fashions:
+  :examples: |
+    module Enumerable
+      def filter_map(&block)
+        map(&block).compact
+      end
+    end
+
+    class Enumerator::Lazy
+      def filter_map
+        Lazy.new(self) do |yielder, *values|
+          result = yield *values
+          yielder << result if result
+        end
+      end
+    end
+
+    (1..Float::INFINITY).lazy.filter_map{|i| i*i if i.even?}.first(5)
+        # => [4, 16, 36, 64, 100]
+- :id: 1
+  :callseqs: []
+  :description: []
+  :examples: ''
+- :id: 2
+  :callseqs: []
+  :description: []
+  :examples: ''
+- :id: 3
+  :callseqs: []
+  :description: []
+  :examples: ''
+- :id: 4
+  :callseqs:
+  - collect_concat { |obj| block } → a_lazy_enumerator
+  :description:
+  - |-
+    Returns a new lazy enumerator with the concatenated results of running
+    block once for every element in lazy.
+  - |-
+    A value x returned by block is decomposed if either of
+    the following conditions is true:
+  - Otherwise, x is contained as-is in the return value.
+  :examples: |
+    ["foo", "bar"].lazy.flat_map {|i| i.each_char.lazy}.force
+    #=> ["f", "o", "o", "b", "a", "r"]
+    [{a:1}, {b:2}].lazy.flat_map {|i| i}.force
+    #=> [{:a=>1}, {:b=>2}]
+- :id: 5
+  :callseqs: []
+  :description: []
+  :examples: ''
+- :id: 6
+  :callseqs: []
+  :description: []
+  :examples: ''
+- :id: 7
+  :callseqs:
+  - enum_for(method = :each, *args)                → lazy_enum
+  - enum_for(method = :each, *args){|*args| block} → lazy_enum
+  :description:
+  - |-
+    Similar to Kernel#to_enum, except it returns a lazy enumerator. This makes
+    it easy to define Enumerable methods that
+    will naturally remain lazy if called from a lazy enumerator.
+  - 'For example, continuing from the example in Kernel#to_enum:'
+  :examples: |
+    # See Kernel#to_enum for the definition of repeat
+    r = 1..Float::INFINITY
+    r.repeat(2).first(5) # => [1, 1, 2, 2, 3]
+    r.repeat(2).class # => Enumerator
+    r.repeat(2).map{|n| n ** 2}.first(5) # => endless loop!
+    # works naturally on lazy enumerator:
+    r.lazy.repeat(2).class # => Enumerator::Lazy
+    r.lazy.repeat(2).map{|n| n ** 2}.first(5) # => [1, 1, 4, 4, 9]
+- :id: 8
+  :callseqs: []
+  :description: []
+  :examples: ''
+- :id: 9
+  :callseqs:
+  - flat_map       { |obj| block } → a_lazy_enumerator
+  :description:
+  - |-
+    Returns a new lazy enumerator with the concatenated results of running
+    block once for every element in lazy.
+  - |-
+    A value x returned by block is decomposed if either of
+    the following conditions is true:
+  - Otherwise, x is contained as-is in the return value.
+  :examples: |
+    ["foo", "bar"].lazy.flat_map {|i| i.each_char.lazy}.force
+    #=> ["f", "o", "o", "b", "a", "r"]
+    [{a:1}, {b:2}].lazy.flat_map {|i| i}.force
+    #=> [{:a=>1}, {:b=>2}]
+- :id: 10
+  :callseqs: []
+  :description: []
+  :examples: ''
+- :id: 11
+  :callseqs: []
+  :description: []
+  :examples: ''
+- :id: 12
+  :callseqs: []
+  :description: []
+  :examples: ''
+- :id: 13
+  :callseqs: []
+  :description: []
+  :examples: ''
+- :id: 14
+  :callseqs: []
+  :description: []
+  :examples: ''
+- :id: 15
+  :callseqs: []
+  :description: []
+  :examples: ''
+- :id: 16
+  :callseqs: []
+  :description: []
+  :examples: ''
+- :id: 17
+  :callseqs: []
+  :description: []
+  :examples: ''
+- :id: 18
+  :callseqs: []
+  :description: []
+  :examples: ''
+- :id: 19
+  :callseqs: []
+  :description: []
+  :examples: ''
+- :id: 20
+  :callseqs: []
+  :description: []
+  :examples: ''
+- :id: 21
+  :callseqs:
+  - to_enum(method = :each, *args)                 → lazy_enum
+  - to_enum(method = :each, *args) {|*args| block} → lazy_enum
+  :description:
+  - |-
+    Similar to Kernel#to_enum, except it returns a lazy enumerator. This makes
+    it easy to define Enumerable methods that
+    will naturally remain lazy if called from a lazy enumerator.
+  - 'For example, continuing from the example in Kernel#to_enum:'
+  :examples: |
+    # See Kernel#to_enum for the definition of repeat
+    r = 1..Float::INFINITY
+    r.repeat(2).first(5) # => [1, 1, 2, 2, 3]
+    r.repeat(2).class # => Enumerator
+    r.repeat(2).map{|n| n ** 2}.first(5) # => endless loop!
+    # works naturally on lazy enumerator:
+    r.lazy.repeat(2).class # => Enumerator::Lazy
+    r.lazy.repeat(2).map{|n| n ** 2}.first(5) # => [1, 1, 4, 4, 9]
+- :id: 22
+  :callseqs: []
+  :description: []
+  :examples: ''
+- :id: 23
+  :callseqs: []
+  :description: []
+  :examples: ''

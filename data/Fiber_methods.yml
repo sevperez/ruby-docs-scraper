@@ -1,0 +1,85 @@
+---
+- :id: 0
+  :callseqs:
+  - current() → fiber
+  :description:
+  - |-
+    Returns the current fiber. You need to require 'fiber' before
+    using this method. If you are not running in the context of a fiber this
+    method will return the root fiber.
+  :examples: ''
+- :id: 1
+  :callseqs:
+  - yield(args, ...) → obj
+  :description:
+  - |-
+    Yields control back to the context that resumed the fiber, passing along
+    any arguments that were passed to it. The fiber will resume processing at
+    this point when resume is called next. Any arguments passed to
+    the next resume will be the value that this
+    Fiber.yield expression evaluates to.
+  :examples: ''
+- :id: 2
+  :callseqs:
+  - alive? → true or false
+  :description:
+  - |-
+    Returns true if the fiber can still be resumed (or transferred to). After
+    finishing execution of the fiber block this method will always return
+    false. You need to require 'fiber' before using this method.
+  :examples: ''
+- :id: 3
+  :callseqs:
+  - resume(args, ...) → obj
+  :description:
+  - |-
+    Resumes the fiber from the point at which the last Fiber.yield
+    was called, or starts running it if it is the first call to
+    resume. Arguments passed to resume will be the value of the
+    Fiber.yield expression or will be passed as block parameters
+    to the fiber’s block if this is the first resume.
+  - |-
+    Alternatively, when resume is called it evaluates to the arguments passed
+    to the next Fiber.yield statement inside the fiber’s block or
+    to the block value if it runs to completion without any
+    Fiber.yield
+  :examples: ''
+- :id: 4
+  :callseqs:
+  - transfer(args, ...) → obj
+  :description:
+  - |-
+    Transfer control to another fiber, resuming it from where it last stopped
+    or starting it if it was not resumed before. The calling fiber will be
+    suspended much like in a call to Fiber.yield. You need to
+    require 'fiber' before using this method.
+  - |-
+    The fiber which receives the transfer call is treats it much like a resume
+    call. Arguments passed to transfer are treated like those passed to resume.
+  - |-
+    You cannot resume a fiber that transferred control to another one. This
+    will cause a double resume error. You need to transfer control back to this
+    fiber before it can yield and resume.
+  - 'Example:'
+  - produces
+  :examples: |
+    fiber1 = Fiber.new do
+      puts "In Fiber 1"
+      Fiber.yield
+    end
+
+    fiber2 = Fiber.new do
+      puts "In Fiber 2"
+      fiber1.transfer
+      puts "Never see this message"
+    end
+
+    fiber3 = Fiber.new do
+      puts "In Fiber 3"
+    end
+
+    fiber2.resume
+    fiber3.resume
+    In fiber 2
+    In fiber 1
+    In fiber 3

@@ -1,0 +1,65 @@
+---
+- :id: 0
+  :callseqs:
+  - new   → mutex
+  :description:
+  - Creates a new Mutex
+  :examples: ''
+- :id: 1
+  :callseqs:
+  - lock  → self
+  :description:
+  - |-
+    Attempts to grab the lock and waits if it isn’t available. Raises
+    ThreadError if mutex was locked by the current
+    thread.
+  :examples: ''
+- :id: 2
+  :callseqs:
+  - locked?  → true or false
+  :description:
+  - Returns true if this lock is currently held by some thread.
+  :examples: ''
+- :id: 3
+  :callseqs:
+  - owned?  → true or false
+  :description:
+  - Returns true if this lock is currently held by current thread.
+  :examples: ''
+- :id: 4
+  :callseqs:
+  - sleep(timeout = nil)    → number
+  :description:
+  - |-
+    Releases the lock and sleeps timeout seconds if it is given
+    and non-nil or forever.  Raises ThreadError if
+    mutex wasn’t locked by the current thread.
+  - When the thread is next woken up, it will attempt to reacquire the lock.
+  - |-
+    Note that this method can wakeup without explicit Thread#wakeup call. For example,
+    receiving signal and so on.
+  :examples: ''
+- :id: 5
+  :callseqs:
+  - synchronize { ... }    → result of the block
+  :description:
+  - |-
+    Obtains a lock, runs the block, and releases the lock when the block
+    completes.  See the example under Mutex.
+  :examples: ''
+- :id: 6
+  :callseqs:
+  - try_lock  → true or false
+  :description:
+  - |-
+    Attempts to obtain the lock and returns immediately. Returns
+    true if the lock was granted.
+  :examples: ''
+- :id: 7
+  :callseqs:
+  - unlock    → self
+  :description:
+  - |-
+    Releases the lock. Raises ThreadError if mutex
+    wasn’t locked by the current thread.
+  :examples: ''

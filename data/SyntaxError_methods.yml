@@ -1,0 +1,7 @@
+---
+- :id: 0
+  :callseqs:
+  - new([msg])  → syntax_error
+  :description:
+  - Construct a SyntaxError exception.
+  :examples: ''

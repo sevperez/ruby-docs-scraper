@@ -1,0 +1,447 @@
+---
+- :id: 0
+  :callseqs:
+  - File::Stat.new(file_name)  → stat
+  :description:
+  - |-
+    Create a File::Stat object for the given file name
+    (raising an exception if the file doesn’t exist).
+  :examples: ''
+- :id: 1
+  :callseqs:
+  - stat <=> other_stat    → -1, 0, 1, nil
+  :description:
+  - |-
+    Compares File::Stat objects by comparing their
+    respective modification times.
+  - nil is returned if other_stat is not a File::Stat object
+  :examples: |
+    f1 = File.new("f1", "w")
+    sleep 1
+    f2 = File.new("f2", "w")
+    f1.stat <=> f2.stat   #=> -1
+- :id: 2
+  :callseqs:
+  - atime   → time
+  :description:
+  - |-
+    Returns the last access time for this file as an object of class
+    Time.
+  :examples: 'File.stat("testfile").atime   #=> Wed Dec 31 18:00:00 CST 1969
+
+'
+- :id: 3
+  :callseqs:
+  - birthtime  →  aTime
+  :description:
+  - Returns the birth time for stat.
+  - If the platform doesn’t have birthtime, raises NotImplementedError.
+  :examples: |
+    File.write("testfile", "foo")
+    sleep 10
+    File.write("testfile", "bar")
+    sleep 10
+    File.chmod(0644, "testfile")
+    sleep 10
+    File.read("testfile")
+    File.stat("testfile").birthtime   #=> 2014-02-24 11:19:17 +0900
+    File.stat("testfile").mtime       #=> 2014-02-24 11:19:27 +0900
+    File.stat("testfile").ctime       #=> 2014-02-24 11:19:37 +0900
+    File.stat("testfile").atime       #=> 2014-02-24 11:19:47 +0900
+- :id: 4
+  :callseqs:
+  - blksize   → integer or nil
+  :description:
+  - |-
+    Returns the native file system’s block size. Will return nil
+    on platforms that don’t support this information.
+  :examples: 'File.stat("testfile").blksize   #=> 4096
+
+'
+- :id: 5
+  :callseqs:
+  - blockdev?   → true or false
+  :description:
+  - |-
+    Returns true if the file is a block device, false
+    if it isn’t or if the operating system doesn’t support this feature.
+  :examples: |
+    File.stat("testfile").blockdev?    #=> false
+    File.stat("/dev/hda1").blockdev?   #=> true
+- :id: 6
+  :callseqs:
+  - blocks    → integer or nil
+  :description:
+  - |-
+    Returns the number of native file system blocks allocated for this file, or
+    nil if the operating system doesn’t support this feature.
+  :examples: 'File.stat("testfile").blocks   #=> 2
+
+'
+- :id: 7
+  :callseqs:
+  - chardev?    → true or false
+  :description:
+  - |-
+    Returns true if the file is a character device,
+    false if it isn’t or if the operating system doesn’t support
+    this feature.
+  :examples: 'File.stat("/dev/tty").chardev?   #=> true
+
+'
+- :id: 8
+  :callseqs:
+  - ctime  →  aTime
+  :description:
+  - |-
+    Returns the change time for stat (that is, the time directory
+    information about the file was changed, not the file itself).
+  - Note that on Windows (NTFS), returns creation time (birth time).
+  :examples: 'File.stat("testfile").ctime   #=> Wed Apr 09 08:53:14 CDT 2003
+
+'
+- :id: 9
+  :callseqs:
+  - dev    → integer
+  :description:
+  - Returns an integer representing the device on which stat resides.
+  :examples: 'File.stat("testfile").dev   #=> 774
+
+'
+- :id: 10
+  :callseqs:
+  - dev_major   → integer
+  :description:
+  - Returns the major part of File_Stat#dev or nil.
+  :examples: |
+    File.stat("/dev/fd1").dev_major   #=> 2
+    File.stat("/dev/tty").dev_major   #=> 5
+- :id: 11
+  :callseqs:
+  - dev_minor   → integer
+  :description:
+  - Returns the minor part of File_Stat#dev or nil.
+  :examples: |
+    File.stat("/dev/fd1").dev_minor   #=> 1
+    File.stat("/dev/tty").dev_minor   #=> 0
+- :id: 12
+  :callseqs:
+  - directory?(file_name)   →  true or false
+  :description:
+  - |-
+    Returns true if the named file is a directory, or a symlink
+    that points at a directory, and false otherwise.
+  - file_name can be an IO object.
+  :examples: 'File.directory?(".")
+
+'
+- :id: 13
+  :callseqs:
+  - executable?    → true or false
+  :description:
+  - |-
+    Returns true if stat is executable or if the
+    operating system doesn’t distinguish executable files from nonexecutable
+    files. The tests are made using the effective owner of the process.
+  :examples: 'File.stat("testfile").executable?   #=> false
+
+'
+- :id: 14
+  :callseqs:
+  - executable_real?    → true or false
+  :description:
+  - |-
+    Same as executable?, but tests using the real owner of the
+    process.
+  :examples: ''
+- :id: 15
+  :callseqs:
+  - file?    → true or false
+  :description:
+  - |-
+    Returns true if stat is a regular file (not a device
+    file, pipe, socket, etc.).
+  :examples: 'File.stat("testfile").file?   #=> true
+
+'
+- :id: 16
+  :callseqs:
+  - ftype   → string
+  :description:
+  - |-
+    Identifies the type of stat. The return string is one of:
+    “file”, “directory”,
+    “characterSpecial”, “blockSpecial”,
+    “fifo”, “link”, “socket”, or
+    “unknown”.
+  :examples: 'File.stat("/dev/tty").ftype   #=> "characterSpecial"
+
+'
+- :id: 17
+  :callseqs:
+  - gid   → integer
+  :description:
+  - Returns the numeric group id of the owner of stat.
+  :examples: 'File.stat("testfile").gid   #=> 500
+
+'
+- :id: 18
+  :callseqs:
+  - grpowned?   → true or false
+  :description:
+  - |-
+    Returns true if the effective group id of the process is the same as the
+    group id of stat. On Windows NT, returns false.
+  :examples: |
+    File.stat("testfile").grpowned?      #=> true
+    File.stat("/etc/passwd").grpowned?   #=> false
+- :id: 19
+  :callseqs:
+  - ino   → integer
+  :description:
+  - Returns the inode number for stat.
+  :examples: 'File.stat("testfile").ino   #=> 1083669
+
+'
+- :id: 20
+  :callseqs:
+  - inspect  →  string
+  :description:
+  - Produce a nicely formatted description of stat.
+  :examples: |
+    File.stat("/etc/passwd").inspect
+       #=> "#<File::Stat dev=0xe000005, ino=1078078, mode=0100644,
+       #    nlink=1, uid=0, gid=0, rdev=0x0, size=1374, blksize=4096,
+       #    blocks=8, atime=Wed Dec 10 10:16:12 CST 2003,
+       #    mtime=Fri Sep 12 15:41:41 CDT 2003,
+       #    ctime=Mon Oct 27 11:20:27 CST 2003,
+       #    birthtime=Mon Aug 04 08:13:49 CDT 2003>"
+- :id: 21
+  :callseqs:
+  - mode   → integer
+  :description:
+  - |-
+    Returns an integer representing the permission bits of stat. The
+    meaning of the bits is platform dependent; on Unix systems, see
+    stat(2).
+  :examples: |
+    File.chmod(0644, "testfile")   #=> 1
+    s = File.stat("testfile")
+    sprintf("%o", s.mode)          #=> "100644"
+- :id: 22
+  :callseqs:
+  - mtime  →  aTime
+  :description:
+  - Returns the modification time of stat.
+  :examples: 'File.stat("testfile").mtime   #=> Wed Apr 09 08:53:14 CDT 2003
+
+'
+- :id: 23
+  :callseqs:
+  - nlink   → integer
+  :description:
+  - Returns the number of hard links to stat.
+  :examples: |
+    File.stat("testfile").nlink             #=> 1
+    File.link("testfile", "testfile.bak")   #=> 0
+    File.stat("testfile").nlink             #=> 2
+- :id: 24
+  :callseqs:
+  - owned?    → true or false
+  :description:
+  - |-
+    Returns true if the effective user id of the process is the
+    same as the owner of stat.
+  :examples: |
+    File.stat("testfile").owned?      #=> true
+    File.stat("/etc/passwd").owned?   #=> false
+- :id: 25
+  :callseqs:
+  - pipe?    → true or false
+  :description:
+  - |-
+    Returns true if the operating system supports pipes and
+    stat is a pipe; false otherwise.
+  :examples: ''
+- :id: 26
+  :callseqs:
+  - rdev   →  integer or nil
+  :description:
+  - |-
+    Returns an integer representing the device type on which stat
+    resides. Returns nil if the operating system doesn’t support
+    this feature.
+  :examples: |
+    File.stat("/dev/fd1").rdev   #=> 513
+    File.stat("/dev/tty").rdev   #=> 1280
+- :id: 27
+  :callseqs:
+  - rdev_major   → integer
+  :description:
+  - Returns the major part of File_Stat#rdev or nil.
+  :examples: |
+    File.stat("/dev/fd1").rdev_major   #=> 2
+    File.stat("/dev/tty").rdev_major   #=> 5
+- :id: 28
+  :callseqs:
+  - rdev_minor   → integer
+  :description:
+  - Returns the minor part of File_Stat#rdev or nil.
+  :examples: |
+    File.stat("/dev/fd1").rdev_minor   #=> 1
+    File.stat("/dev/tty").rdev_minor   #=> 0
+- :id: 29
+  :callseqs:
+  - readable?    → true or false
+  :description:
+  - |-
+    Returns true if stat is readable by the effective
+    user id of this process.
+  :examples: 'File.stat("testfile").readable?   #=> true
+
+'
+- :id: 30
+  :callseqs:
+  - readable_real?  →  true or false
+  :description:
+  - |-
+    Returns true if stat is readable by the real user id
+    of this process.
+  :examples: 'File.stat("testfile").readable_real?   #=> true
+
+'
+- :id: 31
+  :callseqs:
+  - setgid?   → true or false
+  :description:
+  - |-
+    Returns true if stat has the set-group-id permission
+    bit set, false if it doesn’t or if the operating system
+    doesn’t support this feature.
+  :examples: 'File.stat("/usr/sbin/lpc").setgid?   #=> true
+
+'
+- :id: 32
+  :callseqs:
+  - setuid?    → true or false
+  :description:
+  - |-
+    Returns true if stat has the set-user-id permission
+    bit set, false if it doesn’t or if the operating system
+    doesn’t support this feature.
+  :examples: 'File.stat("/bin/su").setuid?   #=> true
+
+'
+- :id: 33
+  :callseqs:
+  - size    → integer
+  :description:
+  - Returns the size of stat in bytes.
+  :examples: 'File.stat("testfile").size   #=> 66
+
+'
+- :id: 34
+  :callseqs:
+  - size    → integer
+  :description:
+  - Returns the size of stat in bytes.
+  :examples: 'File.stat("testfile").size   #=> 66
+
+'
+- :id: 35
+  :callseqs:
+  - socket?    → true or false
+  :description:
+  - |-
+    Returns true if stat is a socket, false
+    if it isn’t or if the operating system doesn’t support this feature.
+  :examples: 'File.stat("testfile").socket?   #=> false
+
+'
+- :id: 36
+  :callseqs:
+  - sticky?    → true or false
+  :description:
+  - |-
+    Returns true if stat has its sticky bit set,
+    false if it doesn’t or if the operating system doesn’t support
+    this feature.
+  :examples: 'File.stat("testfile").sticky?   #=> false
+
+'
+- :id: 37
+  :callseqs:
+  - symlink?    → true or false
+  :description:
+  - |-
+    Returns true if stat is a symbolic link,
+    false if it isn’t or if the operating system doesn’t support
+    this feature. As File::stat automatically follows symbolic
+    links, symlink? will always be false for an
+    object returned by File::stat.
+  :examples: |
+    File.symlink("testfile", "alink")   #=> 0
+    File.stat("alink").symlink?         #=> false
+    File.lstat("alink").symlink?        #=> true
+- :id: 38
+  :callseqs:
+  - uid    → integer
+  :description:
+  - Returns the numeric user id of the owner of stat.
+  :examples: 'File.stat("testfile").uid   #=> 501
+
+'
+- :id: 39
+  :callseqs:
+  - world_readable? → integer or nil
+  :description:
+  - |-
+    If stat is readable by others, returns an integer representing the
+    file permission bits of stat. Returns nil otherwise.
+    The meaning of the bits is platform dependent; on Unix systems, see
+    stat(2).
+  :examples: |
+    m = File.stat("/etc/passwd").world_readable?  #=> 420
+    sprintf("%o", m)                              #=> "644"
+- :id: 40
+  :callseqs:
+  - world_writable?  →  integer or nil
+  :description:
+  - |-
+    If stat is writable by others, returns an integer representing the
+    file permission bits of stat. Returns nil otherwise.
+    The meaning of the bits is platform dependent; on Unix systems, see
+    stat(2).
+  :examples: |
+    m = File.stat("/tmp").world_writable?         #=> 511
+    sprintf("%o", m)                              #=> "777"
+- :id: 41
+  :callseqs:
+  - writable?  →  true or false
+  :description:
+  - |-
+    Returns true if stat is writable by the effective
+    user id of this process.
+  :examples: 'File.stat("testfile").writable?   #=> true
+
+'
+- :id: 42
+  :callseqs:
+  - writable_real?  →  true or false
+  :description:
+  - |-
+    Returns true if stat is writable by the real user id
+    of this process.
+  :examples: 'File.stat("testfile").writable_real?   #=> true
+
+'
+- :id: 43
+  :callseqs:
+  - zero?    → true or false
+  :description:
+  - |-
+    Returns true if stat is a zero-length file;
+    false otherwise.
+  :examples: 'File.stat("testfile").zero?   #=> false
+
+'

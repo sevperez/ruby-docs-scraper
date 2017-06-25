@@ -1,0 +1,26 @@
+---
+- :id: 0
+  :callseqs:
+  - system_call_error === other  → true or false
+  :description:
+  - |-
+    Return true if the receiver is a generic
+    SystemCallError, or if the error numbers self and
+    other are the same.
+  :examples: ''
+- :id: 1
+  :callseqs:
+  - new(msg, errno)  → system_call_error_subclass
+  :description:
+  - |-
+    If errno corresponds to a known system error code, constructs the
+    appropriate Errno class for that error, otherwise constructs a
+    generic SystemCallError object. The error number is
+    subsequently available via the errno method.
+  :examples: ''
+- :id: 2
+  :callseqs:
+  - errno   → integer
+  :description:
+  - Return this SystemCallError’s error number.
+  :examples: ''

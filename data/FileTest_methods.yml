@@ -1,0 +1,233 @@
+---
+- :id: 0
+  :callseqs:
+  - blockdev?(file_name)   →  true or false
+  :description:
+  - Returns true if the named file is a block device.
+  - file_name can be an IO object.
+  :examples: ''
+- :id: 1
+  :callseqs:
+  - chardev?(file_name)   →  true or false
+  :description:
+  - Returns true if the named file is a character device.
+  - file_name can be an IO object.
+  :examples: ''
+- :id: 2
+  :callseqs:
+  - directory?(file_name)   →  true or false
+  :description:
+  - |-
+    Returns true if the named file is a directory, or a symlink
+    that points at a directory, and false otherwise.
+  - file_name can be an IO object.
+  :examples: 'File.directory?(".")
+
+'
+- :id: 3
+  :callseqs:
+  - zero?(file_name)   → true or false
+  :description:
+  - Returns true if the named file exists and has a zero size.
+  - file_name can be an IO object.
+  :examples: ''
+- :id: 4
+  :callseqs:
+  - executable?(file_name)   → true or false
+  :description:
+  - |-
+    Returns true if the named file is executable by the effective
+    user and group id of this process. See eaccess(3).
+  :examples: ''
+- :id: 5
+  :callseqs:
+  - executable_real?(file_name)   → true or false
+  :description:
+  - |-
+    Returns true if the named file is executable by the real user
+    and group id of this process. See access(3).
+  :examples: ''
+- :id: 6
+  :callseqs:
+  - exist?(file_name)    →  true or false
+  :description:
+  - Return true if the named file exists.
+  - file_name can be an IO object.
+  - "“file exists” means that stat() or fstat() system call is successful."
+  :examples: ''
+- :id: 7
+  :callseqs:
+  - exists?(file_name)   →  true or false
+  :description:
+  - Deprecated method. Don’t use.
+  :examples: ''
+- :id: 8
+  :callseqs:
+  - file?(file) → true or false
+  :description:
+  - |-
+    Returns true if the named file exists and is a
+    regular file.
+  - file can be an IO object.
+  - |-
+    If the file argument is a symbolic link, it will resolve the
+    symbolic link and use the file referenced by the link.
+  :examples: ''
+- :id: 9
+  :callseqs:
+  - grpowned?(file_name)   → true or false
+  :description:
+  - |-
+    Returns true if the named file exists and the effective group
+    id of the calling process is the owner of the file. Returns
+    false on Windows.
+  - file_name can be an IO object.
+  :examples: ''
+- :id: 10
+  :callseqs:
+  - identical?(file_1, file_2)   →  true or false
+  :description:
+  - Returns true if the named files are identical.
+  - |-
+    file_1 and file_2 can be an IO
+    object.
+  :examples: |
+    open("a", "w") {}
+    p File.identical?("a", "a")      #=> true
+    p File.identical?("a", "./a")    #=> true
+    File.link("a", "b")
+    p File.identical?("a", "b")      #=> true
+    File.symlink("a", "c")
+    p File.identical?("a", "c")      #=> true
+    open("d", "w") {}
+    p File.identical?("a", "d")      #=> false
+- :id: 11
+  :callseqs:
+  - owned?(file_name)   → true or false
+  :description:
+  - |-
+    Returns true if the named file exists and the effective used
+    id of the calling process is the owner of the file.
+  - file_name can be an IO object.
+  :examples: ''
+- :id: 12
+  :callseqs:
+  - pipe?(file_name)   →  true or false
+  :description:
+  - Returns true if the named file is a pipe.
+  - file_name can be an IO object.
+  :examples: ''
+- :id: 13
+  :callseqs:
+  - readable?(file_name)   → true or false
+  :description:
+  - |-
+    Returns true if the named file is readable by the effective
+    user and group id of this process. See eaccess(3).
+  :examples: ''
+- :id: 14
+  :callseqs:
+  - readable_real?(file_name)   → true or false
+  :description:
+  - |-
+    Returns true if the named file is readable by the real user
+    and group id of this process. See access(3).
+  :examples: ''
+- :id: 15
+  :callseqs:
+  - setgid?(file_name)   →  true or false
+  :description:
+  - Returns true if the named file has the setgid bit set.
+  :examples: ''
+- :id: 16
+  :callseqs:
+  - setuid?(file_name)   →  true or false
+  :description:
+  - Returns true if the named file has the setuid bit set.
+  :examples: ''
+- :id: 17
+  :callseqs:
+  - size(file_name)   → integer
+  :description:
+  - Returns the size of file_name.
+  - file_name can be an IO object.
+  :examples: ''
+- :id: 18
+  :callseqs:
+  - size?(file_name)   → Integer or nil
+  :description:
+  - |-
+    Returns nil if file_name doesn’t exist or has
+    zero size, the size of the file otherwise.
+  - file_name can be an IO object.
+  :examples: ''
+- :id: 19
+  :callseqs:
+  - socket?(file_name)   →  true or false
+  :description:
+  - Returns true if the named file is a socket.
+  - file_name can be an IO object.
+  :examples: ''
+- :id: 20
+  :callseqs:
+  - sticky?(file_name)   →  true or false
+  :description:
+  - Returns true if the named file has the sticky bit set.
+  :examples: ''
+- :id: 21
+  :callseqs:
+  - symlink?(file_name)   →  true or false
+  :description:
+  - Returns true if the named file is a symbolic link.
+  :examples: ''
+- :id: 22
+  :callseqs:
+  - world_readable?(file_name)   → integer or nil
+  :description:
+  - |-
+    If file_name is readable by others, returns an integer
+    representing the file permission bits of file_name. Returns
+    nil otherwise. The meaning of the bits is platform dependent;
+    on Unix systems, see stat(2).
+  - file_name can be an IO object.
+  :examples: |
+    File.world_readable?("/etc/passwd")           #=> 420
+    m = File.world_readable?("/etc/passwd")
+    sprintf("%o", m)                              #=> "644"
+- :id: 23
+  :callseqs:
+  - world_writable?(file_name)   → integer or nil
+  :description:
+  - |-
+    If file_name is writable by others, returns an integer
+    representing the file permission bits of file_name. Returns
+    nil otherwise. The meaning of the bits is platform dependent;
+    on Unix systems, see stat(2).
+  - file_name can be an IO object.
+  :examples: |
+    File.world_writable?("/tmp")                  #=> 511
+    m = File.world_writable?("/tmp")
+    sprintf("%o", m)                              #=> "777"
+- :id: 24
+  :callseqs:
+  - writable?(file_name)   → true or false
+  :description:
+  - |-
+    Returns true if the named file is writable by the effective
+    user and group id of this process. See eaccess(3).
+  :examples: ''
+- :id: 25
+  :callseqs:
+  - writable_real?(file_name)   → true or false
+  :description:
+  - |-
+    Returns true if the named file is writable by the real user
+    and group id of this process. See access(3)
+  :examples: ''
+- :id: 26
+  :callseqs:
+  - zero?(file_name)   → true or false
+  :description:
+  - Returns true if the named file exists and has a zero size.
+  - file_name can be an IO object.
+  :examples: ''

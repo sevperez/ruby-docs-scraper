@@ -1,0 +1,166 @@
+---
+- :id: 0
+  :callseqs:
+  - meth == other_meth  → true or false
+  :description:
+  - |-
+    Two method objects are equal if they are bound to the same object and refer
+    to the same method definition and their owners are the same class or
+    module.
+  :examples: ''
+- :id: 1
+  :callseqs:
+  - arity    → integer
+  :description:
+  - |-
+    Returns an indication of the number of arguments accepted by a method.
+    Returns a nonnegative integer for methods that take a fixed number of
+    arguments. For Ruby methods that take a variable number of arguments,
+    returns -n-1, where n is the number of required arguments. For methods
+    written in C, returns -1 if the call takes a variable number of arguments.
+  :examples: |
+    class C
+      def one;    end
+      def two(a); end
+      def three(*a);  end
+      def four(a, b); end
+      def five(a, b, *c);    end
+      def six(a, b, *c, &d); end
+    end
+    c = C.new
+    c.method(:one).arity     #=> 0
+    c.method(:two).arity     #=> 1
+    c.method(:three).arity   #=> -1
+    c.method(:four).arity    #=> 2
+    c.method(:five).arity    #=> -3
+    c.method(:six).arity     #=> -3
+
+    "cat".method(:size).arity      #=> 0
+    "cat".method(:replace).arity   #=> 1
+    "cat".method(:squeeze).arity   #=> -1
+    "cat".method(:count).arity     #=> -1
+- :id: 2
+  :callseqs:
+  - bind(obj) → method
+  :description:
+  - |-
+    Bind umeth to obj. If Klass was the class
+    from which umeth was obtained, obj.kind_of?(Klass)
+    must be true.
+  - 'produces:'
+  :examples: |
+    class A
+      def test
+        puts "In test, class = #{self.class}"
+      end
+    end
+    class B < A
+    end
+    class C < B
+    end
+
+    um = B.instance_method(:test)
+    bm = um.bind(C.new)
+    bm.call
+    bm = um.bind(B.new)
+    bm.call
+    bm = um.bind(A.new)
+    bm.call
+- :id: 3
+  :callseqs:
+  - clone → new_method
+  :description:
+  - Returns a clone of this method.
+  :examples: |
+    class A
+      def foo
+        return "bar"
+      end
+    end
+
+    m = A.new.method(:foo)
+    m.call # => "bar"
+    n = m.clone.call # => "bar"
+- :id: 4
+  :callseqs:
+  - eql?(other_meth)  → true or false
+  :description:
+  - |-
+    Two method objects are equal if they are bound to the same object and refer
+    to the same method definition and their owners are the same class or
+    module.
+  :examples: ''
+- :id: 5
+  :callseqs:
+  - hash   → integer
+  :description:
+  - Returns a hash value corresponding to the method object.
+  - See also Object#hash.
+  :examples: ''
+- :id: 6
+  :callseqs:
+  - inspect   →  string
+  :description:
+  - Returns the name of the underlying method.
+  :examples: '"cat".method(:count).inspect   #=> "#<Method: String#count>"
+
+'
+- :id: 7
+  :callseqs:
+  - name    → symbol
+  :description:
+  - Returns the name of the method.
+  :examples: ''
+- :id: 8
+  :callseqs:
+  - original_name    → symbol
+  :description:
+  - Returns the original name of the method.
+  :examples: ''
+- :id: 9
+  :callseqs:
+  - owner    → class_or_module
+  :description:
+  - Returns the class or module that defines the method.
+  :examples: ''
+- :id: 10
+  :callseqs:
+  - parameters  → array
+  :description:
+  - Returns the parameter information of this method.
+  :examples: |
+    def foo(bar); end
+    method(:foo).parameters #=> [[:req, :bar]]
+
+    def foo(bar, baz, bat, &blk); end
+    method(:foo).parameters #=> [[:req, :bar], [:req, :baz], [:req, :bat], [:block, :blk]]
+
+    def foo(bar, *args); end
+    method(:foo).parameters #=> [[:req, :bar], [:rest, :args]]
+
+    def foo(bar, baz, *args, &blk); end
+    method(:foo).parameters #=> [[:req, :bar], [:req, :baz], [:rest, :args], [:block, :blk]]
+- :id: 11
+  :callseqs:
+  - source_location  → [String, Integer]
+  :description:
+  - |-
+    Returns the Ruby source filename and line number containing this method or
+    nil if this method was not defined in Ruby (i.e. native).
+  :examples: ''
+- :id: 12
+  :callseqs:
+  - super_method  → method
+  :description:
+  - |-
+    Returns a Method of superclass which would be
+    called when super is used or nil if there is no method on superclass.
+  :examples: ''
+- :id: 13
+  :callseqs:
+  - to_s      →  string
+  :description:
+  - Returns the name of the underlying method.
+  :examples: '"cat".method(:count).inspect   #=> "#<Method: String#count>"
+
+'

@@ -1,0 +1,25 @@
+---
+- :id: 0
+  :callseqs:
+  - new              → system_exit
+  - new(status)      → system_exit
+  - new(status, msg) → system_exit
+  - new(msg)         → system_exit
+  :description:
+  - |-
+    Create a new SystemExit exception with the given status and
+    message. Status is true, false, or an integer. If status is not given, true
+    is used.
+  :examples: ''
+- :id: 1
+  :callseqs:
+  - status   → integer
+  :description:
+  - Return the status value associated with this system exit.
+  :examples: ''
+- :id: 2
+  :callseqs:
+  - success?  → true or false
+  :description:
+  - Returns true if exiting successful, false if not.
+  :examples: ''

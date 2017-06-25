@@ -1,0 +1,355 @@
+---
+- :id: 0
+  :callseqs:
+  - polar(abs[, arg])  →  complex
+  :description:
+  - Returns a complex object which denotes the given polar form.
+  :examples: |
+    Complex.polar(3, 0)            #=> (3.0+0.0i)
+    Complex.polar(3, Math::PI/2)   #=> (1.836909530733566e-16+3.0i)
+    Complex.polar(3, Math::PI)     #=> (-3.0+3.673819061467132e-16i)
+    Complex.polar(3, -Math::PI/2)  #=> (1.836909530733566e-16-3.0i)
+- :id: 1
+  :callseqs:
+  - rect(real[, imag])         →  complex
+  - rectangular(real[, imag])  →  complex
+  :description:
+  - Returns a complex object which denotes the given rectangular form.
+  :examples: 'Complex.rectangular(1, 2)  #=> (1+2i)
+
+'
+- :id: 2
+  :callseqs:
+  - rectangular(real[, imag])  →  complex
+  :description:
+  - Returns a complex object which denotes the given rectangular form.
+  :examples: 'Complex.rectangular(1, 2)  #=> (1+2i)
+
+'
+- :id: 3
+  :callseqs:
+  - cmp * numeric  →  complex
+  :description:
+  - Performs multiplication.
+  :examples: |
+    Complex(2, 3)  * Complex(2, 3)   #=> (-5+12i)
+    Complex(900)   * Complex(1)      #=> (900+0i)
+    Complex(-2, 9) * Complex(-9, 2)  #=> (0-85i)
+    Complex(9, 8)  * 4               #=> (36+32i)
+    Complex(20, 9) * 9.8             #=> (196.0+88.2i)
+- :id: 4
+  :callseqs:
+  - cmp ** numeric  →  complex
+  :description:
+  - Performs exponentiation.
+  :examples: |
+    Complex('i') ** 2              #=> (-1+0i)
+    Complex(-8) ** Rational(1, 3)  #=> (1.0000000000000002+1.7320508075688772i)
+- :id: 5
+  :callseqs:
+  - cmp + numeric  →  complex
+  :description:
+  - Performs addition.
+  :examples: |
+    Complex(2, 3)  + Complex(2, 3)   #=> (4+6i)
+    Complex(900)   + Complex(1)      #=> (901+0i)
+    Complex(-2, 9) + Complex(-9, 2)  #=> (-11+11i)
+    Complex(9, 8)  + 4               #=> (13+8i)
+    Complex(20, 9) + 9.8             #=> (29.8+9i)
+- :id: 6
+  :callseqs:
+  - cmp - numeric  →  complex
+  :description:
+  - Performs subtraction.
+  :examples: |
+    Complex(2, 3)  - Complex(2, 3)   #=> (0+0i)
+    Complex(900)   - Complex(1)      #=> (899+0i)
+    Complex(-2, 9) - Complex(-9, 2)  #=> (7+7i)
+    Complex(9, 8)  - 4               #=> (5+8i)
+    Complex(20, 9) - 9.8             #=> (10.2+9i)
+- :id: 7
+  :callseqs:
+  - "-cmp  →  complex"
+  :description:
+  - Returns negation of the value.
+  :examples: "-Complex(1, 2)  #=> (-1-2i)\n"
+- :id: 8
+  :callseqs:
+  - cmp / numeric     →  complex
+  - quo(numeric)  →  complex
+  :description:
+  - Performs division.
+  :examples: |
+    Complex(2, 3)  / Complex(2, 3)   #=> ((1/1)+(0/1)*i)
+    Complex(900)   / Complex(1)      #=> ((900/1)+(0/1)*i)
+    Complex(-2, 9) / Complex(-9, 2)  #=> ((36/85)-(77/85)*i)
+    Complex(9, 8)  / 4               #=> ((9/4)+(2/1)*i)
+    Complex(20, 9) / 9.8             #=> (2.0408163265306123+0.9183673469387754i)
+- :id: 9
+  :callseqs:
+  - cmp == object  →  true or false
+  :description:
+  - Returns true if cmp equals object numerically.
+  :examples: |
+    Complex(2, 3)  == Complex(2, 3)   #=> true
+    Complex(5)     == 5               #=> true
+    Complex(0)     == 0.0             #=> true
+    Complex('1/3') == 0.33            #=> false
+    Complex('1/2') == '1/2'           #=> false
+- :id: 10
+  :callseqs:
+  - abs        →  real
+  :description:
+  - Returns the absolute part of its polar form.
+  :examples: |
+    Complex(-1).abs         #=> 1
+    Complex(3.0, -4.0).abs  #=> 5.0
+- :id: 11
+  :callseqs:
+  - abs2  →  real
+  :description:
+  - Returns square of the absolute value.
+  :examples: |
+    Complex(-1).abs2         #=> 1
+    Complex(3.0, -4.0).abs2  #=> 25.0
+- :id: 12
+  :callseqs:
+  - angle  →  float
+  :description:
+  - Returns the angle part of its polar form.
+  :examples: 'Complex.polar(3, Math::PI/2).arg  #=> 1.5707963267948966
+
+'
+- :id: 13
+  :callseqs:
+  - arg    →  float
+  :description:
+  - Returns the angle part of its polar form.
+  :examples: 'Complex.polar(3, Math::PI/2).arg  #=> 1.5707963267948966
+
+'
+- :id: 14
+  :callseqs:
+  - conj       →  complex
+  - conjugate  →  complex
+  :description:
+  - Returns the complex conjugate.
+  :examples: 'Complex(1, 2).conjugate  #=> (1-2i)
+
+'
+- :id: 15
+  :callseqs:
+  - conjugate  →  complex
+  :description:
+  - Returns the complex conjugate.
+  :examples: 'Complex(1, 2).conjugate  #=> (1-2i)
+
+'
+- :id: 16
+  :callseqs:
+  - denominator  →  integer
+  :description:
+  - Returns the denominator (lcm of both denominator - real and imag).
+  - See numerator.
+  :examples: ''
+- :id: 17
+  :callseqs:
+  - fdiv(numeric)  →  complex
+  :description:
+  - Performs division as each part is a float, never returns a float.
+  :examples: 'Complex(11, 22).fdiv(3)  #=> (3.6666666666666665+7.333333333333333i)
+
+'
+- :id: 18
+  :callseqs:
+  - finite?  →  true or false
+  :description:
+  - |-
+    Returns true if cmp‘s magnitude is finite number,
+    oterwise returns false.
+  :examples: ''
+- :id: 19
+  :callseqs:
+  - imag       →  real
+  - imaginary  →  real
+  :description:
+  - Returns the imaginary part.
+  :examples: |
+    Complex(7).imaginary      #=> 0
+    Complex(9, -4).imaginary  #=> -4
+- :id: 20
+  :callseqs:
+  - imaginary  →  real
+  :description:
+  - Returns the imaginary part.
+  :examples: |
+    Complex(7).imaginary      #=> 0
+    Complex(9, -4).imaginary  #=> -4
+- :id: 21
+  :callseqs:
+  - infinite?  →  nil or 1 or -1
+  :description:
+  - 'Returns values corresponding to the value of cmp‘s magnitude:'
+  - nil
+  - "+1"
+  :examples: ''
+- :id: 22
+  :callseqs:
+  - inspect  →  string
+  :description:
+  - Returns the value as a string for inspection.
+  :examples: |
+    Complex(2).inspect                       #=> "(2+0i)"
+    Complex('-8/6').inspect                  #=> "((-4/3)+0i)"
+    Complex('1/2i').inspect                  #=> "(0+(1/2)*i)"
+    Complex(0, Float::INFINITY).inspect      #=> "(0+Infinity*i)"
+    Complex(Float::NAN, Float::NAN).inspect  #=> "(NaN+NaN*i)"
+- :id: 23
+  :callseqs:
+  - magnitude  →  real
+  :description:
+  - Returns the absolute part of its polar form.
+  :examples: |
+    Complex(-1).abs         #=> 1
+    Complex(3.0, -4.0).abs  #=> 5.0
+- :id: 24
+  :callseqs:
+  - numerator  →  numeric
+  :description:
+  - Returns the numerator.
+  - See denominator.
+  :examples: ''
+- :id: 25
+  :callseqs:
+  - phase  →  float
+  :description:
+  - Returns the angle part of its polar form.
+  :examples: 'Complex.polar(3, Math::PI/2).arg  #=> 1.5707963267948966
+
+'
+- :id: 26
+  :callseqs:
+  - polar  →  array
+  :description:
+  - Returns an array; [cmp.abs, cmp.arg].
+  :examples: 'Complex(1, 2).polar  #=> [2.23606797749979, 1.1071487177940904]
+
+'
+- :id: 27
+  :callseqs:
+  - cmp / numeric     →  complex
+  - quo(numeric)  →  complex
+  :description:
+  - Performs division.
+  :examples: |
+    Complex(2, 3)  / Complex(2, 3)   #=> ((1/1)+(0/1)*i)
+    Complex(900)   / Complex(1)      #=> ((900/1)+(0/1)*i)
+    Complex(-2, 9) / Complex(-9, 2)  #=> ((36/85)-(77/85)*i)
+    Complex(9, 8)  / 4               #=> ((9/4)+(2/1)*i)
+    Complex(20, 9) / 9.8             #=> (2.0408163265306123+0.9183673469387754i)
+- :id: 28
+  :callseqs:
+  - rationalize([eps])  →  rational
+  :description:
+  - |-
+    Returns the value as a rational if possible (the imaginary part should be
+    exactly zero).
+  - See to_r.
+  :examples: |
+    Complex(1.0/3, 0).rationalize  #=> (1/3)
+    Complex(1, 0.0).rationalize    # RangeError
+    Complex(1, 2).rationalize      # RangeError
+- :id: 29
+  :callseqs:
+  - real  →  real
+  :description:
+  - Returns the real part.
+  :examples: |
+    Complex(7).real      #=> 7
+    Complex(9, -4).real  #=> 9
+- :id: 30
+  :callseqs:
+  - real?  →  false
+  :description:
+  - Returns false.
+  :examples: ''
+- :id: 31
+  :callseqs:
+  - rect         →  array
+  - rectangular  →  array
+  :description:
+  - Returns an array; [cmp.real, cmp.imag].
+  :examples: 'Complex(1, 2).rectangular  #=> [1, 2]
+
+'
+- :id: 32
+  :callseqs:
+  - rect         →  array
+  - rectangular  →  array
+  :description:
+  - Returns an array; [cmp.real, cmp.imag].
+  :examples: 'Complex(1, 2).rectangular  #=> [1, 2]
+
+'
+- :id: 33
+  :callseqs:
+  - to_c  →  self
+  :description:
+  - Returns self.
+  :examples: |
+    Complex(2).to_c      #=> (2+0i)
+    Complex(-8, 6).to_c  #=> (-8+6i)
+- :id: 34
+  :callseqs:
+  - to_f  →  float
+  :description:
+  - |-
+    Returns the value as a float if possible (the imaginary part should be
+    exactly zero).
+  :examples: |
+    Complex(1, 0).to_f    #=> 1.0
+    Complex(1, 0.0).to_f  # RangeError
+    Complex(1, 2).to_f    # RangeError
+- :id: 35
+  :callseqs:
+  - to_i  →  integer
+  :description:
+  - |-
+    Returns the value as an integer if possible (the imaginary part should be
+    exactly zero).
+  :examples: |
+    Complex(1, 0).to_i    #=> 1
+    Complex(1, 0.0).to_i  # RangeError
+    Complex(1, 2).to_i    # RangeError
+- :id: 36
+  :callseqs:
+  - to_r  →  rational
+  :description:
+  - |-
+    Returns the value as a rational if possible (the imaginary part should be
+    exactly zero).
+  - See rationalize.
+  :examples: |
+    Complex(1, 0).to_r    #=> (1/1)
+    Complex(1, 0.0).to_r  # RangeError
+    Complex(1, 2).to_r    # RangeError
+- :id: 37
+  :callseqs:
+  - to_s  →  string
+  :description:
+  - Returns the value as a string.
+  :examples: |
+    Complex(2).to_s                       #=> "2+0i"
+    Complex('-8/6').to_s                  #=> "-4/3+0i"
+    Complex('1/2i').to_s                  #=> "0+1/2i"
+    Complex(0, Float::INFINITY).to_s      #=> "0+Infinity*i"
+    Complex(Float::NAN, Float::NAN).to_s  #=> "NaN+NaN*i"
+- :id: 38
+  :callseqs:
+  - conj       →  complex
+  - conjugate  →  complex
+  :description:
+  - Returns the complex conjugate.
+  :examples: 'Complex(1, 2).conjugate  #=> (1-2i)
+
+'

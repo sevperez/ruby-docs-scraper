@@ -1,0 +1,85 @@
+---
+- :id: 0
+  :callseqs:
+  - destination_encoding         → string
+  :description:
+  - Returns the destination encoding as an encoding object.
+  :examples: ''
+- :id: 1
+  :callseqs:
+  - destination_encoding_name         → string
+  :description:
+  - Returns the destination encoding name as a string.
+  :examples: ''
+- :id: 2
+  :callseqs:
+  - error_bytes         → string
+  :description:
+  - |-
+    Returns the discarded bytes when Encoding::InvalidByteSequenceError
+    occurs.
+  :examples: |
+    ec = Encoding::Converter.new("EUC-JP", "ISO-8859-1")
+    begin
+      ec.convert("abc\xA1\xFFdef")
+    rescue Encoding::InvalidByteSequenceError
+      p $!      #=> #<Encoding::InvalidByteSequenceError: "\xA1" followed by "\xFF" on EUC-JP>
+      puts $!.error_bytes.dump          #=> "\xA1"
+      puts $!.readagain_bytes.dump      #=> "\xFF"
+    end
+- :id: 3
+  :callseqs:
+  - incomplete_input?         → true or false
+  :description:
+  - |-
+    Returns true if the invalid byte sequence error is caused by premature end
+    of string.
+  :examples: |
+    ec = Encoding::Converter.new("EUC-JP", "ISO-8859-1")
+
+    begin
+      ec.convert("abc\xA1z")
+    rescue Encoding::InvalidByteSequenceError
+      p $!      #=> #<Encoding::InvalidByteSequenceError: "\xA1" followed by "z" on EUC-JP>
+      p $!.incomplete_input?    #=> false
+    end
+
+    begin
+      ec.convert("abc\xA1")
+      ec.finish
+    rescue Encoding::InvalidByteSequenceError
+      p $!      #=> #<Encoding::InvalidByteSequenceError: incomplete "\xA1" on EUC-JP>
+      p $!.incomplete_input?    #=> true
+    end
+- :id: 4
+  :callseqs:
+  - readagain_bytes         → string
+  :description:
+  - |-
+    Returns the bytes to be read again when Encoding::InvalidByteSequenceError
+    occurs.
+  :examples: ''
+- :id: 5
+  :callseqs:
+  - source_encoding              → encoding
+  :description:
+  - Returns the source encoding as an encoding object.
+  - |-
+    Note that the result may not be equal to the source encoding of the
+    encoding converter if the conversion has multiple steps.
+  :examples: |
+    ec = Encoding::Converter.new("ISO-8859-1", "EUC-JP") # ISO-8859-1 -> UTF-8 -> EUC-JP
+    begin
+      ec.convert("\xa0") # NO-BREAK SPACE, which is available in UTF-8 but not in EUC-JP.
+    rescue Encoding::UndefinedConversionError
+      p $!.source_encoding              #=> #<Encoding:UTF-8>
+      p $!.destination_encoding         #=> #<Encoding:EUC-JP>
+      p $!.source_encoding_name         #=> "UTF-8"
+      p $!.destination_encoding_name    #=> "EUC-JP"
+    end
+- :id: 6
+  :callseqs:
+  - source_encoding_name         → string
+  :description:
+  - Returns the source encoding name as a string.
+  :examples: ''

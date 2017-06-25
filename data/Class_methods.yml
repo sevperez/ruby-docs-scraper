@@ -1,0 +1,94 @@
+---
+- :id: 0
+  :callseqs:
+  - new(super_class=Object)               → a_class
+  - new(super_class=Object) { |mod| ... } → a_class
+  :description:
+  - |-
+    Creates a new anonymous (unnamed) class with the given superclass (or
+    Object if no parameter is given). You can give a class a name
+    by assigning the class object to a constant.
+  - |-
+    If a block is given, it is passed the class object, and the block is
+    evaluated in the context of this class like class_eval.
+  - |-
+    Assign the class to a constant (name starting uppercase) if you want to
+    treat it like a regular class.
+  :examples: |
+    fred = Class.new do
+      def meth1
+        "hello"
+      end
+      def meth2
+        "bye"
+      end
+    end
+
+    a = fred.new     #=> #<#<Class:0x100381890>:0x100376b98>
+    a.meth1          #=> "hello"
+    a.meth2          #=> "bye"
+- :id: 1
+  :callseqs:
+  - allocate()   →   obj
+  :description:
+  - |-
+    Allocates space for a new object of class’s class and does not
+    call initialize on the new instance. The returned object must be an
+    instance of class.
+  :examples: |
+    klass = Class.new do
+      def initialize(*args)
+        @initialized = true
+      end
+
+      def initialized?
+        @initialized || false
+      end
+    end
+
+    klass.allocate.initialized? #=> false
+- :id: 2
+  :callseqs:
+  - new(args, ...)    →  obj
+  :description:
+  - |-
+    Calls allocate to create a new object of class’s
+    class, then invokes that object’s initialize method, passing
+    it args. This is the method that ends up getting called whenever
+    an object is constructed using .new.
+  :examples: ''
+- :id: 3
+  :callseqs:
+  - superclass → a_super_class or nil
+  :description:
+  - Returns the superclass of class, or nil.
+  - 'Returns nil when the given class does not have a parent class:'
+  :examples: |
+    File.superclass          #=> IO
+    IO.superclass            #=> Object
+    Object.superclass        #=> BasicObject
+    class Foo; end
+    class Bar < Foo; end
+    Bar.superclass           #=> Foo
+    BasicObject.superclass   #=> nil
+- :id: 4
+  :callseqs:
+  - inherited(subclass)
+  :description:
+  - Callback invoked whenever a subclass of the current class is created.
+  - 'Example:'
+  - 'produces:'
+  :examples: |
+    class Foo
+      def self.inherited(subclass)
+        puts "New subclass: #{subclass}"
+      end
+    end
+
+    class Bar < Foo
+    end
+
+    class Baz < Bar
+    end
+    New subclass: Bar
+    New subclass: Baz

@@ -1,0 +1,1862 @@
+---
+- :id: 0
+  :callseqs:
+  - new(str="")   → new_str
+  - 'new(str="", encoding: enc) → new_str'
+  - 'new(str="", capacity: size) → new_str'
+  :description:
+  - Returns a new string object containing a copy of str.
+  - |-
+    The optional enc argument specifies the encoding of the new
+    string. If not specified, the encoding of str (or ASCII-8BIT, if
+    str is not specified) is used.
+  - |-
+    The optional size argument specifies the size of internal buffer.
+    This may improve performance, when the string will be concatenated many
+    times (and call many realloc).
+  :examples: ''
+- :id: 1
+  :callseqs:
+  - try_convert(obj) → string or nil
+  :description:
+  - |-
+    Try to convert obj into a String, using
+    #to_str method. Returns converted
+    string or nil if obj cannot be converted for any reason.
+  :examples: |
+    String.try_convert("str")     #=> "str"
+    String.try_convert(/re/)      #=> nil
+- :id: 2
+  :callseqs:
+  - str % arg   → new_str
+  :description:
+  - |-
+    Format—Uses str as a format specification, and returns the result
+    of applying it to arg. If the format specification contains more
+    than one substitution, then arg must be an Array or
+    Hash containing the values to be substituted. See
+    Kernel::sprintf for details of the format string.
+  :examples: |
+    "%05d" % 123                              #=> "00123"
+    "%-5s: %08x" % [ "ID", self.object_id ]   #=> "ID   : 200e14d6"
+    "foo = %{foo}" % { :foo => 'bar' }        #=> "foo = bar"
+- :id: 3
+  :callseqs:
+  - str * integer   → new_str
+  :description:
+  - |-
+    Copy — Returns a new String containing
+    integer copies of the receiver. integer must be
+    greater than or equal to 0.
+  :examples: |
+    "Ho! " * 3   #=> "Ho! Ho! Ho! "
+    "Ho! " * 0   #=> ""
+- :id: 4
+  :callseqs:
+  - str + other_str   → new_str
+  :description:
+  - |-
+    Concatenation—Returns a new String containing
+    other_str concatenated to str.
+  :examples: '"Hello from " + self.to_s   #=> "Hello from main"
+
+'
+- :id: 5
+  :callseqs:
+  - "+str  → str (mutable)"
+  :description:
+  - If the string is frozen, then return duplicated mutable string.
+  - If the string is not frozen, then return the string itself.
+  :examples: ''
+- :id: 6
+  :callseqs:
+  - "-str  → str (frozen)"
+  :description:
+  - If the string is frozen, then return the string itself.
+  - |-
+    If the string is not frozen, return a frozen, possibly pre-existing copy of
+    it.
+  :examples: ''
+- :id: 7
+  :callseqs:
+  - str << integer                      → str
+  - concat(integer1, integer2,...)  → str
+  - str << obj                          → str
+  - concat(obj1, obj2,...)          → str
+  :description:
+  - |-
+    Append---Concatenates the given object to str. If the object is an
+    Integer, it is considered as a codepoint, and is converted to
+    a character before concatenation. Concat can take multiple arguments. All
+    the arguments are concatenated in order.
+  :examples: |
+    a = "hello "
+    a << "world"   #=> "hello world"
+    a.concat(33)   #=> "hello world!"
+    a              #=> "hello world!"
+
+    b = "sn"
+    b.concat(b, b)    #=> "snsnsn"
+- :id: 8
+  :callseqs:
+  - string <=> other_string   → -1, 0, +1, or nil
+  :description:
+  - |-
+    Comparison—Returns -1, 0, +1, or nil depending on whether
+    string is less than, equal to, or greater than
+    other_string.
+  - nil is returned if the two values are incomparable.
+  - |-
+    If the strings are of different lengths, and the strings are equal when
+    compared up to the shortest length, then the longer string is considered
+    greater than the shorter one.
+  - |-
+    <=> is the basis for the methods <,
+    <=, >, >=, and
+    between?, included from module Comparable. The method String#== does not use
+    Comparable#==.
+  :examples: |
+    "abcdef" <=> "abcde"     #=> 1
+    "abcdef" <=> "abcdef"    #=> 0
+    "abcdef" <=> "abcdefg"   #=> -1
+    "abcdef" <=> "ABCDEF"    #=> 1
+    "abcdef" <=> 1           #=> nil
+- :id: 9
+  :callseqs:
+  - str == obj    → true or false
+  :description:
+  - |-
+    Equality—Returns whether str == obj, similar to
+    Object#==.
+  - |-
+    If obj is not an instance of String
+    but responds to to_str, then the two strings are compared
+    using obj.==.
+  - 'Otherwise, returns similarly to #eql?, comparing length and content.'
+  :examples: ''
+- :id: 10
+  :callseqs:
+  - str === obj   → true or false
+  :description:
+  - |-
+    Equality—Returns whether str == obj, similar to
+    Object#==.
+  - |-
+    If obj is not an instance of String
+    but responds to to_str, then the two strings are compared
+    using obj.==.
+  - 'Otherwise, returns similarly to #eql?, comparing length and content.'
+  :examples: ''
+- :id: 11
+  :callseqs:
+  - str =~ obj   → integer or nil
+  :description:
+  - |-
+    Match—If obj is a Regexp, use it as a pattern to
+    match against str,and returns the position the match starts, or
+    nil if there is no match. Otherwise, invokes obj.=~,
+    passing str as an argument. The default =~ in
+    Object returns nil.
+  - |-
+    Note: str =~ regexp is not the same as regexp =~
+    str. Strings captured from named capture groups are assigned to
+    local variables only in the second case.
+  :examples: |
+    "cat o' 9 tails" =~ /\d/   #=> 7
+    "cat o' 9 tails" =~ 9      #=> nil
+- :id: 12
+  :callseqs:
+  - str[index]                 → new_str or nil
+  - str[start, length]         → new_str or nil
+  - str[range]                 → new_str or nil
+  - str[regexp]                → new_str or nil
+  - str[regexp, capture]       → new_str or nil
+  - str[match_str]             → new_str or nil
+  :description:
+  - |-
+    Element Reference — If passed a single index, returns a
+    substring of one character at that index. If passed a start
+    index and a length, returns a substring containing
+    length characters starting at the start index. If
+    passed a range, its beginning and end are interpreted as
+    offsets delimiting the substring to be returned.
+  - |-
+    In these three cases, if an index is negative, it is counted from the end
+    of the string.  For the start and range cases the
+    starting index is just before a character and an index matching the
+    string’s size. Additionally, an empty string is returned when the starting
+    index for a character range is at the end of the string.
+  - |-
+    Returns nil if the initial index falls outside the string or
+    the length is negative.
+  - |-
+    If a Regexp is supplied, the matching portion of the string is
+    returned.  If a capture follows the regular expression, which
+    may be a capture group index or name, follows the regular expression that
+    component of the MatchData is returned
+    instead.
+  - |-
+    If a match_str is given, that string is returned if it occurs
+    in the string.
+  - |-
+    Returns nil if the regular expression does not match or the
+    match string cannot be found.
+  :examples: |
+    a = "hello there"
+
+    a[1]                   #=> "e"
+    a[2, 3]                #=> "llo"
+    a[2..3]                #=> "ll"
+
+    a[-3, 2]               #=> "er"
+    a[7..-2]               #=> "her"
+    a[-4..-2]              #=> "her"
+    a[-2..-4]              #=> ""
+
+    a[11, 0]               #=> ""
+    a[11]                  #=> nil
+    a[12, 0]               #=> nil
+    a[12..-1]              #=> nil
+
+    a[/[aeiou](.)\1/]      #=> "ell"
+    a[/[aeiou](.)\1/, 0]   #=> "ell"
+    a[/[aeiou](.)\1/, 1]   #=> "l"
+    a[/[aeiou](.)\1/, 2]   #=> nil
+
+    a[/(?<vowel>[aeiou])(?<non_vowel>[^aeiou])/, "non_vowel"] #=> "l"
+    a[/(?<vowel>[aeiou])(?<non_vowel>[^aeiou])/, "vowel"]     #=> "e"
+
+    a["lo"]                #=> "lo"
+    a["bye"]               #=> nil
+- :id: 13
+  :callseqs:
+  - str[integer] = new_str
+  - str[integer, integer] = new_str
+  - str[range] = aString
+  - str[regexp] = new_str
+  - str[regexp, integer] = new_str
+  - str[regexp, name] = new_str
+  - str[other_str] = new_str
+  :description:
+  - |-
+    Element Assignment—Replaces some or all of the content of str. The
+    portion of the string affected is determined using the same criteria as
+    String#[]. If the replacement string is not the same length as
+    the text it is replacing, the string will be adjusted accordingly. If the
+    regular expression or string is used as the index doesn’t match a position
+    in the string, IndexError is raised. If the regular expression
+    form is used, the optional second Integer allows you to
+    specify which portion of the match to replace (effectively using the
+    MatchData indexing rules. The forms that take an
+    Integer will raise an IndexError if the value is
+    out of range; the Range form will raise a
+    RangeError, and the Regexp and
+    String will raise an IndexError on negative
+    match.
+  :examples: ''
+- :id: 14
+  :callseqs:
+  - ascii_only?  → true or false
+  :description:
+  - Returns true for a string which has only ASCII characters.
+  :examples: |
+    "abc".force_encoding("UTF-8").ascii_only?          #=> true
+    "abc\u{6666}".force_encoding("UTF-8").ascii_only?  #=> false
+- :id: 15
+  :callseqs:
+  - b   → str
+  :description:
+  - Returns a copied string whose encoding is ASCII-8BIT.
+  :examples: ''
+- :id: 16
+  :callseqs:
+  - bytes    → an_array
+  :description:
+  - |-
+    Returns an array of bytes in str.  This is a shorthand for
+    str.each_byte.to_a.
+  - |-
+    If a block is given, which is a deprecated form, works the same as
+    each_byte.
+  :examples: ''
+- :id: 17
+  :callseqs:
+  - bytesize  → integer
+  :description:
+  - Returns the length of str in bytes.
+  :examples: ''
+- :id: 18
+  :callseqs:
+  - byteslice(integer)           → new_str or nil
+  - byteslice(integer, integer)   → new_str or nil
+  - byteslice(range)            → new_str or nil
+  :description:
+  - |-
+    Byte Reference—If passed a single Integer, returns a substring
+    of one byte at that position. If passed two Integer objects,
+    returns a substring starting at the offset given by the first, and a length
+    given by the second. If given a Range, a substring containing
+    bytes at offsets given by the range is returned. In all three cases, if an
+    offset is negative, it is counted from the end of str. Returns
+    nil if the initial offset falls outside the string, the length
+    is negative, or the beginning of the range is greater than the end. The
+    encoding of the resulted string keeps original encoding.
+  :examples: ''
+- :id: 19
+  :callseqs:
+  - capitalize              → new_str
+  - capitalize([options])   → new_str
+  :description:
+  - |-
+    Returns a copy of str with the first character converted to
+    uppercase and the remainder to lowercase.
+  - |-
+    See #downcase for meaning of
+    options and use with different encodings.
+  :examples: |
+    "hello".capitalize    #=> "Hello"
+    "HELLO".capitalize    #=> "Hello"
+    "123ABC".capitalize   #=> "123abc"
+- :id: 20
+  :callseqs:
+  - capitalize!              → str or nil
+  - capitalize!([options])   → str or nil
+  :description:
+  - |-
+    Modifies str by converting the first character to uppercase and
+    the remainder to lowercase. Returns nil if no changes are
+    made.
+  - |-
+    See #downcase for meaning of
+    options and use with different encodings.
+  :examples: |
+    a = "hello"
+    a.capitalize!   #=> "Hello"
+    a               #=> "Hello"
+    a.capitalize!   #=> nil
+- :id: 21
+  :callseqs:
+  - casecmp(other_str)   → -1, 0, +1, or nil
+  :description:
+  - |-
+    Case-insensitive version of String#<=>. Currently,
+    case-insensitivity only works on characters A-Z/a-z, not all of Unicode.
+    This is different from #casecmp?.
+  - |-
+    nil is returned if the two strings have incompatible
+    encodings.
+  :examples: |
+    "aBcDeF".casecmp("abcde")     #=> 1
+    "aBcDeF".casecmp("abcdef")    #=> 0
+    "aBcDeF".casecmp("abcdefg")   #=> -1
+    "abcdef".casecmp("ABCDEF")    #=> 0
+    "\u{e4 f6 fc}".encode("ISO-8859-1").casecmp("\u{c4 d6 dc}")   #=> nil
+- :id: 22
+  :callseqs:
+  - casecmp?(other_str)   → true, false, or nil
+  :description:
+  - |-
+    Returns true if str and other_str
+    are equal after Unicode case folding, false if they are not
+    equal.
+  - |-
+    nil is returned if the two strings have incompatible
+    encodings.
+  :examples: |
+    "aBcDeF".casecmp?("abcde")     #=> false
+    "aBcDeF".casecmp?("abcdef")    #=> true
+    "aBcDeF".casecmp?("abcdefg")   #=> false
+    "abcdef".casecmp?("ABCDEF")    #=> true
+    "\u{e4 f6 fc}".casecmp?("\u{c4 d6 dc}")   #=> true
+    "\u{e4 f6 fc}".encode("ISO-8859-1").casecmp?("\u{c4 d6 dc}")   #=> nil
+- :id: 23
+  :callseqs:
+  - center(width, padstr=' ')   → new_str
+  :description:
+  - |-
+    Centers str in width.  If width is
+    greater than the length of str, returns a new String of length width with
+    str centered and padded with padstr; otherwise,
+    returns str.
+  :examples: |
+    "hello".center(4)         #=> "hello"
+    "hello".center(20)        #=> "       hello        "
+    "hello".center(20, '123') #=> "1231231hello12312312"
+- :id: 24
+  :callseqs:
+  - chars    → an_array
+  :description:
+  - |-
+    Returns an array of characters in str.  This is a shorthand for
+    str.each_char.to_a.
+  - |-
+    If a block is given, which is a deprecated form, works the same as
+    each_char.
+  :examples: ''
+- :id: 25
+  :callseqs:
+  - chomp(separator=$/)   → new_str
+  :description:
+  - |-
+    Returns a new String with the given record separator removed
+    from the end of str (if present). If $/ has not been
+    changed from the default Ruby record separator, then chomp
+    also removes carriage return characters (that is it will remove
+    \n, \r, and \r\n). If
+    $/ is an empty string, it will remove all trailing newlines
+    from the string.
+  :examples: |
+    "hello".chomp                #=> "hello"
+    "hello\n".chomp              #=> "hello"
+    "hello\r\n".chomp            #=> "hello"
+    "hello\n\r".chomp            #=> "hello\n"
+    "hello\r".chomp              #=> "hello"
+    "hello \n there".chomp       #=> "hello \n there"
+    "hello".chomp("llo")         #=> "he"
+    "hello\r\n\r\n".chomp('')    #=> "hello"
+    "hello\r\n\r\r\n".chomp('')  #=> "hello\r\n\r"
+- :id: 26
+  :callseqs:
+  - chomp!(separator=$/)   → str or nil
+  :description:
+  - |-
+    Modifies str in place as described for String#chomp,
+    returning str, or nil if no modifications were made.
+  :examples: ''
+- :id: 27
+  :callseqs:
+  - chop   → new_str
+  :description:
+  - |-
+    Returns a new String with the last character removed.  If the
+    string ends with \r\n, both characters are removed. Applying
+    chop to an empty string returns an empty string.
+    String#chomp is often a safer alternative, as it leaves the
+    string unchanged if it doesn’t end in a record separator.
+  :examples: |
+    "string\r\n".chop   #=> "string"
+    "string\n\r".chop   #=> "string\n"
+    "string\n".chop     #=> "string"
+    "string".chop       #=> "strin"
+    "x".chop.chop       #=> ""
+- :id: 28
+  :callseqs:
+  - chop!   → str or nil
+  :description:
+  - |-
+    Processes str as for String#chop, returning
+    str, or nil if str is the empty string.  See
+    also String#chomp!.
+  :examples: ''
+- :id: 29
+  :callseqs:
+  - chr    →  string
+  :description:
+  - Returns a one-character string at the beginning of the string.
+  :examples: |
+    a = "abcde"
+    a.chr    #=> "a"
+- :id: 30
+  :callseqs:
+  - clear    →  string
+  :description:
+  - Makes string empty.
+  :examples: |
+    a = "abcde"
+    a.clear    #=> ""
+- :id: 31
+  :callseqs:
+  - codepoints   → an_array
+  :description:
+  - |-
+    Returns an array of the Integer ordinals of the characters in
+    str.  This is a shorthand for
+    str.each_codepoint.to_a.
+  - |-
+    If a block is given, which is a deprecated form, works the same as
+    each_codepoint.
+  :examples: ''
+- :id: 32
+  :callseqs:
+  - str << integer                      → str
+  - concat(integer1, integer2,...)  → str
+  - str << obj                          → str
+  - concat(obj1, obj2,...)          → str
+  :description:
+  - |-
+    Append---Concatenates the given object to str. If the object is an
+    Integer, it is considered as a codepoint, and is converted to
+    a character before concatenation. Concat can take multiple arguments. All
+    the arguments are concatenated in order.
+  :examples: |
+    a = "hello "
+    a << "world"   #=> "hello world"
+    a.concat(33)   #=> "hello world!"
+    a              #=> "hello world!"
+
+    b = "sn"
+    b.concat(b, b)    #=> "snsnsn"
+- :id: 33
+  :callseqs:
+  - count([other_str]+)   → integer
+  :description:
+  - |-
+    Each other_str parameter defines a set of characters to count.
+    The intersection of these sets defines the characters to count in
+    str.  Any other_str that starts with a caret
+    ^ is negated.  The sequence c1-c2 means all
+    characters between c1 and c2.  The backslash character \ can
+    be used to escape ^ or - and is otherwise ignored
+    unless it appears at the end of a sequence or the end of a
+    other_str.
+  :examples: |
+    a = "hello world"
+    a.count "lo"                   #=> 5
+    a.count "lo", "o"              #=> 2
+    a.count "hello", "^l"          #=> 4
+    a.count "ej-m"                 #=> 4
+
+    "hello^world".count "\\^aeiou" #=> 4
+    "hello-world".count "a\\-eo"   #=> 4
+
+    c = "hello world\\r\\n"
+    c.count "\\"                   #=> 2
+    c.count "\\A"                  #=> 0
+    c.count "X-\\w"                #=> 3
+- :id: 34
+  :callseqs:
+  - crypt(salt_str)   → new_str
+  :description:
+  - |-
+    Applies a one-way cryptographic hash to str by invoking the
+    standard library function crypt(3) with the given salt string.
+    While the format and the result are system and implementation dependent,
+    using a salt matching the regular expression
+    \A[a-zA-Z0-9./]{2} should be valid and safe on any platform,
+    in which only the first two characters are significant.
+  - |-
+    This method is for use in system specific scripts, so if you want a
+    cross-platform hash function consider using Digest or OpenSSL instead.
+  :examples: ''
+- :id: 35
+  :callseqs:
+  - delete([other_str]+)   → new_str
+  :description:
+  - |-
+    Returns a copy of str with all characters in the intersection of
+    its arguments deleted. Uses the same rules for building the set of
+    characters as String#count.
+  :examples: |
+    "hello".delete "l","lo"        #=> "heo"
+    "hello".delete "lo"            #=> "he"
+    "hello".delete "aeiou", "^e"   #=> "hell"
+    "hello".delete "ej-m"          #=> "ho"
+- :id: 36
+  :callseqs:
+  - delete!([other_str]+)   → str or nil
+  :description:
+  - |-
+    Performs a delete operation in place, returning str,
+    or nil if str was not modified.
+  :examples: ''
+- :id: 37
+  :callseqs:
+  - downcase              → new_str
+  - downcase([options])   → new_str
+  :description:
+  - |-
+    Returns a copy of str with all uppercase letters replaced with
+    their lowercase counterparts. Which letters exactly are replaced, and by
+    which other letters, depends on the presence or absence of options, and on
+    the encoding of the string.
+  - 'The meaning of the options is as follows:'
+  - |-
+    Full Unicode case mapping, suitable for most languages (see :turkic and
+    :lithuanian options below for exceptions). Context-dependent case mapping
+    as described in Table 3-14 of the Unicode standard is currently not
+    supported.
+  - |-
+    Only the ASCII region, i.e. the characters “A” to “Z” and “a” to “z”, are
+    affected. This option cannot be combined with any other option.
+  - |-
+    Full Unicode case mapping, adapted for Turkic languages (Turkish,
+    Aserbaijani,…). This means that upper case I is mapped to lower case
+    dotless i, and so on.
+  - |-
+    Currently, just full Unicode case mapping. In the future, full Unicode case
+    mapping adapted for Lithuanian (keeping the dot on the lower case i even if
+    there is an accent on top).
+  - |-
+    Only available on downcase and downcase!. Unicode
+    case folding, which is more far-reaching than Unicode case
+    mapping. This option currently cannot be combined with any other option
+    (i.e. there is currenty no variant for turkic languages).
+  - |-
+    Please note that several assumptions that are valid for ASCII-only case
+    conversions do not hold for more general case conversions. For example, the
+    length of the result may not be the same as the length of the input
+    (neither in characters nor in bytes), some roundtrip assumptions (e.g.
+    str.downcase == str.upcase.downcase) may not apply, and Unicode
+    normalization (i.e. String#unicode_normalize) is not necessarily maintained
+    by case mapping operations.
+  - |-
+    Non-ASCII case mapping/folding is currently supported for UTF-8,
+    UTF-16BE/LE, UTF-32BE/LE, and ISO-8859-1~16 Strings/Symbols. This support
+    will be extended to other encodings.
+  :examples: '"hEllO".downcase   #=> "hello"
+
+'
+- :id: 38
+  :callseqs:
+  - downcase!             → str or nil
+  - downcase!([options])  → str or nil
+  :description:
+  - |-
+    Downcases the contents of str, returning nil if no
+    changes were made.
+  - |-
+    See #downcase for meaning of
+    options and use with different encodings.
+  :examples: ''
+- :id: 39
+  :callseqs:
+  - dump   → new_str
+  :description:
+  - |-
+    Produces a version of str with all non-printing characters
+    replaced by \nnn notation and all special characters escaped.
+  :examples: '"hello \n ''''".dump  #=> "\"hello \\n ''''\""
+
+'
+- :id: 40
+  :callseqs:
+  - each_byte {|integer| block }    → str
+  - each_byte                      → an_enumerator
+  :description:
+  - |-
+    Passes each byte in str to the given block, or returns an
+    enumerator if no block is given.
+  - 'produces:'
+  :examples: '"hello".each_byte {|c| print c, '' '' }
+
+'
+- :id: 41
+  :callseqs:
+  - each_char {|cstr| block }    → str
+  - each_char                    → an_enumerator
+  :description:
+  - |-
+    Passes each character in str to the given block, or returns an
+    enumerator if no block is given.
+  - 'produces:'
+  :examples: |
+    "hello".each_char {|c| print c, ' ' }
+    h e l l o
+- :id: 42
+  :callseqs:
+  - each_codepoint {|integer| block }    → str
+  - each_codepoint                       → an_enumerator
+  :description:
+  - |-
+    Passes the Integer ordinal of each character in str,
+    also known as a codepoint when applied to Unicode strings to the
+    given block.  For encodings other than UTF-8/UTF-16(BE|LE)/UTF-32(BE|LE),
+    values are directly derived from the binary representation of each
+    character.
+  - If no block is given, an enumerator is returned instead.
+  - 'produces:'
+  :examples: '"hello\u0639".each_codepoint {|c| print c, '' '' }
+
+'
+- :id: 43
+  :callseqs:
+  - each_line(separator=$/) {|substr| block }   → str
+  - each_line(separator=$/)                     → an_enumerator
+  :description:
+  - |-
+    Splits str using the supplied parameter as the record separator
+    ($/ by default), passing each substring in turn to the
+    supplied block.  If a zero-length record separator is supplied, the string
+    is split into paragraphs delimited by multiple successive newlines.
+  - If no block is given, an enumerator is returned instead.
+  - 'produces:'
+  :examples: |
+    print "Example one\n"
+    "hello\nworld".each_line {|s| p s}
+    print "Example two\n"
+    "hello\nworld".each_line('l') {|s| p s}
+    print "Example three\n"
+    "hello\n\n\nworld".each_line('') {|s| p s}
+    Example one
+    "hello\n"
+    "world"
+    Example two
+    "hel"
+    "l"
+    "o\nworl"
+    "d"
+    Example three
+    "hello\n\n"
+    "world"
+- :id: 44
+  :callseqs:
+  - empty?   → true or false
+  :description:
+  - Returns true if str has a length of zero.
+  :examples: |
+    "hello".empty?   #=> false
+    " ".empty?       #=> false
+    "".empty?        #=> true
+- :id: 45
+  :callseqs:
+  - encode(encoding [, options] )   → str
+  - encode(dst_encoding, src_encoding [, options] )   → str
+  - encode([options])   → str
+  :description:
+  - |-
+    The first form returns a copy of str transcoded to encoding
+    encoding. The second form returns a copy of str
+    transcoded from src_encoding to dst_encoding. The last form returns a copy
+    of str transcoded to Encoding.default_internal.
+  - |-
+    By default, the first and second form raise Encoding::UndefinedConversionError
+    for characters that are undefined in the destination encoding, and Encoding::InvalidByteSequenceError
+    for invalid byte sequences in the source encoding. The last form by default
+    does not raise exceptions but uses replacement strings.
+  - |-
+    The options Hash gives details for
+    conversion and can have the following keys:
+  - |-
+    If the value is :replace, encode replaces invalid byte
+    sequences in str with the replacement character.  The default
+    is to raise the Encoding::InvalidByteSequenceError
+    exception
+  - |-
+    If the value is :replace, encode replaces characters which are
+    undefined in the destination encoding with the replacement character. The
+    default is to raise the Encoding::UndefinedConversionError.
+  - |-
+    Sets the replacement string to the given value. The default replacement
+    string is “uFFFD” for Unicode encoding forms, and “?” otherwise.
+  - "Sets the replacement string by the given object for undefined character. \nThe
+    object should be a Hash, a Proc, a Method, or an object\nwhich has [] method.
+    Its key is an undefined character encoded in the\nsource encoding of current transcoder.
+    Its value can be any encoding until\nit can be converted into the destination
+    encoding of the transcoder."
+  - |-
+    The value must be :text or :attr. If the value is
+    :text encode
+    replaces undefined characters with their (upper-case hexadecimal) numeric
+    character references. ‘&’, ‘<’, and ‘>’ are converted to
+    “&amp;”, “&lt;”, and “&gt;”, respectively. If the value is
+    :attr, encode also
+    quotes the replacement result (using ‘“’), and replaces ‘”’ with
+    “&quot;”.
+  - Replaces LF (“n”) with CR (“r”) if value is true.
+  - Replaces LF (“n”) with CRLF (“rn”) if value is true.
+  - Replaces CRLF (“rn”) and CR (“r”) with LF (“n”) if value is true.
+  :examples: ''
+- :id: 46
+  :callseqs:
+  - encode!(encoding [, options] )   → str
+  - encode!(dst_encoding, src_encoding [, options] )   → str
+  :description:
+  - |-
+    The first form transcodes the contents of str from str.encoding to
+    encoding. The second form transcodes the contents of
+    str from src_encoding to dst_encoding. The options Hash gives details for conversion. See #encode for details. Returns the
+    string even if no changes were made.
+  :examples: ''
+- :id: 47
+  :callseqs:
+  - encoding   → encoding
+  :description:
+  - |-
+    Returns the Encoding object that represents the
+    encoding of obj.
+  :examples: ''
+- :id: 48
+  :callseqs:
+  - end_with?([suffixes]+)   → true or false
+  :description:
+  - |-
+    Returns true if str ends with one of the suffixes
+    given.
+  :examples: |
+    "hello".end_with?("ello")               #=> true
+
+    # returns true if one of the +suffixes+ matches.
+    "hello".end_with?("heaven", "ello")     #=> true
+    "hello".end_with?("heaven", "paradise") #=> false
+- :id: 49
+  :callseqs:
+  - eql?(other)   → true or false
+  :description:
+  - Two strings are equal if they have the same length and content.
+  :examples: ''
+- :id: 50
+  :callseqs:
+  - force_encoding(encoding)   → str
+  :description:
+  - Changes the encoding to encoding and returns self.
+  :examples: ''
+- :id: 51
+  :callseqs: []
+  :description: []
+  :examples: ''
+- :id: 52
+  :callseqs:
+  - getbyte(index)          → 0 .. 255
+  :description:
+  - returns the indexth byte as an integer.
+  :examples: ''
+- :id: 53
+  :callseqs:
+  - gsub(pattern, replacement)       → new_str
+  - gsub(pattern, hash)              → new_str
+  - gsub(pattern) {|match| block }   → new_str
+  - gsub(pattern)                    → enumerator
+  :description:
+  - |-
+    Returns a copy of str with the all occurrences of
+    pattern substituted for the second argument. The pattern
+    is typically a Regexp; if given as a String, any
+    regular expression metacharacters it contains will be interpreted
+    literally, e.g. '\\d' will match a backslash followed by ‘d’,
+    instead of a digit.
+  - |-
+    If replacement is a String it will be substituted for
+    the matched text. It may contain back-references to the pattern’s capture
+    groups of the form \\d, where d is a group number, or
+    \\k<n>, where n is a group name. If it is a
+    double-quoted string, both back-references must be preceded by an
+    additional backslash. However, within replacement the special
+    match variables, such as $&, will not refer to the current
+    match.
+  - |-
+    If the second argument is a Hash, and the matched text is one
+    of its keys, the corresponding value is the replacement string.
+  - |-
+    In the block form, the current match string is passed in as a parameter,
+    and variables such as $1, $2, $`,
+    $&, and $' will be set appropriately. The
+    value returned by the block will be substituted for the match on each call.
+  - |-
+    The result inherits any tainting in the original string or any supplied
+    replacement string.
+  - |-
+    When neither a block nor a second argument is supplied, an
+    Enumerator is returned.
+  :examples: |
+    "hello".gsub(/[aeiou]/, '*')                  #=> "h*ll*"
+    "hello".gsub(/([aeiou])/, '<\1>')             #=> "h<e>ll<o>"
+    "hello".gsub(/./) {|s| s.ord.to_s + ' '}      #=> "104 101 108 108 111 "
+    "hello".gsub(/(?<foo>[aeiou])/, '{\k<foo>}')  #=> "h{e}ll{o}"
+    'hello'.gsub(/[eo]/, 'e' => 3, 'o' => '*')    #=> "h3ll*"
+- :id: 54
+  :callseqs:
+  - gsub!(pattern, replacement)        → str or nil
+  - gsub!(pattern, hash)               → str or nil
+  - gsub!(pattern) {|match| block }    → str or nil
+  - gsub!(pattern)                     → an_enumerator
+  :description:
+  - |-
+    Performs the substitutions of String#gsub in place, returning
+    str, or nil if no substitutions were performed. If no
+    block and no replacement is given, an enumerator is returned
+    instead.
+  :examples: ''
+- :id: 55
+  :callseqs:
+  - hash   → integer
+  :description:
+  - Return a hash based on the string’s length, content and encoding.
+  - See also Object#hash.
+  :examples: ''
+- :id: 56
+  :callseqs:
+  - hex   → integer
+  :description:
+  - |-
+    Treats leading characters from str as a string of hexadecimal
+    digits (with an optional sign and an optional 0x) and returns
+    the corresponding number. Zero is returned on error.
+  :examples: |
+    "0x0a".hex     #=> 10
+    "-1234".hex    #=> -4660
+    "0".hex        #=> 0
+    "wombat".hex   #=> 0
+- :id: 57
+  :callseqs:
+  - include? other_str   → true or false
+  :description:
+  - |-
+    Returns true if str contains the given string or
+    character.
+  :examples: |
+    "hello".include? "lo"   #=> true
+    "hello".include? "ol"   #=> false
+    "hello".include? ?h     #=> true
+- :id: 58
+  :callseqs:
+  - index(substring [, offset])   → integer or nil
+  - index(regexp [, offset])      → integer or nil
+  :description:
+  - |-
+    Returns the index of the first occurrence of the given substring
+    or pattern (regexp) in str. Returns nil if
+    not found. If the second parameter is present, it specifies the position in
+    the string to begin the search.
+  :examples: |
+    "hello".index('e')             #=> 1
+    "hello".index('lo')            #=> 3
+    "hello".index('a')             #=> nil
+    "hello".index(?e)              #=> 1
+    "hello".index(/[aeiou]/, -3)   #=> 4
+- :id: 59
+  :callseqs:
+  - replace(other_str)   → str
+  :description:
+  - |-
+    Replaces the contents and taintedness of str with the
+    corresponding values in other_str.
+  :examples: |
+    s = "hello"         #=> "hello"
+    s.replace "world"   #=> "world"
+- :id: 60
+  :callseqs:
+  - insert(index, other_str)   → str
+  :description:
+  - |-
+    Inserts other_str before the character at the given
+    index, modifying str. Negative indices count from the end
+    of the string, and insert after the given character. The intent is
+    insert aString so that it starts at the given index.
+  :examples: |
+    "abcd".insert(0, 'X')    #=> "Xabcd"
+    "abcd".insert(3, 'X')    #=> "abcXd"
+    "abcd".insert(4, 'X')    #=> "abcdX"
+    "abcd".insert(-3, 'X')   #=> "abXcd"
+    "abcd".insert(-1, 'X')   #=> "abcdX"
+- :id: 61
+  :callseqs:
+  - inspect   → string
+  :description:
+  - |-
+    Returns a printable version of str, surrounded by quote marks,
+    with special characters escaped.
+  :examples: |
+    str = "hello"
+    str[3] = "\b"
+    str.inspect       #=> "\"hel\\bo\""
+- :id: 62
+  :callseqs:
+  - intern   → symbol
+  :description:
+  - |-
+    Returns the Symbol corresponding to str, creating the
+    symbol if it did not previously exist. See Symbol#id2name.
+  - |-
+    This can also be used to create symbols that cannot be represented using
+    the :xxx notation.
+  :examples: |
+    "Koala".intern         #=> :Koala
+    s = 'cat'.to_sym       #=> :cat
+    s == :cat              #=> true
+    s = '@cat'.to_sym      #=> :@cat
+    s == :@cat             #=> true
+    'cat and dog'.to_sym   #=> :"cat and dog"
+- :id: 63
+  :callseqs:
+  - length   → integer
+  :description:
+  - Returns the character length of str.
+  :examples: ''
+- :id: 64
+  :callseqs:
+  - lines(separator=$/)  → an_array
+  :description:
+  - |-
+    Returns an array of lines in str split using the supplied record
+    separator ($/ by default).  This is a shorthand for
+    str.each_line(separator).to_a.
+  - |-
+    If a block is given, which is a deprecated form, works the same as
+    each_line.
+  :examples: ''
+- :id: 65
+  :callseqs:
+  - ljust(integer, padstr=' ')   → new_str
+  :description:
+  - |-
+    If integer is greater than the length of str, returns a
+    new String of length integer with str left
+    justified and padded with padstr; otherwise, returns str.
+  :examples: |
+    "hello".ljust(4)            #=> "hello"
+    "hello".ljust(20)           #=> "hello               "
+    "hello".ljust(20, '1234')   #=> "hello123412341234123"
+- :id: 66
+  :callseqs:
+  - lstrip   → new_str
+  :description:
+  - |-
+    Returns a copy of str with leading whitespace removed. See also
+    String#rstrip and String#strip.
+  - Refer to strip for the definition of whitespace.
+  :examples: |
+    "  hello  ".lstrip   #=> "hello  "
+    "hello".lstrip       #=> "hello"
+- :id: 67
+  :callseqs:
+  - lstrip!   → self or nil
+  :description:
+  - |-
+    Removes leading whitespace from str, returning nil if
+    no change was made. See also String#rstrip! and
+    String#strip!.
+  - Refer to strip for the definition of whitespace.
+  :examples: |
+    "  hello  ".lstrip!  #=> "hello  "
+    "hello  ".lstrip!    #=> nil
+    "hello".lstrip!      #=> nil
+- :id: 68
+  :callseqs:
+  - match(pattern)        → matchdata or nil
+  - match(pattern, pos)   → matchdata or nil
+  :description:
+  - |-
+    Converts pattern to a Regexp (if it isn’t already
+    one), then invokes its match method on str.  If the
+    second parameter is present, it specifies the position in the string to
+    begin the search.
+  - If a block is given, invoke the block with MatchData if match succeed, so that
+    you can write
+  - instead of
+  - The return value is a value from block execution in this case.
+  :examples: |
+    'hello'.match('(.)\1')      #=> #<MatchData "ll" 1:"l">
+    'hello'.match('(.)\1')[0]   #=> "ll"
+    'hello'.match(/(.)\1/)[0]   #=> "ll"
+    'hello'.match('xx')         #=> nil
+- :id: 69
+  :callseqs:
+  - match?(pattern)        → true or false
+  - match?(pattern, pos)   → true or false
+  :description:
+  - |-
+    Converts pattern to a Regexp (if it isn’t already
+    one), then returns a true or false indicates
+    whether the regexp is matched str or not without updating
+    $~ and other related variables.  If the second parameter is
+    present, it specifies the position in the string to begin the search.
+  :examples: |
+    "Ruby".match?(/R.../)    #=> true
+    "Ruby".match?(/R.../, 1) #=> false
+    "Ruby".match?(/P.../)    #=> false
+    $&                       #=> nil
+- :id: 70
+  :callseqs:
+  - next   → new_str
+  :description:
+  - |-
+    Returns the successor to str. The successor is calculated by
+    incrementing characters starting from the rightmost alphanumeric (or the
+    rightmost character if there are no alphanumerics) in the string.
+    Incrementing a digit always results in another digit, and incrementing a
+    letter results in another letter of the same case. Incrementing
+    nonalphanumerics uses the underlying character set’s collating sequence.
+  - |-
+    If the increment generates a “carry,” the character to the left of it is
+    incremented. This process repeats until there is no carry, adding an
+    additional character if necessary.
+  :examples: |
+    "abcd".succ        #=> "abce"
+    "THX1138".succ     #=> "THX1139"
+    "<<koala>>".succ   #=> "<<koalb>>"
+    "1999zzz".succ     #=> "2000aaa"
+    "ZZZ9999".succ     #=> "AAAA0000"
+    "***".succ         #=> "**+"
+- :id: 71
+  :callseqs:
+  - next!   → str
+  :description:
+  - Equivalent to String#succ, but modifies the receiver in place.
+  :examples: ''
+- :id: 72
+  :callseqs:
+  - oct   → integer
+  :description:
+  - |-
+    Treats leading characters of str as a string of octal digits (with
+    an optional sign) and returns the corresponding number.  Returns 0 if the
+    conversion fails.
+  - |-
+    If str starts with 0, radix indicators are
+    honored. See Kernel#Integer.
+  :examples: |
+    "123".oct       #=> 83
+    "-377".oct      #=> -255
+    "bad".oct       #=> 0
+    "0377bad".oct   #=> 255
+- :id: 73
+  :callseqs:
+  - ord   → integer
+  :description:
+  - Return the Integer ordinal of a one-character string.
+  :examples: '"a".ord         #=> 97
+
+'
+- :id: 74
+  :callseqs:
+  - partition(sep)              → [head, sep, tail]
+  - partition(regexp)           → [head, match, tail]
+  :description:
+  - |-
+    Searches sep or pattern (regexp) in the string and
+    returns the part before it, the match, and the part after it. If it is not
+    found, returns two empty strings and str.
+  :examples: |
+    "hello".partition("l")         #=> ["he", "l", "lo"]
+    "hello".partition("x")         #=> ["hello", "", ""]
+    "hello".partition(/.l/)        #=> ["h", "el", "lo"]
+- :id: 75
+  :callseqs:
+  - prepend(other_str1, other_str2,...)  → str
+  :description:
+  - Prepend—Prepend the given strings to str.
+  - 'See also #concat.'
+  :examples: |
+    a = "!"
+    a.prepend("hello ", "world") #=> "hello world!"
+    a                            #=> "hello world!"
+- :id: 76
+  :callseqs:
+  - replace(other_str)   → str
+  :description:
+  - |-
+    Replaces the contents and taintedness of str with the
+    corresponding values in other_str.
+  :examples: |
+    s = "hello"         #=> "hello"
+    s.replace "world"   #=> "world"
+- :id: 77
+  :callseqs:
+  - reverse   → new_str
+  :description:
+  - |-
+    Returns a new string with the characters from str in reverse
+    order.
+  :examples: '"stressed".reverse   #=> "desserts"
+
+'
+- :id: 78
+  :callseqs:
+  - reverse!   → str
+  :description:
+  - Reverses str in place.
+  :examples: ''
+- :id: 79
+  :callseqs:
+  - rindex(substring [, integer])   → integer or nil
+  - rindex(regexp [, integer])   → integer or nil
+  :description:
+  - |-
+    Returns the index of the last occurrence of the given substring or
+    pattern (regexp) in str. Returns nil if not
+    found. If the second parameter is present, it specifies the position in the
+    string to end the search—characters beyond this point will not be
+    considered.
+  :examples: |
+    "hello".rindex('e')             #=> 1
+    "hello".rindex('l')             #=> 3
+    "hello".rindex('a')             #=> nil
+    "hello".rindex(?e)              #=> 1
+    "hello".rindex(/[aeiou]/, -2)   #=> 1
+- :id: 80
+  :callseqs:
+  - rjust(integer, padstr=' ')   → new_str
+  :description:
+  - |-
+    If integer is greater than the length of str, returns a
+    new String of length integer with str right
+    justified and padded with padstr; otherwise, returns str.
+  :examples: |
+    "hello".rjust(4)            #=> "hello"
+    "hello".rjust(20)           #=> "               hello"
+    "hello".rjust(20, '1234')   #=> "123412341234123hello"
+- :id: 81
+  :callseqs:
+  - rpartition(sep)             → [head, sep, tail]
+  - rpartition(regexp)          → [head, match, tail]
+  :description:
+  - |-
+    Searches sep or pattern (regexp) in the string from the
+    end of the string, and returns the part before it, the match, and the part
+    after it. If it is not found, returns two empty strings and str.
+  :examples: |
+    "hello".rpartition("l")         #=> ["hel", "l", "o"]
+    "hello".rpartition("x")         #=> ["", "", "hello"]
+    "hello".rpartition(/.l/)        #=> ["he", "ll", "o"]
+- :id: 82
+  :callseqs:
+  - rstrip   → new_str
+  :description:
+  - |-
+    Returns a copy of str with trailing whitespace removed. See also
+    String#lstrip and String#strip.
+  - Refer to strip for the definition of whitespace.
+  :examples: |
+    "  hello  ".rstrip   #=> "  hello"
+    "hello".rstrip       #=> "hello"
+- :id: 83
+  :callseqs:
+  - rstrip!   → self or nil
+  :description:
+  - |-
+    Removes trailing whitespace from str, returning nil
+    if no change was made. See also String#lstrip! and
+    String#strip!.
+  - Refer to strip for the definition of whitespace.
+  :examples: |
+    "  hello  ".rstrip!  #=> "  hello"
+    "  hello".rstrip!    #=> nil
+    "hello".rstrip!      #=> nil
+- :id: 84
+  :callseqs:
+  - scan(pattern)                         → array
+  - scan(pattern) {|match, ...| block }   → str
+  :description:
+  - |-
+    Both forms iterate through str, matching the pattern (which may be
+    a Regexp or a String). For each match, a result
+    is generated and either added to the result array or passed to the block.
+    If the pattern contains no groups, each individual result consists of the
+    matched string, $&.  If the pattern contains groups, each
+    individual result is itself an array containing one entry per group.
+  - 'And the block form:'
+  - 'produces:'
+  :examples: |
+    a = "cruel world"
+    a.scan(/\w+/)        #=> ["cruel", "world"]
+    a.scan(/.../)        #=> ["cru", "el ", "wor"]
+    a.scan(/(...)/)      #=> [["cru"], ["el "], ["wor"]]
+    a.scan(/(..)(..)/)   #=> [["cr", "ue"], ["l ", "wo"]]
+    a.scan(/\w+/) {|w| print "<<#{w}>> " }
+    print "\n"
+    a.scan(/(.)(.)/) {|x,y| print y, x }
+    print "\n"
+- :id: 85
+  :callseqs:
+  - scrub → new_str
+  - scrub(repl) → new_str
+  - scrub{|bytes|} → new_str
+  :description:
+  - |-
+    If the string is invalid byte sequence then replace invalid bytes with
+    given replacement character, else returns self. If block is given, replace
+    invalid bytes with returned value of the block.
+  :examples: ''
+- :id: 86
+  :callseqs:
+  - scrub! → str
+  - scrub!(repl) → str
+  - scrub!{|bytes|} → str
+  :description:
+  - |-
+    If the string is invalid byte sequence then replace invalid bytes with
+    given replacement character, else returns self. If block is given, replace
+    invalid bytes with returned value of the block.
+  :examples: ''
+- :id: 87
+  :callseqs:
+  - setbyte(index, integer) → integer
+  :description:
+  - modifies the indexth byte as integer.
+  :examples: ''
+- :id: 88
+  :callseqs:
+  - size     → integer
+  :description:
+  - Returns the character length of str.
+  :examples: ''
+- :id: 89
+  :callseqs:
+  - slice(index)           → new_str or nil
+  - slice(start, length)   → new_str or nil
+  - slice(range)           → new_str or nil
+  - slice(regexp)          → new_str or nil
+  - slice(regexp, capture) → new_str or nil
+  - slice(match_str)       → new_str or nil
+  :description:
+  - |-
+    Element Reference — If passed a single index, returns a
+    substring of one character at that index. If passed a start
+    index and a length, returns a substring containing
+    length characters starting at the start index. If
+    passed a range, its beginning and end are interpreted as
+    offsets delimiting the substring to be returned.
+  - |-
+    In these three cases, if an index is negative, it is counted from the end
+    of the string.  For the start and range cases the
+    starting index is just before a character and an index matching the
+    string’s size. Additionally, an empty string is returned when the starting
+    index for a character range is at the end of the string.
+  - |-
+    Returns nil if the initial index falls outside the string or
+    the length is negative.
+  - |-
+    If a Regexp is supplied, the matching portion of the string is
+    returned.  If a capture follows the regular expression, which
+    may be a capture group index or name, follows the regular expression that
+    component of the MatchData is returned
+    instead.
+  - |-
+    If a match_str is given, that string is returned if it occurs
+    in the string.
+  - |-
+    Returns nil if the regular expression does not match or the
+    match string cannot be found.
+  :examples: |
+    a = "hello there"
+
+    a[1]                   #=> "e"
+    a[2, 3]                #=> "llo"
+    a[2..3]                #=> "ll"
+
+    a[-3, 2]               #=> "er"
+    a[7..-2]               #=> "her"
+    a[-4..-2]              #=> "her"
+    a[-2..-4]              #=> ""
+
+    a[11, 0]               #=> ""
+    a[11]                  #=> nil
+    a[12, 0]               #=> nil
+    a[12..-1]              #=> nil
+
+    a[/[aeiou](.)\1/]      #=> "ell"
+    a[/[aeiou](.)\1/, 0]   #=> "ell"
+    a[/[aeiou](.)\1/, 1]   #=> "l"
+    a[/[aeiou](.)\1/, 2]   #=> nil
+
+    a[/(?<vowel>[aeiou])(?<non_vowel>[^aeiou])/, "non_vowel"] #=> "l"
+    a[/(?<vowel>[aeiou])(?<non_vowel>[^aeiou])/, "vowel"]     #=> "e"
+
+    a["lo"]                #=> "lo"
+    a["bye"]               #=> nil
+- :id: 90
+  :callseqs:
+  - slice!(integer)           → new_str or nil
+  - slice!(integer, integer)   → new_str or nil
+  - slice!(range)            → new_str or nil
+  - slice!(regexp)           → new_str or nil
+  - slice!(other_str)        → new_str or nil
+  :description:
+  - |-
+    Deletes the specified portion from str, and returns the portion
+    deleted.
+  :examples: |
+    string = "this is a string"
+    string.slice!(2)        #=> "i"
+    string.slice!(3..6)     #=> " is "
+    string.slice!(/s.*t/)   #=> "sa st"
+    string.slice!("r")      #=> "r"
+    string                  #=> "thing"
+- :id: 91
+  :callseqs:
+  - split(pattern=nil, [limit])   → anArray
+  :description:
+  - |-
+    Divides str into substrings based on a delimiter, returning an
+    array of these substrings.
+  - |-
+    If pattern is a String, then its contents are used as
+    the delimiter when splitting str. If pattern is a single
+    space, str is split on whitespace, with leading whitespace and
+    runs of contiguous whitespace characters ignored.
+  - |-
+    If pattern is a Regexp, str is divided where
+    the pattern matches. Whenever the pattern matches a zero-length string,
+    str is split into individual characters. If pattern
+    contains groups, the respective matches will be returned in the array as
+    well.
+  - |-
+    If pattern is nil, the value of $; is
+    used. If $; is nil (which is the default),
+    str is split on whitespace as if ‘ ’ were specified.
+  - |-
+    If the limit parameter is omitted, trailing null fields are
+    suppressed. If limit is a positive number, at most that number of
+    fields will be returned (if limit is 1, the entire
+    string is returned as the only entry in an array). If negative, there is no
+    limit to the number of fields returned, and trailing null fields are not
+    suppressed.
+  - |-
+    When the input str is empty an empty Array is returned as the string is considered to have
+    no fields to split.
+  :examples: |
+    " now's  the time".split        #=> ["now's", "the", "time"]
+    " now's  the time".split(' ')   #=> ["now's", "the", "time"]
+    " now's  the time".split(/ /)   #=> ["", "now's", "", "the", "time"]
+    "1, 2.34,56, 7".split(%r{,\s*}) #=> ["1", "2.34", "56", "7"]
+    "hello".split(//)               #=> ["h", "e", "l", "l", "o"]
+    "hello".split(//, 3)            #=> ["h", "e", "llo"]
+    "hi mom".split(%r{\s*})         #=> ["h", "i", "m", "o", "m"]
+
+    "mellow yellow".split("ello")   #=> ["m", "w y", "w"]
+    "1,2,,3,4,,".split(',')         #=> ["1", "2", "", "3", "4"]
+    "1,2,,3,4,,".split(',', 4)      #=> ["1", "2", "", "3,4,,"]
+    "1,2,,3,4,,".split(',', -4)     #=> ["1", "2", "", "3", "4", "", ""]
+
+    "".split(',', -1)               #=> []
+- :id: 92
+  :callseqs:
+  - squeeze([other_str]*)    → new_str
+  :description:
+  - |-
+    Builds a set of characters from the other_str parameter(s) using
+    the procedure described for String#count. Returns a new string
+    where runs of the same character that occur in this set are replaced by a
+    single character. If no arguments are given, all runs of identical
+    characters are replaced by a single character.
+  :examples: |
+    "yellow moon".squeeze                  #=> "yelow mon"
+    "  now   is  the".squeeze(" ")         #=> " now is the"
+    "putters shoot balls".squeeze("m-z")   #=> "puters shot balls"
+- :id: 93
+  :callseqs:
+  - squeeze!([other_str]*)   → str or nil
+  :description:
+  - |-
+    Squeezes str in place, returning either str, or
+    nil if no changes were made.
+  :examples: ''
+- :id: 94
+  :callseqs:
+  - start_with?([prefixes]+)   → true or false
+  :description:
+  - |-
+    Returns true if str starts with one of the
+    prefixes given.
+  :examples: |
+    "hello".start_with?("hell")               #=> true
+
+    # returns true if one of the prefixes matches.
+    "hello".start_with?("heaven", "hell")     #=> true
+    "hello".start_with?("heaven", "paradise") #=> false
+- :id: 95
+  :callseqs:
+  - strip   → new_str
+  :description:
+  - |-
+    Returns a copy of str with leading and trailing whitespace
+    removed.
+  - |-
+    Whitespace is defined as any of the following characters: null, horizontal
+    tab, line feed, vertical tab, form feed, carriage return, space.
+  :examples: |
+    "    hello    ".strip   #=> "hello"
+    "\tgoodbye\r\n".strip   #=> "goodbye"
+    "\x00\t\n\v\f\r ".strip #=> ""
+- :id: 96
+  :callseqs:
+  - strip!   → str or nil
+  :description:
+  - |-
+    Removes leading and trailing whitespace from str. Returns
+    nil if str was not altered.
+  - Refer to strip for the definition of whitespace.
+  :examples: ''
+- :id: 97
+  :callseqs:
+  - sub(pattern, replacement)         → new_str
+  - sub(pattern, hash)                → new_str
+  - sub(pattern) {|match| block }     → new_str
+  :description:
+  - |-
+    Returns a copy of str with the first occurrence of
+    pattern replaced by the second argument. The
+    pattern is typically a Regexp; if
+    given as a String, any regular expression
+    metacharacters it contains will be interpreted literally, e.g.
+    '\\d' will match a backslash followed by ‘d’, instead of a
+    digit.
+  - |-
+    If replacement is a String it will
+    be substituted for the matched text. It may contain back-references to the
+    pattern’s capture groups of the form "\d", where
+    d is a group number, or "\k<n>",
+    where n is a group name. If it is a double-quoted string, both
+    back-references must be preceded by an additional backslash. However,
+    within replacement the special match variables, such as
+    $&, will not refer to the current match. If
+    replacement is a String that looks
+    like a pattern’s capture group but is actually not a pattern capture group
+    e.g. "\'", then it will have to be preceded by two
+    backslashes like so "\\'".
+  - |-
+    If the second argument is a Hash, and the matched
+    text is one of its keys, the corresponding value is the replacement string.
+  - |-
+    In the block form, the current match string is passed in as a parameter,
+    and variables such as $1, $2, $`,
+    $&, and $' will be set appropriately. The
+    value returned by the block will be substituted for the match on each call.
+  - |-
+    The result inherits any tainting in the original string or any supplied
+    replacement string.
+  :examples: |
+    "hello".sub(/[aeiou]/, '*')                  #=> "h*llo"
+    "hello".sub(/([aeiou])/, '<\1>')             #=> "h<e>llo"
+    "hello".sub(/./) {|s| s.ord.to_s + ' ' }     #=> "104 ello"
+    "hello".sub(/(?<foo>[aeiou])/, '*\k<foo>*')  #=> "h*e*llo"
+    'Is SHELL your preferred shell?'.sub(/[[:upper:]]{2,}/, ENV)
+     #=> "Is /bin/bash your preferred shell?"
+- :id: 98
+  :callseqs:
+  - sub!(pattern, replacement)          → str or nil
+  - sub!(pattern) {|match| block }      → str or nil
+  :description:
+  - 'Performs the same substitution as #sub in-place.'
+  - |-
+    Returns str if a substitution was performed or
+    nil if no substitution was performed.
+  :examples: ''
+- :id: 99
+  :callseqs:
+  - succ   → new_str
+  :description:
+  - |-
+    Returns the successor to str. The successor is calculated by
+    incrementing characters starting from the rightmost alphanumeric (or the
+    rightmost character if there are no alphanumerics) in the string.
+    Incrementing a digit always results in another digit, and incrementing a
+    letter results in another letter of the same case. Incrementing
+    nonalphanumerics uses the underlying character set’s collating sequence.
+  - |-
+    If the increment generates a “carry,” the character to the left of it is
+    incremented. This process repeats until there is no carry, adding an
+    additional character if necessary.
+  :examples: |
+    "abcd".succ        #=> "abce"
+    "THX1138".succ     #=> "THX1139"
+    "<<koala>>".succ   #=> "<<koalb>>"
+    "1999zzz".succ     #=> "2000aaa"
+    "ZZZ9999".succ     #=> "AAAA0000"
+    "***".succ         #=> "**+"
+- :id: 100
+  :callseqs:
+  - succ!   → str
+  :description:
+  - Equivalent to String#succ, but modifies the receiver in place.
+  :examples: ''
+- :id: 101
+  :callseqs:
+  - sum(n=16)   → integer
+  :description:
+  - |-
+    Returns a basic n-bit checksum of the characters in str,
+    where n is the optional Integer parameter, defaulting
+    to 16. The result is simply the sum of the binary value of each byte in
+    str modulo 2**n - 1. This is not a particularly good
+    checksum.
+  :examples: ''
+- :id: 102
+  :callseqs:
+  - swapcase              → new_str
+  - swapcase([options])   → new_str
+  :description:
+  - |-
+    Returns a copy of str with uppercase alphabetic characters
+    converted to lowercase and lowercase characters converted to uppercase.
+  - |-
+    See #downcase for meaning of
+    options and use with different encodings.
+  :examples: |
+    "Hello".swapcase          #=> "hELLO"
+    "cYbEr_PuNk11".swapcase   #=> "CyBeR_pUnK11"
+- :id: 103
+  :callseqs:
+  - swapcase!              → str or nil
+  - swapcase!([options])   → str or nil
+  :description:
+  - |-
+    Equivalent to String#swapcase, but modifies the receiver in
+    place, returning str, or nil if no changes were made.
+  - |-
+    See #downcase for meaning of
+    options and use with different encodings.
+  :examples: ''
+- :id: 104
+  :callseqs:
+  - to_c  →  complex
+  :description:
+  - |-
+    Returns a complex which denotes the string form.  The parser ignores
+    leading whitespaces and trailing garbage.  Any digit sequences can be
+    separated by an underscore.  Returns zero for null or garbage string.
+  - See Kernel.Complex.
+  :examples: |
+    '9'.to_c           #=> (9+0i)
+    '2.5'.to_c         #=> (2.5+0i)
+    '2.5/1'.to_c       #=> ((5/2)+0i)
+    '-3/2'.to_c        #=> ((-3/2)+0i)
+    '-i'.to_c          #=> (0-1i)
+    '45i'.to_c         #=> (0+45i)
+    '3-4i'.to_c        #=> (3-4i)
+    '-4e2-4e-2i'.to_c  #=> (-400.0-0.04i)
+    '-0.0-0.0i'.to_c   #=> (-0.0-0.0i)
+    '1/2+3/4i'.to_c    #=> ((1/2)+(3/4)*i)
+    'ruby'.to_c        #=> (0+0i)
+- :id: 105
+  :callseqs:
+  - to_f   → float
+  :description:
+  - |-
+    Returns the result of interpreting leading characters in str as a
+    floating point number. Extraneous characters past the end of a valid number
+    are ignored. If there is not a valid number at the start of str,
+    0.0 is returned. This method never raises an exception.
+  :examples: |
+    "123.45e1".to_f        #=> 1234.5
+    "45.67 degrees".to_f   #=> 45.67
+    "thx1138".to_f         #=> 0.0
+- :id: 106
+  :callseqs:
+  - to_i(base=10)   → integer
+  :description:
+  - |-
+    Returns the result of interpreting leading characters in str as an
+    integer base base (between 2 and 36). Extraneous characters past
+    the end of a valid number are ignored. If there is not a valid number at
+    the start of str, 0 is returned. This method never
+    raises an exception when base is valid.
+  :examples: |
+    "12345".to_i             #=> 12345
+    "99 red balloons".to_i   #=> 99
+    "0a".to_i                #=> 0
+    "0a".to_i(16)            #=> 10
+    "hello".to_i             #=> 0
+    "1100101".to_i(2)        #=> 101
+    "1100101".to_i(8)        #=> 294977
+    "1100101".to_i(10)       #=> 1100101
+    "1100101".to_i(16)       #=> 17826049
+- :id: 107
+  :callseqs:
+  - to_r  →  rational
+  :description:
+  - |-
+    Returns a rational which denotes the string form.  The parser ignores
+    leading whitespaces and trailing garbage.  Any digit sequences can be
+    separated by an underscore.  Returns zero for null or garbage string.
+  - |-
+    NOTE: ‘0.3’.to_r isn’t the same as 0.3.to_r.  The former is equivalent to
+    ‘3/10’.to_r, but the latter isn’t so.
+  - See Kernel.Rational.
+  :examples: |
+    '  2  '.to_r       #=> (2/1)
+    '300/2'.to_r       #=> (150/1)
+    '-9.2'.to_r        #=> (-46/5)
+    '-9.2e2'.to_r      #=> (-920/1)
+    '1_234_567'.to_r   #=> (1234567/1)
+    '21 june 09'.to_r  #=> (21/1)
+    '21/06/09'.to_r    #=> (7/2)
+    'bwv 1079'.to_r    #=> (0/1)
+- :id: 108
+  :callseqs:
+  - to_s     → str
+  - to_str   → str
+  :description:
+  - Returns self.
+  - |-
+    If called on a subclass of String, converts the
+    receiver to a String object.
+  :examples: ''
+- :id: 109
+  :callseqs:
+  - to_str   → str
+  :description:
+  - Returns self.
+  - |-
+    If called on a subclass of String, converts the
+    receiver to a String object.
+  :examples: ''
+- :id: 110
+  :callseqs:
+  - to_sym   → symbol
+  :description:
+  - |-
+    Returns the Symbol corresponding to str, creating the
+    symbol if it did not previously exist. See Symbol#id2name.
+  - |-
+    This can also be used to create symbols that cannot be represented using
+    the :xxx notation.
+  :examples: |
+    "Koala".intern         #=> :Koala
+    s = 'cat'.to_sym       #=> :cat
+    s == :cat              #=> true
+    s = '@cat'.to_sym      #=> :@cat
+    s == :@cat             #=> true
+    'cat and dog'.to_sym   #=> :"cat and dog"
+- :id: 111
+  :callseqs:
+  - tr(from_str, to_str)   => new_str
+  :description:
+  - |-
+    Returns a copy of str with the characters in
+    from_str replaced by the corresponding characters in
+    to_str.  If to_str is shorter than
+    from_str, it is padded with its last character in order to
+    maintain the correspondence.
+  - |-
+    Both strings may use the c1-c2 notation to denote ranges of
+    characters, and from_str may start with a ^,
+    which denotes all characters except those listed.
+  - |-
+    The backslash character \ can be used to escape ^
+    or - and is otherwise ignored unless it appears at the end of
+    a range or the end of the from_str or to_str:
+  :examples: |
+    "hello".tr('el', 'ip')      #=> "hippo"
+    "hello".tr('aeiou', '*')    #=> "h*ll*"
+    "hello".tr('aeiou', 'AA*')  #=> "hAll*"
+    "hello".tr('a-y', 'b-z')    #=> "ifmmp"
+    "hello".tr('^aeiou', '*')   #=> "*e**o"
+    "hello^world".tr("\\^aeiou", "*") #=> "h*ll**w*rld"
+    "hello-world".tr("a\\-eo", "*")   #=> "h*ll**w*rld"
+
+    "hello\r\nworld".tr("\r", "")   #=> "hello\nworld"
+    "hello\r\nworld".tr("\\r", "")  #=> "hello\r\nwold"
+    "hello\r\nworld".tr("\\\r", "") #=> "hello\nworld"
+
+    "X['\\b']".tr("X\\", "")   #=> "['b']"
+    "X['\\b']".tr("X-\\]", "") #=> "'b'"
+- :id: 112
+  :callseqs:
+  - tr!(from_str, to_str)   → str or nil
+  :description:
+  - |-
+    Translates str in place, using the same rules as
+    String#tr. Returns str, or nil if no
+    changes were made.
+  :examples: ''
+- :id: 113
+  :callseqs:
+  - tr_s(from_str, to_str)   → new_str
+  :description:
+  - |-
+    Processes a copy of str as described under String#tr,
+    then removes duplicate characters in regions that were affected by the
+    translation.
+  :examples: |
+    "hello".tr_s('l', 'r')     #=> "hero"
+    "hello".tr_s('el', '*')    #=> "h*o"
+    "hello".tr_s('el', 'hx')   #=> "hhxo"
+- :id: 114
+  :callseqs:
+  - tr_s!(from_str, to_str)   → str or nil
+  :description:
+  - |-
+    Performs String#tr_s processing on str in place,
+    returning str, or nil if no changes were made.
+  :examples: ''
+- :id: 115
+  :callseqs:
+  - unpack(format)    →  anArray
+  :description:
+  - "Decodes str (which may contain binary data) according to the\nformat string,
+    returning an array of each value extracted. The format\nstring consists of a sequence
+    of single-character directives, summarized in\nthe table at the end of this entry.
+    Each directive may be followed by a\nnumber, indicating the number of times to
+    repeat with this directive. An\nasterisk (“*”) will use up all remaining elements.
+    The\ndirectives sSiIlL may each be followed by an underscore\n(“_”) or exclamation
+    mark (“!”) to use the\nunderlying platform’s native size for the specified type;
+    otherwise, it\nuses a platform-independent consistent size. Spaces are ignored
+    in the\nformat string. See also String#unpack1, \nArray#pack."
+  - |-
+    This table summarizes the various formats and the Ruby classes returned by
+    each.
+  - HISTORY
+  - J, J! j, and j! are available since Ruby 2.3.
+  - Q_, Q!, q_, and q! are available since Ruby 2.1.
+  - I!<, i!<, I!>, and i!> are available since Ruby 1.9.3.
+  :examples: |
+    "abc \0\0abc \0\0".unpack('A6Z6')   #=> ["abc", "abc "]
+    "abc \0\0".unpack('a3a3')           #=> ["abc", " \000\000"]
+    "abc \0abc \0".unpack('Z*Z*')       #=> ["abc ", "abc "]
+    "aa".unpack('b8B8')                 #=> ["10000110", "01100001"]
+    "aaa".unpack('h2H2c')               #=> ["16", "61", 97]
+    "\xfe\xff\xfe\xff".unpack('sS')     #=> [-2, 65534]
+    "now=20is".unpack('M*')             #=> ["now is"]
+    "whole".unpack('xax2aX2aX1aX2a')    #=> ["h", "e", "l", "l", "o"]
+- :id: 116
+  :callseqs:
+  - unpack1(format)    →  obj
+  :description:
+  - |-
+    Decodes str (which may contain binary data) according to the
+    format string, returning the first value extracted. See also
+    String#unpack, Array#pack.
+  :examples: ''
+- :id: 117
+  :callseqs:
+  - upcase              → new_str
+  - upcase([options])   → new_str
+  :description:
+  - |-
+    Returns a copy of str with all lowercase letters replaced with
+    their uppercase counterparts.
+  - |-
+    See #downcase for meaning of
+    options and use with different encodings.
+  :examples: '"hEllO".upcase   #=> "HELLO"
+
+'
+- :id: 118
+  :callseqs:
+  - upcase!              → str or nil
+  - upcase!([options])   → str or nil
+  :description:
+  - |-
+    Upcases the contents of str, returning nil if no
+    changes were made.
+  - |-
+    See #downcase for meaning of
+    options and use with different encodings.
+  :examples: ''
+- :id: 119
+  :callseqs:
+  - upto(other_str, exclusive=false) {|s| block }   → str
+  - upto(other_str, exclusive=false)                → an_enumerator
+  :description:
+  - |-
+    Iterates through successive values, starting at str and ending at
+    other_str inclusive, passing each value in turn to the block. The
+    String#succ method is used to generate each value.  If
+    optional second argument exclusive is omitted or is false, the last value
+    will be included; otherwise it will be excluded.
+  - If no block is given, an enumerator is returned instead.
+  - 'produces:'
+  - |-
+    If str and other_str contains only ascii numeric
+    characters, both are recognized as decimal numbers. In addition, the width
+    of string (e.g. leading zeros) is handled appropriately.
+  :examples: |
+    "a8".upto("b6") {|s| print s, ' ' }
+    for s in "a8".."b6"
+      print s, ' '
+    end
+    a8 a9 b0 b1 b2 b3 b4 b5 b6
+    a8 a9 b0 b1 b2 b3 b4 b5 b6
+    "9".upto("11").to_a   #=> ["9", "10", "11"]
+    "25".upto("5").to_a   #=> []
+    "07".upto("11").to_a  #=> ["07", "08", "09", "10", "11"]
+- :id: 120
+  :callseqs:
+  - valid_encoding?  → true or false
+  :description:
+  - Returns true for a string which is encoded correctly.
+  :examples: |
+    "\xc2\xa1".force_encoding("UTF-8").valid_encoding?  #=> true
+    "\xc2".force_encoding("UTF-8").valid_encoding?      #=> false
+    "\x80".force_encoding("UTF-8").valid_encoding?      #=> false

@@ -1,0 +1,61 @@
+---
+- :id: 0
+  :callseqs:
+  - dump( obj [, anIO] , limit=-1 ) → anIO
+  :description:
+  - |-
+    Serializes obj and all descendant objects. If anIO is specified, the
+    serialized data will be written to it, otherwise the data will be returned
+    as a String. If limit is specified, the traversal
+    of subobjects will be limited to that depth. If limit is negative, no
+    checking of depth will be performed.
+  - "(produces no output)"
+  - 'Marshal can''t dump following objects:'
+  - anonymous Class/Module.
+  - 'objects which are related to system (ex: Dir, File::Stat, IO, File, Socket and
+    so on)'
+  - |-
+    an instance of MatchData, Data, Method, UnboundMethod, Proc,
+    Thread, ThreadGroup, Continuation
+  - objects which define singleton methods
+  :examples: |
+    class Klass
+      def initialize(str)
+        @str = str
+      end
+      def say_hello
+        @str
+      end
+    end
+    o = Klass.new("hello\n")
+    data = Marshal.dump(o)
+    obj = Marshal.load(data)
+    obj.say_hello  #=> "hello\n"
+- :id: 1
+  :callseqs:
+  - load( source [, proc] ) → obj
+  :description:
+  - |-
+    Returns the result of converting the serialized data in source into a Ruby
+    object (possibly with associated subordinate objects). source may be either
+    an instance of IO or an object that responds to
+    to_str. If proc is specified, each object will be passed to the proc, as
+    the object is being deserialized.
+  - |-
+    Never pass untrusted data (including user supplied input) to this method.
+    Please see the overview for further details.
+  :examples: ''
+- :id: 2
+  :callseqs:
+  - restore( source [, proc] ) → obj
+  :description:
+  - |-
+    Returns the result of converting the serialized data in source into a Ruby
+    object (possibly with associated subordinate objects). source may be either
+    an instance of IO or an object that responds to
+    to_str. If proc is specified, each object will be passed to the proc, as
+    the object is being deserialized.
+  - |-
+    Never pass untrusted data (including user supplied input) to this method.
+    Please see the overview for further details.
+  :examples: ''

@@ -1,0 +1,72 @@
+---
+- :id: 0
+  :callseqs: []
+  :description:
+  - Retrieves a weakly referenced object with the given key
+  :examples: ''
+- :id: 1
+  :callseqs: []
+  :description:
+  - Creates a weak reference from the given key to the given value
+  :examples: ''
+- :id: 2
+  :callseqs: []
+  :description:
+  - Iterates over keys and objects in a weakly referenced object
+  :examples: ''
+- :id: 3
+  :callseqs: []
+  :description:
+  - Iterates over keys and objects in a weakly referenced object
+  :examples: ''
+- :id: 4
+  :callseqs: []
+  :description:
+  - Iterates over keys and objects in a weakly referenced object
+  :examples: ''
+- :id: 5
+  :callseqs: []
+  :description:
+  - Iterates over keys and objects in a weakly referenced object
+  :examples: ''
+- :id: 6
+  :callseqs: []
+  :description:
+  - Returns true if key is registered
+  :examples: ''
+- :id: 7
+  :callseqs: []
+  :description: []
+  :examples: ''
+- :id: 8
+  :callseqs: []
+  :description:
+  - Returns true if key is registered
+  :examples: ''
+- :id: 9
+  :callseqs: []
+  :description:
+  - Iterates over keys and objects in a weakly referenced object
+  :examples: ''
+- :id: 10
+  :callseqs: []
+  :description: []
+  :examples: ''
+- :id: 11
+  :callseqs: []
+  :description:
+  - Returns true if key is registered
+  :examples: ''
+- :id: 12
+  :callseqs: []
+  :description: []
+  :examples: ''
+- :id: 13
+  :callseqs: []
+  :description:
+  - Iterates over values and objects in a weakly referenced object
+  :examples: ''
+- :id: 14
+  :callseqs: []
+  :description: []
+  :examples: ''

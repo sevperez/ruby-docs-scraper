@@ -1,0 +1,48 @@
+---
+- :id: 0
+  :callseqs:
+  - true & obj    → true or false
+  :description:
+  - |-
+    And—Returns false if obj is nil or
+    false, true otherwise.
+  :examples: ''
+- :id: 1
+  :callseqs:
+  - obj === other   → true or false
+  :description:
+  - |-
+    Case Equality – For class Object, effectively the
+    same as calling #==, but typically overridden by descendants
+    to provide meaningful semantics in case statements.
+  :examples: ''
+- :id: 2
+  :callseqs:
+  - true ^ obj   → !obj
+  :description:
+  - |-
+    Exclusive Or—Returns true if obj is nil
+    or false, false otherwise.
+  :examples: ''
+- :id: 3
+  :callseqs: []
+  :description: []
+  :examples: ''
+- :id: 4
+  :callseqs:
+  - to_s   →  "true"
+  :description:
+  - The string representation of true is “true”.
+  :examples: ''
+- :id: 5
+  :callseqs:
+  - true | obj   → true
+  :description:
+  - |-
+    Or—Returns true. As obj is an argument to a method
+    call, it is always evaluated; there is no short-circuit evaluation in this
+    case.
+  - 'produces:'
+  :examples: |
+    true |  puts("or")
+    true || puts("logical or")

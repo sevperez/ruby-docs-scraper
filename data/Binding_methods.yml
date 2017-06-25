@@ -1,0 +1,87 @@
+---
+- :id: 0
+  :callseqs:
+  - eval(string [, filename [,lineno]])  → obj
+  :description:
+  - |-
+    Evaluates the Ruby expression(s) in string, in the
+    binding’s context.  If the optional filename and
+    lineno parameters are present, they will be used when reporting
+    syntax errors.
+  :examples: |
+    def get_binding(param)
+      binding
+    end
+    b = get_binding("hello")
+    b.eval("param")   #=> "hello"
+- :id: 1
+  :callseqs: []
+  :description: []
+  :examples: ''
+- :id: 2
+  :callseqs:
+  - local_variable_defined?(symbol) → obj
+  :description:
+  - Returns true if a local variable symbol exists.
+  - 'This method is the short version of the following code:'
+  :examples: |
+    def foo
+      a = 1
+      binding.local_variable_defined?(:a) #=> true
+      binding.local_variable_defined?(:b) #=> false
+    end
+    binding.eval("defined?(#{symbol}) == 'local-variable'")
+- :id: 3
+  :callseqs:
+  - local_variable_get(symbol) → obj
+  :description:
+  - Returns the value of the local variable symbol.
+  - 'This method is the short version of the following code:'
+  :examples: |
+    def foo
+      a = 1
+      binding.local_variable_get(:a) #=> 1
+      binding.local_variable_get(:b) #=> NameError
+    end
+    binding.eval("#{symbol}")
+- :id: 4
+  :callseqs:
+  - local_variable_set(symbol, obj) → obj
+  :description:
+  - Set local variable named symbol as obj.
+  - 'This method behaves similarly to the following code:'
+  - if obj can be dumped in Ruby code.
+  :examples: |
+    def foo
+      a = 1
+      bind = binding
+      bind.local_variable_set(:a, 2) # set existing local variable `a'
+      bind.local_variable_set(:b, 3) # create new local variable `b'
+                                     # `b' exists only in binding
+
+      p bind.local_variable_get(:a)  #=> 2
+      p bind.local_variable_get(:b)  #=> 3
+      p a                            #=> 2
+      p b                            #=> NameError
+    end
+    binding.eval("#{symbol} = #{obj}")
+- :id: 5
+  :callseqs:
+  - local_variables → Array
+  :description:
+  - Returns the names of the binding’s local variables as symbols.
+  - 'This method is the short version of the following code:'
+  :examples: |
+    def foo
+      a = 1
+      2.times do |n|
+        binding.local_variables #=> [:a, :n]
+      end
+    end
+    binding.eval("local_variables")
+- :id: 6
+  :callseqs:
+  - receiver    → object
+  :description:
+  - Returns the bound receiver of the binding object.
+  :examples: ''

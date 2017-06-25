@@ -1,0 +1,106 @@
+---
+- :id: 0
+  :callseqs:
+  - _id2ref(object_id) → an_object
+  :description:
+  - |-
+    Converts an object id to a reference to the object. May not be called on an
+    object id passed as a parameter to a finalizer.
+  :examples: |
+    s = "I am a string"                    #=> "I am a string"
+    r = ObjectSpace._id2ref(s.object_id)   #=> "I am a string"
+    r == s                                 #=> true
+- :id: 1
+  :callseqs:
+  - count_objects([result_hash]) → hash
+  :description:
+  - Counts all objects grouped by type.
+  - 'It returns a hash, such as:'
+  - |-
+    The contents of the returned hash are implementation specific. It may be
+    changed in future.
+  - |-
+    The keys starting with :T_ means live objects. For example,
+    :T_ARRAY is the number of arrays. :FREE means
+    object slots which is not used now. :TOTAL means sum of above.
+  - |-
+    If the optional argument result_hash is given, it is
+    overwritten and returned. This is intended to avoid probe effect.
+  - This method is only expected to work on C Ruby.
+  :examples: |
+    {
+      :TOTAL=>10000,
+      :FREE=>3011,
+      :T_OBJECT=>6,
+      :T_CLASS=>404,
+      # ...
+    }
+    h = {}
+    ObjectSpace.count_objects(h)
+    puts h
+    # => { :TOTAL=>10000, :T_CLASS=>158280, :T_MODULE=>20672, :T_STRING=>527249 }
+- :id: 2
+  :callseqs:
+  - define_finalizer(obj, aProc=proc())
+  :description:
+  - |-
+    Adds aProc as a finalizer, to be called after obj was
+    destroyed. The object ID of the obj will be passed as an argument
+    to aProc. If aProc is a lambda or method, make sure it
+    can be called with a single argument.
+  :examples: ''
+- :id: 3
+  :callseqs:
+  - each_object([module]) {|obj| ... } → integer
+  - each_object([module])              → an_enumerator
+  :description:
+  - |-
+    Calls the block once for each living, nonimmediate object in this Ruby
+    process. If module is specified, calls the block for only those
+    classes or modules that match (or are a subclass of) module.
+    Returns the number of objects found. Immediate objects
+    (Fixnums, Symbols true,
+    false, and nil) are never returned. In the
+    example below, each_object returns both the numbers we defined
+    and several constants defined in the Math module.
+  - If no block is given, an enumerator is returned instead.
+  - 'produces:'
+  :examples: |
+    a = 102.7
+    b = 95       # Won't be returned
+    c = 12345678987654321
+    count = ObjectSpace.each_object(Numeric) {|x| p x }
+    puts "Total count: #{count}"
+    12345678987654321
+    102.7
+    2.71828182845905
+    3.14159265358979
+    2.22044604925031e-16
+    1.7976931348623157e+308
+    2.2250738585072e-308
+    Total count: 7
+- :id: 4
+  :callseqs:
+  - start                     → nil
+  - garbage_collect  → nil
+  - include GC; garbage_collect  → nil
+  - 'start(full_mark: true, immediate_sweep: true)           → nil'
+  - 'garbage_collect(full_mark: true, immediate_sweep: true) → nil'
+  - 'include GC; garbage_collect(full_mark: true, immediate_sweep: true) → nil'
+  :description:
+  - Initiates garbage collection, unless manually disabled.
+  - 'This method is defined with keyword arguments that default to true:'
+  - |-
+    Use full_mark: false to perform a minor GC. Use
+    immediate_sweep: false to defer sweeping (use lazy sweep).
+  - |-
+    Note: These keyword arguments are implementation and version dependent.
+    They are not guaranteed to be future-compatible, and may be ignored if the
+    underlying implementation does not support them.
+  :examples: ''
+- :id: 5
+  :callseqs:
+  - undefine_finalizer(obj)
+  :description:
+  - Removes all finalizers for obj.
+  :examples: ''

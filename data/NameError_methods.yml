@@ -1,0 +1,32 @@
+---
+- :id: 0
+  :callseqs:
+  - new([msg, *, name])  → name_error
+  :description:
+  - |-
+    Construct a new NameError exception. If given
+    the name parameter may subsequently be examined using the
+    NameError.name method.
+  :examples: ''
+- :id: 1
+  :callseqs:
+  - local_variables  →  array
+  :description:
+  - Return a list of the local variable names defined where this NameError exception
+    was raised.
+  - Internal use only.
+  :examples: ''
+- :id: 2
+  :callseqs:
+  - name    →  string or nil
+  :description:
+  - |-
+    Return the name associated with this NameError
+    exception.
+  :examples: ''
+- :id: 3
+  :callseqs:
+  - receiver  → object
+  :description:
+  - Return the receiver associated with this NameError exception.
+  :examples: ''

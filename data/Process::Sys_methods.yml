@@ -1,0 +1,139 @@
+---
+- :id: 0
+  :callseqs:
+  - egid          → integer
+  - Process::GID.eid      → integer
+  - Process::Sys.geteid   → integer
+  :description:
+  - |-
+    Returns the effective group ID for this process. Not available on all
+    platforms.
+  :examples: 'Process.egid   #=> 500
+
+'
+- :id: 1
+  :callseqs:
+  - euid           → integer
+  - Process::UID.eid       → integer
+  - Process::Sys.geteuid   → integer
+  :description:
+  - Returns the effective user ID for this process.
+  :examples: 'Process.euid   #=> 501
+
+'
+- :id: 2
+  :callseqs:
+  - gid           → integer
+  - Process::GID.rid      → integer
+  - Process::Sys.getgid   → integer
+  :description:
+  - Returns the (real) group ID for this process.
+  :examples: 'Process.gid   #=> 500
+
+'
+- :id: 3
+  :callseqs:
+  - uid           → integer
+  - Process::UID.rid      → integer
+  - Process::Sys.getuid   → integer
+  :description:
+  - Returns the (real) user ID of this process.
+  :examples: 'Process.uid   #=> 501
+
+'
+- :id: 4
+  :callseqs:
+  - Process::Sys.issetugid   → true or false
+  :description:
+  - |-
+    Returns true if the process was created as a result of an
+    execve(2) system call which had either of the setuid or setgid bits set
+    (and extra privileges were given as a result) or if it has changed any of
+    its real, effective or saved user or group IDs since it began execution.
+  :examples: ''
+- :id: 5
+  :callseqs:
+  - Process::Sys.setegid(group)   → nil
+  :description:
+  - |-
+    Set the effective group ID of the calling process to group.  Not
+    available on all platforms.
+  :examples: ''
+- :id: 6
+  :callseqs:
+  - Process::Sys.seteuid(user)   → nil
+  :description:
+  - |-
+    Set the effective user ID of the calling process to user.  Not
+    available on all platforms.
+  :examples: ''
+- :id: 7
+  :callseqs:
+  - Process::Sys.setgid(group)   → nil
+  :description:
+  - |-
+    Set the group ID of the current process to group. Not available on
+    all platforms.
+  :examples: ''
+- :id: 8
+  :callseqs:
+  - Process::Sys.setregid(rid, eid)   → nil
+  :description:
+  - |-
+    Sets the (group) real and/or effective group IDs of the current process to
+    rid and eid, respectively. A value of -1 for
+    either means to leave that ID unchanged. Not available on all platforms.
+  :examples: ''
+- :id: 9
+  :callseqs:
+  - Process::Sys.setresgid(rid, eid, sid)   → nil
+  :description:
+  - |-
+    Sets the (group) real, effective, and saved user IDs of the current process
+    to rid, eid, and sid respectively. A value of
+    -1 for any value means to leave that ID unchanged. Not
+    available on all platforms.
+  :examples: ''
+- :id: 10
+  :callseqs:
+  - Process::Sys.setresuid(rid, eid, sid)   → nil
+  :description:
+  - |-
+    Sets the (user) real, effective, and saved user IDs of the current process
+    to rid, eid, and sid respectively. A value of
+    -1 for any value means to leave that ID unchanged. Not
+    available on all platforms.
+  :examples: ''
+- :id: 11
+  :callseqs:
+  - Process::Sys.setreuid(rid, eid)   → nil
+  :description:
+  - |-
+    Sets the (user) real and/or effective user IDs of the current process to
+    rid and eid, respectively. A value of -1 for
+    either means to leave that ID unchanged. Not available on all platforms.
+  :examples: ''
+- :id: 12
+  :callseqs:
+  - Process::Sys.setrgid(group)   → nil
+  :description:
+  - |-
+    Set the real group ID of the calling process to group. Not
+    available on all platforms.
+  :examples: ''
+- :id: 13
+  :callseqs:
+  - Process::Sys.setruid(user)   → nil
+  :description:
+  - |-
+    Set the real user ID of the calling process to user. Not available
+    on all platforms.
+  :examples: ''
+- :id: 14
+  :callseqs:
+  - Process::Sys.setuid(user)   → nil
+  :description:
+  - |-
+    Set the user ID of the current process to user. Not available on
+    all platforms.
+  :examples: ''

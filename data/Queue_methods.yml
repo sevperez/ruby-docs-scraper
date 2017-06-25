@@ -1,0 +1,91 @@
+---
+- :id: 0
+  :callseqs: []
+  :description:
+  - Creates a new queue instance.
+  :examples: ''
+- :id: 1
+  :callseqs: []
+  :description: []
+  :examples: ''
+- :id: 2
+  :callseqs: []
+  :description:
+  - Removes all objects from the queue.
+  :examples: ''
+- :id: 3
+  :callseqs:
+  - close
+  :description:
+  - Closes the queue. A closed queue cannot be re-opened.
+  - 'After the call to close completes, the following are true:'
+  - closed? will return true
+  - close will be ignored.
+  - calling enq/push/<< will return nil.
+  - |-
+    when empty? is false, calling deq/pop/shift will return an
+    object from the queue as usual.
+  - |-
+    ClosedQueueError is inherited from StopIteration, so that you can break loop
+    block.
+  :examples: ''
+- :id: 4
+  :callseqs:
+  - closed?
+  :description:
+  - Returns true if the queue is closed.
+  :examples: ''
+- :id: 5
+  :callseqs: []
+  :description: []
+  :examples: ''
+- :id: 6
+  :callseqs:
+  - empty?
+  :description:
+  - Returns true if the queue is empty.
+  :examples: ''
+- :id: 7
+  :callseqs: []
+  :description: []
+  :examples: ''
+- :id: 8
+  :callseqs:
+  - length
+  - size
+  :description:
+  - Returns the length of the queue.
+  :examples: ''
+- :id: 9
+  :callseqs: []
+  :description:
+  - Returns the number of threads waiting on the queue.
+  :examples: ''
+- :id: 10
+  :callseqs:
+  - pop(non_block=false)
+  - deq(non_block=false)
+  - shift(non_block=false)
+  :description:
+  - Retrieves data from the queue.
+  - |-
+    If the queue is empty, the calling thread is suspended until data is pushed
+    onto the queue. If non_block is true, the thread isn't
+    suspended, and ThreadError is raised.
+  :examples: ''
+- :id: 11
+  :callseqs:
+  - push(object)
+  - enq(object)
+  - "<\n            \n          "
+  :description:
+  - Pushes the given object to the queue.
+  :examples: ''
+- :id: 12
+  :callseqs: []
+  :description: []
+  :examples: ''
+- :id: 13
+  :callseqs: []
+  :description: []
+  :examples: ''

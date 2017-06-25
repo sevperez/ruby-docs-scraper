@@ -1,0 +1,29 @@
+---
+- :id: 0
+  :callseqs:
+  - cont[args, ...]
+  :description:
+  - |-
+    Invokes the continuation. The program continues from the end of the
+    callcc block. If no arguments are given, the original
+    callcc returns nil. If one argument is given,
+    callcc returns it. Otherwise, an array containing
+    args is returned.
+  :examples: |
+    callcc {|cont|  cont.call }           #=> nil
+    callcc {|cont|  cont.call 1 }         #=> 1
+    callcc {|cont|  cont.call 1, 2, 3 }   #=> [1, 2, 3]
+- :id: 1
+  :callseqs:
+  - call(args, ...)
+  :description:
+  - |-
+    Invokes the continuation. The program continues from the end of the
+    callcc block. If no arguments are given, the original
+    callcc returns nil. If one argument is given,
+    callcc returns it. Otherwise, an array containing
+    args is returned.
+  :examples: |
+    callcc {|cont|  cont.call }           #=> nil
+    callcc {|cont|  cont.call 1 }         #=> 1
+    callcc {|cont|  cont.call 1, 2, 3 }   #=> [1, 2, 3]

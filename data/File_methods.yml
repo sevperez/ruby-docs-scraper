@@ -1,0 +1,935 @@
+---
+- :id: 0
+  :callseqs:
+  - absolute_path(file_name [, dir_string] )  →  abs_file_name
+  :description:
+  - |-
+    Converts a pathname to an absolute pathname. Relative paths are referenced
+    from the current working directory of the process unless
+    dir_string is given, in which case it will be used as the starting
+    point. If the given pathname starts with a “~” it is NOT
+    expanded, it is treated as a normal directory name.
+  :examples: 'File.absolute_path("~oracle/bin")       #=> "<relative_path>/~oracle/bin"
+
+'
+- :id: 1
+  :callseqs:
+  - atime(file_name)  →  time
+  :description:
+  - Returns the last access time for the named file as a Time object).
+  - file_name can be an IO object.
+  :examples: 'File.atime("testfile")   #=> Wed Apr 09 08:51:48 CDT 2003
+
+'
+- :id: 2
+  :callseqs:
+  - basename(file_name [, suffix] )  →  base_name
+  :description:
+  - |-
+    Returns the last component of the filename given in file_name,
+    which can be formed using both File::SEPARATOR and
+    File::ALT_SEPARATOR as the separator when
+    File::ALT_SEPARATOR is not nil. If
+    suffix is given and present at the end of file_name, it
+    is removed. If suffix is “.*”, any extension will be removed.
+  :examples: |
+    File.basename("/home/gumby/work/ruby.rb")          #=> "ruby.rb"
+    File.basename("/home/gumby/work/ruby.rb", ".rb")   #=> "ruby"
+    File.basename("/home/gumby/work/ruby.rb", ".*")    #=> "ruby"
+- :id: 3
+  :callseqs:
+  - birthtime(file_name)  → time
+  :description:
+  - Returns the birth time for the named file.
+  - file_name can be an IO object.
+  - If the platform doesn’t have birthtime, raises NotImplementedError.
+  :examples: 'File.birthtime("testfile")   #=> Wed Apr 09 08:53:13 CDT 2003
+
+'
+- :id: 4
+  :callseqs:
+  - blockdev?(file_name)   →  true or false
+  :description:
+  - Returns true if the named file is a block device.
+  - file_name can be an IO object.
+  :examples: ''
+- :id: 5
+  :callseqs:
+  - chardev?(file_name)   →  true or false
+  :description:
+  - Returns true if the named file is a character device.
+  - file_name can be an IO object.
+  :examples: ''
+- :id: 6
+  :callseqs:
+  - chmod(mode_int, file_name, ... )  →  integer
+  :description:
+  - |-
+    Changes permission bits on the named file(s) to the bit pattern represented
+    by mode_int. Actual effects are operating system dependent (see
+    the beginning of this section). On Unix systems, see chmod(2)
+    for details. Returns the number of files processed.
+  :examples: 'File.chmod(0644, "testfile", "out")   #=> 2
+
+'
+- :id: 7
+  :callseqs:
+  - chown(owner_int, group_int, file_name,... )  →  integer
+  :description:
+  - |-
+    Changes the owner and group of the named file(s) to the given numeric owner
+    and group id’s. Only a process with superuser privileges may change the
+    owner of a file. The current owner of a file may change the file’s group to
+    any group to which the owner belongs. A nil or -1 owner or
+    group id is ignored. Returns the number of files processed.
+  :examples: 'File.chown(nil, 100, "testfile")
+
+'
+- :id: 8
+  :callseqs:
+  - ctime(file_name)  → time
+  :description:
+  - |-
+    Returns the change time for the named file (the time at which directory
+    information about the file was changed, not the file itself).
+  - file_name can be an IO object.
+  - Note that on Windows (NTFS), returns creation time (birth time).
+  :examples: 'File.ctime("testfile")   #=> Wed Apr 09 08:53:13 CDT 2003
+
+'
+- :id: 9
+  :callseqs:
+  - delete(file_name, ...)  → integer
+  :description:
+  - |-
+    Deletes the named files, returning the number of names passed as arguments.
+    Raises an exception on any error. See also Dir::rmdir.
+  :examples: ''
+- :id: 10
+  :callseqs:
+  - directory?(file_name)   →  true or false
+  :description:
+  - |-
+    Returns true if the named file is a directory, or a symlink
+    that points at a directory, and false otherwise.
+  - file_name can be an IO object.
+  :examples: 'File.directory?(".")
+
+'
+- :id: 11
+  :callseqs:
+  - dirname(file_name)  →  dir_name
+  :description:
+  - |-
+    Returns all components of the filename given in file_name except
+    the last one. The filename can be formed using both
+    File::SEPARATOR and File::ALT_SEPARATOR as the
+    separator when File::ALT_SEPARATOR is not nil.
+  :examples: 'File.dirname("/home/gumby/work/ruby.rb")   #=> "/home/gumby/work"
+
+'
+- :id: 12
+  :callseqs:
+  - zero?(file_name)   → true or false
+  :description:
+  - Returns true if the named file exists and has a zero size.
+  - file_name can be an IO object.
+  :examples: ''
+- :id: 13
+  :callseqs:
+  - executable?(file_name)   → true or false
+  :description:
+  - |-
+    Returns true if the named file is executable by the effective
+    user and group id of this process. See eaccess(3).
+  :examples: ''
+- :id: 14
+  :callseqs:
+  - executable_real?(file_name)   → true or false
+  :description:
+  - |-
+    Returns true if the named file is executable by the real user
+    and group id of this process. See access(3).
+  :examples: ''
+- :id: 15
+  :callseqs:
+  - exist?(file_name)    →  true or false
+  :description:
+  - Return true if the named file exists.
+  - file_name can be an IO object.
+  - "“file exists” means that stat() or fstat() system call is successful."
+  :examples: ''
+- :id: 16
+  :callseqs:
+  - exists?(file_name)   →  true or false
+  :description:
+  - Deprecated method. Don’t use.
+  :examples: ''
+- :id: 17
+  :callseqs:
+  - expand_path(file_name [, dir_string] )  →  abs_file_name
+  :description:
+  - |-
+    Converts a pathname to an absolute pathname. Relative paths are referenced
+    from the current working directory of the process unless
+    dir_string is given, in which case it will be used as the
+    starting point. The given pathname may start with a “~”, which
+    expands to the process owner’s home directory (the environment variable
+    HOME must be set correctly). “~user”
+    expands to the named user’s home directory.
+  - A simple example of using dir_string is as follows.
+  - |-
+    A more complex example which also resolves parent directory is as follows.
+    Suppose we are in bin/mygem and want the absolute path of lib/mygem.rb.
+  - |-
+    So first it resolves the parent of __FILE__, that is bin/, then go to the
+    parent, the root of the project and appends lib/mygem.rb.
+  :examples: |
+    File.expand_path("~oracle/bin")           #=> "/home/oracle/bin"
+    File.expand_path("ruby", "/usr/bin")      #=> "/usr/bin/ruby"
+    File.expand_path("../../lib/mygem.rb", __FILE__)
+    #=> ".../path/to/project/lib/mygem.rb"
+- :id: 18
+  :callseqs:
+  - extname(path)  →  string
+  :description:
+  - |-
+    Returns the extension (the portion of file name in path
+    starting from the last period).
+  - |-
+    If path is a dotfile, or starts with a period, then the
+    starting dot is not dealt with the start of the extension.
+  - |-
+    An empty string will also be returned when the period is the last character
+    in path.
+  :examples: |
+    File.extname("test.rb")         #=> ".rb"
+    File.extname("a/b/d/test.rb")   #=> ".rb"
+    File.extname(".a/b/d/test.rb")  #=> ".rb"
+    File.extname("foo.")            #=> ""
+    File.extname("test")            #=> ""
+    File.extname(".profile")        #=> ""
+    File.extname(".profile.sh")     #=> ".sh"
+- :id: 19
+  :callseqs:
+  - file?(file) → true or false
+  :description:
+  - |-
+    Returns true if the named file exists and is a
+    regular file.
+  - file can be an IO object.
+  - |-
+    If the file argument is a symbolic link, it will resolve the
+    symbolic link and use the file referenced by the link.
+  :examples: ''
+- :id: 20
+  :callseqs:
+  - fnmatch( pattern, path, [flags] ) → (true or false)
+  - fnmatch?( pattern, path, [flags] ) → (true or false)
+  :description:
+  - "Returns true if path matches against pattern. \nThe pattern is not a regular
+    expression; instead it follows rules similar\nto shell filename globbing.  It
+    may contain the following metacharacters:"
+  - |-
+    Matches any file. Can be restricted by other values in the glob. Equivalent
+    to / .* /x in regexp.
+  - Matches all files regular files
+  - Matches all files beginning with c
+  - Matches all files ending with c
+  - |-
+    Matches all files that have c in them (including at the
+    beginning or end).
+  - |-
+    To match hidden files (that start with a . set the
+    File::FNM_DOTMATCH flag.
+  - Matches directories recursively or files expansively.
+  - Matches any one character. Equivalent to /.{1}/ in regexp.
+  - |-
+    Matches any one character in set.  Behaves exactly like
+    character sets in Regexp, including set negation
+    ([^a-z]).
+  - Escapes the next metacharacter.
+  - |-
+    Matches pattern a and pattern b if File::FNM_EXTGLOB flag is enabled.
+    Behaves like a Regexp union
+    ((?:a|b)).
+  - |-
+    flags is a bitwise OR of the FNM_XXX constants.
+    The same glob pattern and flags are used by Dir.glob.
+  - 'Examples:'
+  :examples: |
+    File.fnmatch('cat',       'cat')        #=> true  # match entire string
+    File.fnmatch('cat',       'category')   #=> false # only match partial string
+
+    File.fnmatch('c{at,ub}s', 'cats')                    #=> false # { } isn't supported by default
+    File.fnmatch('c{at,ub}s', 'cats', File::FNM_EXTGLOB) #=> true  # { } is supported on FNM_EXTGLOB
+
+    File.fnmatch('c?t',     'cat')          #=> true  # '?' match only 1 character
+    File.fnmatch('c??t',    'cat')          #=> false # ditto
+    File.fnmatch('c*',      'cats')         #=> true  # '*' match 0 or more characters
+    File.fnmatch('c*t',     'c/a/b/t')      #=> true  # ditto
+    File.fnmatch('ca[a-z]', 'cat')          #=> true  # inclusive bracket expression
+    File.fnmatch('ca[^t]',  'cat')          #=> false # exclusive bracket expression ('^' or '!')
+
+    File.fnmatch('cat', 'CAT')                     #=> false # case sensitive
+    File.fnmatch('cat', 'CAT', File::FNM_CASEFOLD) #=> true  # case insensitive
+
+    File.fnmatch('?',   '/', File::FNM_PATHNAME)  #=> false # wildcard doesn't match '/' on FNM_PATHNAME
+    File.fnmatch('*',   '/', File::FNM_PATHNAME)  #=> false # ditto
+    File.fnmatch('[/]', '/', File::FNM_PATHNAME)  #=> false # ditto
+
+    File.fnmatch('\?',   '?')                       #=> true  # escaped wildcard becomes ordinary
+    File.fnmatch('\a',   'a')                       #=> true  # escaped ordinary remains ordinary
+    File.fnmatch('\a',   '\a', File::FNM_NOESCAPE)  #=> true  # FNM_NOESCAPE makes '\' ordinary
+    File.fnmatch('[\?]', '?')                       #=> true  # can escape inside bracket expression
+
+    File.fnmatch('*',   '.profile')                      #=> false # wildcard doesn't match leading
+    File.fnmatch('*',   '.profile', File::FNM_DOTMATCH)  #=> true  # period by default.
+    File.fnmatch('.*',  '.profile')                      #=> true
+
+    rbfiles = '**' '/' '*.rb' # you don't have to do like this. just write in single string.
+    File.fnmatch(rbfiles, 'main.rb')                    #=> false
+    File.fnmatch(rbfiles, './main.rb')                  #=> false
+    File.fnmatch(rbfiles, 'lib/song.rb')                #=> true
+    File.fnmatch('**.rb', 'main.rb')                    #=> true
+    File.fnmatch('**.rb', './main.rb')                  #=> false
+    File.fnmatch('**.rb', 'lib/song.rb')                #=> true
+    File.fnmatch('*',           'dave/.profile')                      #=> true
+
+    pattern = '*' '/' '*'
+    File.fnmatch(pattern, 'dave/.profile', File::FNM_PATHNAME)  #=> false
+    File.fnmatch(pattern, 'dave/.profile', File::FNM_PATHNAME | File::FNM_DOTMATCH) #=> true
+
+    pattern = '**' '/' 'foo'
+    File.fnmatch(pattern, 'a/b/c/foo', File::FNM_PATHNAME)     #=> true
+    File.fnmatch(pattern, '/a/b/c/foo', File::FNM_PATHNAME)    #=> true
+    File.fnmatch(pattern, 'c:/a/b/c/foo', File::FNM_PATHNAME)  #=> true
+    File.fnmatch(pattern, 'a/.b/c/foo', File::FNM_PATHNAME)    #=> false
+    File.fnmatch(pattern, 'a/.b/c/foo', File::FNM_PATHNAME | File::FNM_DOTMATCH) #=> true
+- :id: 21
+  :callseqs:
+  - fnmatch?( pattern, path, [flags] ) → (true or false)
+  :description:
+  - "Returns true if path matches against pattern. \nThe pattern is not a regular
+    expression; instead it follows rules similar\nto shell filename globbing.  It
+    may contain the following metacharacters:"
+  - |-
+    Matches any file. Can be restricted by other values in the glob. Equivalent
+    to / .* /x in regexp.
+  - Matches all files regular files
+  - Matches all files beginning with c
+  - Matches all files ending with c
+  - |-
+    Matches all files that have c in them (including at the
+    beginning or end).
+  - |-
+    To match hidden files (that start with a . set the
+    File::FNM_DOTMATCH flag.
+  - Matches directories recursively or files expansively.
+  - Matches any one character. Equivalent to /.{1}/ in regexp.
+  - |-
+    Matches any one character in set.  Behaves exactly like
+    character sets in Regexp, including set negation
+    ([^a-z]).
+  - Escapes the next metacharacter.
+  - |-
+    Matches pattern a and pattern b if File::FNM_EXTGLOB flag is enabled.
+    Behaves like a Regexp union
+    ((?:a|b)).
+  - |-
+    flags is a bitwise OR of the FNM_XXX constants.
+    The same glob pattern and flags are used by Dir.glob.
+  - 'Examples:'
+  :examples: |
+    File.fnmatch('cat',       'cat')        #=> true  # match entire string
+    File.fnmatch('cat',       'category')   #=> false # only match partial string
+
+    File.fnmatch('c{at,ub}s', 'cats')                    #=> false # { } isn't supported by default
+    File.fnmatch('c{at,ub}s', 'cats', File::FNM_EXTGLOB) #=> true  # { } is supported on FNM_EXTGLOB
+
+    File.fnmatch('c?t',     'cat')          #=> true  # '?' match only 1 character
+    File.fnmatch('c??t',    'cat')          #=> false # ditto
+    File.fnmatch('c*',      'cats')         #=> true  # '*' match 0 or more characters
+    File.fnmatch('c*t',     'c/a/b/t')      #=> true  # ditto
+    File.fnmatch('ca[a-z]', 'cat')          #=> true  # inclusive bracket expression
+    File.fnmatch('ca[^t]',  'cat')          #=> false # exclusive bracket expression ('^' or '!')
+
+    File.fnmatch('cat', 'CAT')                     #=> false # case sensitive
+    File.fnmatch('cat', 'CAT', File::FNM_CASEFOLD) #=> true  # case insensitive
+
+    File.fnmatch('?',   '/', File::FNM_PATHNAME)  #=> false # wildcard doesn't match '/' on FNM_PATHNAME
+    File.fnmatch('*',   '/', File::FNM_PATHNAME)  #=> false # ditto
+    File.fnmatch('[/]', '/', File::FNM_PATHNAME)  #=> false # ditto
+
+    File.fnmatch('\?',   '?')                       #=> true  # escaped wildcard becomes ordinary
+    File.fnmatch('\a',   'a')                       #=> true  # escaped ordinary remains ordinary
+    File.fnmatch('\a',   '\a', File::FNM_NOESCAPE)  #=> true  # FNM_NOESCAPE makes '\' ordinary
+    File.fnmatch('[\?]', '?')                       #=> true  # can escape inside bracket expression
+
+    File.fnmatch('*',   '.profile')                      #=> false # wildcard doesn't match leading
+    File.fnmatch('*',   '.profile', File::FNM_DOTMATCH)  #=> true  # period by default.
+    File.fnmatch('.*',  '.profile')                      #=> true
+
+    rbfiles = '**' '/' '*.rb' # you don't have to do like this. just write in single string.
+    File.fnmatch(rbfiles, 'main.rb')                    #=> false
+    File.fnmatch(rbfiles, './main.rb')                  #=> false
+    File.fnmatch(rbfiles, 'lib/song.rb')                #=> true
+    File.fnmatch('**.rb', 'main.rb')                    #=> true
+    File.fnmatch('**.rb', './main.rb')                  #=> false
+    File.fnmatch('**.rb', 'lib/song.rb')                #=> true
+    File.fnmatch('*',           'dave/.profile')                      #=> true
+
+    pattern = '*' '/' '*'
+    File.fnmatch(pattern, 'dave/.profile', File::FNM_PATHNAME)  #=> false
+    File.fnmatch(pattern, 'dave/.profile', File::FNM_PATHNAME | File::FNM_DOTMATCH) #=> true
+
+    pattern = '**' '/' 'foo'
+    File.fnmatch(pattern, 'a/b/c/foo', File::FNM_PATHNAME)     #=> true
+    File.fnmatch(pattern, '/a/b/c/foo', File::FNM_PATHNAME)    #=> true
+    File.fnmatch(pattern, 'c:/a/b/c/foo', File::FNM_PATHNAME)  #=> true
+    File.fnmatch(pattern, 'a/.b/c/foo', File::FNM_PATHNAME)    #=> false
+    File.fnmatch(pattern, 'a/.b/c/foo', File::FNM_PATHNAME | File::FNM_DOTMATCH) #=> true
+- :id: 22
+  :callseqs:
+  - ftype(file_name)   → string
+  :description:
+  - |-
+    Identifies the type of the named file; the return string is one of
+    “file”, “directory”,
+    “characterSpecial”, “blockSpecial”,
+    “fifo”, “link”, “socket”, or
+    “unknown”.
+  :examples: |
+    File.ftype("testfile")            #=> "file"
+    File.ftype("/dev/tty")            #=> "characterSpecial"
+    File.ftype("/tmp/.X11-unix/X0")   #=> "socket"
+- :id: 23
+  :callseqs:
+  - grpowned?(file_name)   → true or false
+  :description:
+  - |-
+    Returns true if the named file exists and the effective group
+    id of the calling process is the owner of the file. Returns
+    false on Windows.
+  - file_name can be an IO object.
+  :examples: ''
+- :id: 24
+  :callseqs:
+  - identical?(file_1, file_2)   →  true or false
+  :description:
+  - Returns true if the named files are identical.
+  - |-
+    file_1 and file_2 can be an IO
+    object.
+  :examples: |
+    open("a", "w") {}
+    p File.identical?("a", "a")      #=> true
+    p File.identical?("a", "./a")    #=> true
+    File.link("a", "b")
+    p File.identical?("a", "b")      #=> true
+    File.symlink("a", "c")
+    p File.identical?("a", "c")      #=> true
+    open("d", "w") {}
+    p File.identical?("a", "d")      #=> false
+- :id: 25
+  :callseqs:
+  - join(string, ...)  →  string
+  :description:
+  - |-
+    Returns a new string formed by joining the strings using
+    "/".
+  :examples: 'File.join("usr", "mail", "gumby")   #=> "usr/mail/gumby"
+
+'
+- :id: 26
+  :callseqs:
+  - lchmod(mode_int, file_name, ...)  → integer
+  :description:
+  - |-
+    Equivalent to File::chmod, but does not follow symbolic links
+    (so it will change the permissions associated with the link, not the file
+    referenced by the link). Often not available.
+  :examples: ''
+- :id: 27
+  :callseqs:
+  - lchown(owner_int, group_int, file_name,..) → integer
+  :description:
+  - |-
+    Equivalent to File::chown, but does not follow symbolic links
+    (so it will change the owner associated with the link, not the file
+    referenced by the link). Often not available. Returns number of files in
+    the argument list.
+  :examples: ''
+- :id: 28
+  :callseqs:
+  - link(old_name, new_name)    → 0
+  :description:
+  - |-
+    Creates a new name for an existing file using a hard link. Will not
+    overwrite new_name if it already exists (raising a subclass of
+    SystemCallError). Not available on all platforms.
+  :examples: |
+    File.link("testfile", ".testfile")   #=> 0
+    IO.readlines(".testfile")[0]         #=> "This is line one\n"
+- :id: 29
+  :callseqs:
+  - lstat(file_name)   → stat
+  :description:
+  - |-
+    Same as File::stat, but does not follow the last symbolic
+    link. Instead, reports on the link itself.
+  :examples: |
+    File.symlink("testfile", "link2test")   #=> 0
+    File.stat("testfile").size              #=> 66
+    File.lstat("link2test").size            #=> 8
+    File.stat("link2test").size             #=> 66
+- :id: 30
+  :callseqs: []
+  :description: []
+  :examples: ''
+- :id: 31
+  :callseqs:
+  - mtime(file_name)  →  time
+  :description:
+  - Returns the modification time for the named file as a Time object.
+  - file_name can be an IO object.
+  :examples: 'File.mtime("testfile")   #=> Tue Apr 08 12:58:04 CDT 2003
+
+'
+- :id: 32
+  :callseqs:
+  - new(filename, mode="r" [, opt])            → file
+  - new(filename [, mode [, perm]] [, opt])    → file
+  :description:
+  - |-
+    Opens the file named by filename according to the given
+    mode and returns a new File object.
+  - |-
+    See IO.new for a description of
+    mode and opt.
+  - |-
+    If a file is being created, permission bits may be given in
+    perm.  These mode and permission bits are platform dependent;
+    on Unix systems, see open(2) and chmod(2) man pages for details.
+  :examples: |
+    f = File.new("testfile", "r")
+    f = File.new("newfile",  "w+")
+    f = File.new("newfile", File::CREAT|File::TRUNC|File::RDWR, 0644)
+- :id: 33
+  :callseqs:
+  - open(filename, mode="r" [, opt])                 → file
+  - open(filename [, mode [, perm]] [, opt])         → file
+  - open(filename, mode="r" [, opt]) {|file| block } → obj
+  - open(filename [, mode [, perm]] [, opt]) {|file| block } → obj
+  :description:
+  - |-
+    With no associated block, File.open is a synonym for ::new. If the optional code block is
+    given, it will be passed the opened file as an argument and
+    the File object will automatically be closed when
+    the block terminates.  The value of the block will be returned from
+    File.open.
+  - |-
+    If a file is being created, its initial permissions may be set using the
+    perm parameter.  See ::new for further discussion.
+  - |-
+    See IO.new for a description of the
+    mode and opt parameters.
+  :examples: ''
+- :id: 34
+  :callseqs:
+  - owned?(file_name)   → true or false
+  :description:
+  - |-
+    Returns true if the named file exists and the effective used
+    id of the calling process is the owner of the file.
+  - file_name can be an IO object.
+  :examples: ''
+- :id: 35
+  :callseqs:
+  - path(path)  →  string
+  :description:
+  - Returns the string representation of the path
+  :examples: |
+    File.path("/dev/null")          #=> "/dev/null"
+    File.path(Pathname.new("/tmp")) #=> "/tmp"
+- :id: 36
+  :callseqs:
+  - pipe?(file_name)   →  true or false
+  :description:
+  - Returns true if the named file is a pipe.
+  - file_name can be an IO object.
+  :examples: ''
+- :id: 37
+  :callseqs:
+  - readable?(file_name)   → true or false
+  :description:
+  - |-
+    Returns true if the named file is readable by the effective
+    user and group id of this process. See eaccess(3).
+  :examples: ''
+- :id: 38
+  :callseqs:
+  - readable_real?(file_name)   → true or false
+  :description:
+  - |-
+    Returns true if the named file is readable by the real user
+    and group id of this process. See access(3).
+  :examples: ''
+- :id: 39
+  :callseqs:
+  - readlink(link_name)  →  file_name
+  :description:
+  - |-
+    Returns the name of the file referenced by the given link. Not available on
+    all platforms.
+  :examples: |
+    File.symlink("testfile", "link2test")   #=> 0
+    File.readlink("link2test")              #=> "testfile"
+- :id: 40
+  :callseqs:
+  - realdirpath(pathname [, dir_string])  →  real_pathname
+  :description:
+  - |-
+    Returns the real (absolute) pathname of pathname in the actual
+    filesystem. The real pathname doesn’t contain symlinks or useless dots.
+  - |-
+    If dir_string is given, it is used as a base directory for
+    interpreting relative pathname instead of the current directory.
+  - The last component of the real pathname can be nonexistent.
+  :examples: ''
+- :id: 41
+  :callseqs:
+  - realpath(pathname [, dir_string])  →  real_pathname
+  :description:
+  - |-
+    Returns the real (absolute) pathname of pathname in the actual
+    filesystem not containing symlinks or useless dots.
+  - |-
+    If dir_string is given, it is used as a base directory for
+    interpreting relative pathname instead of the current directory.
+  - All components of the pathname must exist when this method is called.
+  :examples: ''
+- :id: 42
+  :callseqs:
+  - rename(old_name, new_name)   → 0
+  :description:
+  - |-
+    Renames the given file to the new name. Raises a
+    SystemCallError if the file cannot be renamed.
+  :examples: 'File.rename("afile", "afile.bak")   #=> 0
+
+'
+- :id: 43
+  :callseqs:
+  - setgid?(file_name)   →  true or false
+  :description:
+  - Returns true if the named file has the setgid bit set.
+  :examples: ''
+- :id: 44
+  :callseqs:
+  - setuid?(file_name)   →  true or false
+  :description:
+  - Returns true if the named file has the setuid bit set.
+  :examples: ''
+- :id: 45
+  :callseqs:
+  - size(file_name)   → integer
+  :description:
+  - Returns the size of file_name.
+  - file_name can be an IO object.
+  :examples: ''
+- :id: 46
+  :callseqs:
+  - size?(file_name)   → Integer or nil
+  :description:
+  - |-
+    Returns nil if file_name doesn’t exist or has
+    zero size, the size of the file otherwise.
+  - file_name can be an IO object.
+  :examples: ''
+- :id: 47
+  :callseqs:
+  - socket?(file_name)   →  true or false
+  :description:
+  - Returns true if the named file is a socket.
+  - file_name can be an IO object.
+  :examples: ''
+- :id: 48
+  :callseqs:
+  - split(file_name)   → array
+  :description:
+  - |-
+    Splits the given string into a directory and a file component and returns
+    them in a two-element array. See also File::dirname and
+    File::basename.
+  :examples: 'File.split("/home/gumby/.profile")   #=> ["/home/gumby", ".profile"]
+
+'
+- :id: 49
+  :callseqs:
+  - stat(file_name)   →  stat
+  :description:
+  - |-
+    Returns a File::Stat object for the named file (see
+    File::Stat).
+  :examples: 'File.stat("testfile").mtime   #=> Tue Apr 08 12:58:04 CDT 2003
+
+'
+- :id: 50
+  :callseqs:
+  - sticky?(file_name)   →  true or false
+  :description:
+  - Returns true if the named file has the sticky bit set.
+  :examples: ''
+- :id: 51
+  :callseqs:
+  - symlink(old_name, new_name)   → 0
+  :description:
+  - |-
+    Creates a symbolic link called new_name for the existing file
+    old_name. Raises a NotImplemented exception on
+    platforms that do not support symbolic links.
+  :examples: 'File.symlink("testfile", "link2test")   #=> 0
+
+'
+- :id: 52
+  :callseqs:
+  - symlink?(file_name)   →  true or false
+  :description:
+  - Returns true if the named file is a symbolic link.
+  :examples: ''
+- :id: 53
+  :callseqs:
+  - truncate(file_name, integer)  → 0
+  :description:
+  - |-
+    Truncates the file file_name to be at most integer bytes
+    long. Not available on all platforms.
+  :examples: |
+    f = File.new("out", "w")
+    f.write("1234567890")     #=> 10
+    f.close                   #=> nil
+    File.truncate("out", 5)   #=> 0
+    File.size("out")          #=> 5
+- :id: 54
+  :callseqs:
+  - umask()          → integer
+  - umask(integer)   → integer
+  :description:
+  - |-
+    Returns the current umask value for this process. If the optional argument
+    is given, set the umask to that value and return the previous value. Umask
+    values are subtracted from the default permissions, so a umask of
+    0222 would make a file read-only for everyone.
+  :examples: |
+    File.umask(0006)   #=> 18
+    File.umask         #=> 6
+- :id: 55
+  :callseqs:
+  - unlink(file_name, ...)  → integer
+  :description:
+  - |-
+    Deletes the named files, returning the number of names passed as arguments.
+    Raises an exception on any error. See also Dir::rmdir.
+  :examples: ''
+- :id: 56
+  :callseqs:
+  - utime(atime, mtime, file_name,...)   →  integer
+  :description:
+  - |-
+    Sets the access and modification times of each named file to the first two
+    arguments. Returns the number of file names in the argument list.
+  :examples: ''
+- :id: 57
+  :callseqs:
+  - world_readable?(file_name)   → integer or nil
+  :description:
+  - |-
+    If file_name is readable by others, returns an integer
+    representing the file permission bits of file_name. Returns
+    nil otherwise. The meaning of the bits is platform dependent;
+    on Unix systems, see stat(2).
+  - file_name can be an IO object.
+  :examples: |
+    File.world_readable?("/etc/passwd")           #=> 420
+    m = File.world_readable?("/etc/passwd")
+    sprintf("%o", m)                              #=> "644"
+- :id: 58
+  :callseqs:
+  - world_writable?(file_name)   → integer or nil
+  :description:
+  - |-
+    If file_name is writable by others, returns an integer
+    representing the file permission bits of file_name. Returns
+    nil otherwise. The meaning of the bits is platform dependent;
+    on Unix systems, see stat(2).
+  - file_name can be an IO object.
+  :examples: |
+    File.world_writable?("/tmp")                  #=> 511
+    m = File.world_writable?("/tmp")
+    sprintf("%o", m)                              #=> "777"
+- :id: 59
+  :callseqs:
+  - writable?(file_name)   → true or false
+  :description:
+  - |-
+    Returns true if the named file is writable by the effective
+    user and group id of this process. See eaccess(3).
+  :examples: ''
+- :id: 60
+  :callseqs:
+  - writable_real?(file_name)   → true or false
+  :description:
+  - |-
+    Returns true if the named file is writable by the real user
+    and group id of this process. See access(3)
+  :examples: ''
+- :id: 61
+  :callseqs:
+  - zero?(file_name)   → true or false
+  :description:
+  - Returns true if the named file exists and has a zero size.
+  - file_name can be an IO object.
+  :examples: ''
+- :id: 62
+  :callseqs:
+  - atime    → time
+  :description:
+  - Returns the last access time (a Time object)
+  :examples: ''
+- :id: 63
+  :callseqs:
+  - birthtime  →  time
+  :description:
+  - Returns the birth time for file.
+  - If the platform doesn’t have birthtime, raises NotImplementedError.
+  :examples: 'File.new("testfile").birthtime   #=> Wed Apr 09 08:53:14 CDT 2003
+
+'
+- :id: 64
+  :callseqs:
+  - chmod(mode_int)   → 0
+  :description:
+  - |-
+    Changes permission bits on file to the bit pattern represented by
+    mode_int. Actual effects are platform dependent; on Unix systems,
+    see chmod(2) for details. Follows symbolic links. Also see
+    File#lchmod.
+  :examples: |
+    f = File.new("out", "w");
+    f.chmod(0644)   #=> 0
+- :id: 65
+  :callseqs:
+  - chown(owner_int, group_int )   → 0
+  :description:
+  - |-
+    Changes the owner and group of file to the given numeric owner and
+    group id’s. Only a process with superuser privileges may change the owner
+    of a file. The current owner of a file may change the file’s group to any
+    group to which the owner belongs. A nil or -1 owner or group
+    id is ignored. Follows symbolic links. See also File#lchown.
+  :examples: 'File.new("testfile").chown(502, 1000)
+
+'
+- :id: 66
+  :callseqs:
+  - ctime  →  time
+  :description:
+  - |-
+    Returns the change time for file (that is, the time directory
+    information about the file was changed, not the file itself).
+  - Note that on Windows (NTFS), returns creation time (birth time).
+  :examples: 'File.new("testfile").ctime   #=> Wed Apr 09 08:53:14 CDT 2003
+
+'
+- :id: 67
+  :callseqs:
+  - flock(locking_constant) → 0 or false
+  :description:
+  - |-
+    Locks or unlocks a file according to locking_constant (a logical
+    or of the values in the table below). Returns false
+    if File::LOCK_NB is specified and the operation would
+    otherwise have blocked. Not available on all platforms.
+  - 'Locking constants (in class File):'
+  - 'Example:'
+  :examples: |
+    # update a counter using write lock
+    # don't use "w" because it truncates the file before lock.
+    File.open("counter", File::RDWR|File::CREAT, 0644) {|f|
+      f.flock(File::LOCK_EX)
+      value = f.read.to_i + 1
+      f.rewind
+      f.write("#{value}\n")
+      f.flush
+      f.truncate(f.pos)
+    }
+
+    # read the counter using read lock
+    File.open("counter", "r") {|f|
+      f.flock(File::LOCK_SH)
+      p f.read
+    }
+- :id: 68
+  :callseqs:
+  - lstat   →  stat
+  :description:
+  - |-
+    Same as IO#stat, but does not follow the last symbolic link.
+    Instead, reports on the link itself.
+  :examples: |
+    File.symlink("testfile", "link2test")   #=> 0
+    File.stat("testfile").size              #=> 66
+    f = File.new("link2test")
+    f.lstat.size                            #=> 8
+    f.stat.size                             #=> 66
+- :id: 69
+  :callseqs:
+  - mtime  →  time
+  :description:
+  - Returns the modification time for file.
+  :examples: 'File.new("testfile").mtime   #=> Wed Apr 09 08:53:14 CDT 2003
+
+'
+- :id: 70
+  :callseqs:
+  - path  →  filename
+  - to_path  →  filename
+  :description:
+  - |-
+    Returns the pathname used to create file as a string. Does not
+    normalize the name.
+  :examples: |
+    File.new("testfile").path               #=> "testfile"
+    File.new("/tmp/../tmp/xxx", "w").path   #=> "/tmp/../tmp/xxx"
+- :id: 71
+  :callseqs:
+  - size    → integer
+  :description:
+  - Returns the size of file in bytes.
+  :examples: 'File.new("testfile").size   #=> 66
+
+'
+- :id: 72
+  :callseqs:
+  - to_path  →  filename
+  :description:
+  - |-
+    Returns the pathname used to create file as a string. Does not
+    normalize the name.
+  :examples: |
+    File.new("testfile").path               #=> "testfile"
+    File.new("/tmp/../tmp/xxx", "w").path   #=> "/tmp/../tmp/xxx"
+- :id: 73
+  :callseqs:
+  - truncate(integer)    → 0
+  :description:
+  - |-
+    Truncates file to at most integer bytes. The file must be
+    opened for writing. Not available on all platforms.
+  :examples: |
+    f = File.new("out", "w")
+    f.syswrite("1234567890")   #=> 10
+    f.truncate(5)              #=> 0
+    f.close()                  #=> nil
+    File.size("out")           #=> 5

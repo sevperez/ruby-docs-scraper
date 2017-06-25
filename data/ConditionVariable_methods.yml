@@ -1,0 +1,28 @@
+---
+- :id: 0
+  :callseqs: []
+  :description:
+  - Creates a new condition variable instance.
+  :examples: ''
+- :id: 1
+  :callseqs: []
+  :description:
+  - Wakes up all threads waiting for this lock.
+  :examples: ''
+- :id: 2
+  :callseqs: []
+  :description:
+  - Wakes up the first thread in line waiting for this lock.
+  :examples: ''
+- :id: 3
+  :callseqs:
+  - wait(mutex, timeout=nil)
+  :description:
+  - |-
+    Releases the lock held in mutex and waits; reacquires the lock
+    on wakeup.
+  - |-
+    If timeout is given, this method returns after
+    timeout seconds passed, even if no other thread doesn't
+    signal.
+  :examples: ''
